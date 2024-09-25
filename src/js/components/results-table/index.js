@@ -1,0 +1,1 @@
+console.log("components/results-table/index.js");
