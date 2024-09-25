@@ -17,6 +17,7 @@ With those installed, you can then set the project up using your terminal:
 #. Pull the code - ``git clone git@github.com:nprapps/elections24-general``
 #. Enter the project folder - ``cd elections24-general``
 #. Install dependencies from NPM - ``npm install``
+#. Update local data from Google Sheets/Docs - ``grunt sheets docs``
 #. Start the server - ``grunt``
 
 Running tasks
