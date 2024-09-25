@@ -1,56 +1,74 @@
 /*
-
 Build CSV into JSON and then load that structure onto the shared state object.
 Will use cached data if it hasn't changed since the last run.
-
 */
 
 var csv = require("csv");
 var path = require("path");
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+  grunt.registerTask(
+    "csv",
+    "Convert CSV to JSON and load onto grunt.data",
+    function () {
+      grunt.task.requires("state");
 
-  grunt.registerTask("csv", "Convert CSV to JSON and load onto grunt.data", function() {
+      var files = grunt.file.expand("data/**/*.csv");
 
-    grunt.task.requires("state");
+      grunt.data.csv = {};
 
-    var files = grunt.file.expand("data/**/*.csv");
+      files.forEach(function (filename) {
+        var file = grunt.file.read(filename);
+        //strip out the empty lines that Excel likes to leave in.
+        file = file
+          .replace(/\r/g, "")
+          .split("\n")
+          .filter(function (line) {
+            return line.match(/[^,]/);
+          })
+          .join("\n");
 
-    grunt.data.csv = {};
+        // checks if the column names have "key" in it, and converts the result in to a boolean
+        var isKeyed = !!file
+          .split("\n")
+          .shift()
+          .match(/(^|,)key(,|$)/);
 
-    files.forEach(function(filename) {
-      var file = grunt.file.read(filename);
-      //strip out the empty lines that Excel likes to leave in.
-      file = file.replace(/\r/g, "").split("\n").filter(function(line) { return line.match(/[^,]/) }).join("\n");
-      var isKeyed = !!(file.split("\n").shift().match(/(^|,)key(,|$)/));
-      var parsed = isKeyed ? {} : [];
-      
-      var parser = csv.parse({
-        columns: true,
-        auto_parse: true
+        var parsed = isKeyed ? {} : [];
+
+        var parser = csv.parse({
+          columns: true,
+          auto_parse: true,
+        });
+
+        parser.on("data", function (line) {
+          //if "key" is a column, make this an object hash
+          if (isKeyed) {
+            var key = line.key;
+            delete line.key;
+            // handle key/value pair sheets
+            var value =
+              Object.keys(line).length == 1 && line.value ? line.value : line;
+            parsed[key] = value;
+          } else {
+            parsed.push(line);
+          }
+        });
+
+        parser.on("finish", function () {
+          console.log("Finished parsing", filename);
+          var sanitized = path
+            .basename(filename)
+            .replace(".csv", "")
+            .replace(/\W(\w)/g, function (_, letter) {
+              return letter.toUpperCase();
+            });
+          console.log("Loaded onto grunt.data as", sanitized);
+          grunt.data.csv[sanitized] = parsed;
+        });
+        parser.write(file);
+        parser.end();
       });
-      parser.on("data", function(line) {
-        //if "key" is a column, make this an object hash
-        if (isKeyed) {
-          var key = line.key;
-          delete line.key;
-          parsed[key] = line;
-        } else {
-          parsed.push(line);
-        }
-      });
-      parser.on("finish", function() {
-        console.log("Finished parsing", filename);
-        var sanitized = path.basename(filename)
-          .replace(".csv", "")
-          .replace(/\W(\w)/g, function(_, letter) { return letter.toUpperCase() });
-        console.log("Loaded onto grunt.data as", sanitized);
-        grunt.data.csv[sanitized] = parsed;
-      });
-      parser.write(file);
-      parser.end();
-    });
-
-  });
-
+    }
+  );
 };
