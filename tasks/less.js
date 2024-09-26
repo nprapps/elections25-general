@@ -8,7 +8,7 @@ module.exports = function (grunt) {
   var npmImporter = require("./lib/npm-less");
 
   var options = {
-    paths: ["src/css"],
+    paths: ["src/css", "src/js/components"],
     plugins: [npmImporter],
   };
 
@@ -22,12 +22,21 @@ module.exports = function (grunt) {
 
       var seeds = config.styles;
 
+      /*=================================================*/
+       // Add component-specific Less files
+      var componentFiles = grunt.file.expand("src/js/components/**/*.less");
+      componentFiles.forEach(function(file) {
+        var dest = file.replace('src/js/components', 'build').replace('.less', '.css');
+        seeds[file] = dest;
+      });
+      /*=================================================*/
+
       async.forEachOf(
         seeds,
         function (dest, src, c) {
           var seed = grunt.file.read(src);
 
-          var o = Object.assign({}, options, { filename: seed });
+          var o = Object.assign({}, options, { filename: src });
 
           less.render(seed, o, function (err, result) {
             if (err) {

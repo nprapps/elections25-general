@@ -2,9 +2,12 @@
 <html lang="en-US">
   <head>
     <%= t.include("partials/_head.html", grunt.data.json) %>
+    <%= cssLinks %>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
+    <p>Hi, this is read</p>
+    <balance-of-power></balance-of-power>
 
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
