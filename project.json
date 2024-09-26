@@ -10,7 +10,8 @@
     }
   },
   "styles": {
-    "src/css/seed.less": "build/style.css"
+    "src/css/seed.less": "build/style.css",
+    "src/js/components/results-table/results-table.less": "build/styles/results-table.css"
   },
   "scripts": {
     "src/js/main.js": "build/app.js"

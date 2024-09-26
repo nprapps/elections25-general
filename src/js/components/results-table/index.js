@@ -1,5 +1,4 @@
 var ElementBase = require("../elementBase");
-require("./results-table.less");
 
 class ResultsTable extends ElementBase {
   constructor() {
