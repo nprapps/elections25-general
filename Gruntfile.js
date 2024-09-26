@@ -5,7 +5,7 @@ module.exports = function (grunt) {
   grunt.registerTask(
     "update",
     "Download content from remote services",
-    function (target = stage) {
+    function (target = "stage") {
       grunt.task.run(["sheets", "docs", `sync:${target}`]);
     }
   );
