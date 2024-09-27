@@ -16,7 +16,8 @@ module.exports = function (grunt) {
   var task = async function () {
     // ranked choice voting for 22.
     var RCV_linkages = grunt.data.json.rcv;
-    var test = grunt.option("test");
+    var test = grunt.option("APtest");
+
     var offline = grunt.option("offline");
     var zero = grunt.option("zero");
 
