@@ -106,12 +106,20 @@ var redeemTicket = async function (ticket, options) {
     var headers = { "x-api-key": process.env.AP_API_KEY };
     if (etags[tag]) headers["If-None-Match"] = etags[tag];
     try {
+      if (!!options.test) {
+        resultType = "t";
+      } else {
+        resultType = "l";
+      }
+
       var flags = {};
       if (options.test) flags.test = true;
       if (options.zero) flags.setZeroCounts = true;
       var response = await axios({
         url: resultsURL + ticket.date,
-        params: Object.assign({}, resultsParams, ticket.params, flags),
+        params: Object.assign({}, resultsParams, ticket.params, {
+          resultsType: resultType,
+        }),
         headers,
         validateStatus: (status) => status == 200 || status == 304,
       });
