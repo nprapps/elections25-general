@@ -25,7 +25,6 @@ class BalanceOfPower extends ElementBase {
   //TODO: verify how to make this senate vs house
   /*====================*/
   async loadData() {
-    console.log('this is being called')
     try {
       const response = await fetch('./data/house.json');
       if (!response.ok) {
