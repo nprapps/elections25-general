@@ -1,11 +1,11 @@
 var ElementBase = require("../elementBase");
 import gopher from "../gopher.js";
 
-class BalanceOfPower extends ElementBase {
+class BalanceOfPowerHouse extends ElementBase {
   constructor() {
     super();
     this.loadData = this.loadData.bind(this);
-
+    this.race = this.getAttribute('race');
   }
 
   connectedCallback() {
@@ -101,4 +101,4 @@ class BalanceOfPower extends ElementBase {
   }
 }
 
-customElements.define("balance-of-power", BalanceOfPower);
+customElements.define("balance-of-power-house", BalanceOfPowerHouse);
