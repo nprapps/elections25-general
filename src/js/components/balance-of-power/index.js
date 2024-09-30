@@ -1,22 +1,31 @@
 var ElementBase = require("../elementBase");
-
+import gopher from "../gopher.js";
 
 class BalanceOfPower extends ElementBase {
   constructor() {
     super();
-    //this.attachShadow({ mode: 'open' });
+    this.loadData = this.loadData.bind(this);
+
   }
 
   connectedCallback() {
     this.loadData();
     this.illuminate();
+    gopher.watch(`./data/house.json`, this.loadData);
   }
+
+    // Lifecycle: Called when the element is removed from the DOM
+    disconnectedCallback() {
+      console.log('BalanceOfPower removed from the DOM');
+      gopher.unwatch(`./data/house.json`, this.loadData);
+    }
 
   /*====================*/
   //Load the data from a local json file, and call teh render() function to fill in the shadowDom
   //TODO: verify how to make this senate vs house
   /*====================*/
   async loadData() {
+    console.log('this is being called')
     try {
       const response = await fetch('./data/house.json');
       if (!response.ok) {
