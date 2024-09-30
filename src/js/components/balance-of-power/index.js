@@ -1,16 +1,14 @@
 var ElementBase = require("../elementBase");
-//import {getParty} from "../util.js"
+
 
 class BalanceOfPower extends ElementBase {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
+    //this.attachShadow({ mode: 'open' });
   }
-
 
   connectedCallback() {
     this.loadData();
-    this.setupExternalStyles();
     this.illuminate();
   }
 
@@ -30,27 +28,11 @@ class BalanceOfPower extends ElementBase {
       console.error("Could not load JSON data:", error);
     }
   }
-
-  /*====================*/
-  //Fetch the compiled css and insert it into the code so the styles are working
-  //TODO: this doesn't work right now
-  /*====================*/
-  setupExternalStyles() {
-    const linkElem = document.createElement('link');
-    linkElem.setAttribute('rel', 'stylesheet');
-    linkElem.setAttribute('href', './style.css');
-    this.shadowRoot.appendChild(linkElem);
-  }
-
     /*====================*/
   //Some render logic, then return the template of the inner html code
   /*====================*/
   render() {
     if (!this.data) return;
-
-    console.log('///////////')
-    console.log(this.data.results)
-    console.log('///////////')
 
     var results = (this.data.results);
 
@@ -71,7 +53,7 @@ class BalanceOfPower extends ElementBase {
     </span>`
     
 
-    this.shadowRoot.innerHTML = `
+    this.innerHTML = `
     <div id="embed-bop-on-page">
       <a class="link-container house" href="http://apps.npr.org/election-results-live-2022/#/house" target="_top">
         <div class="number-container">
