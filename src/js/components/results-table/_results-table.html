@@ -1,24 +1,51 @@
 <link rel="stylesheet" type="text/css" href="styles/results-table.css">
-<p>this paragraph exists in the results table component.</p>
 
-<table>
-	<thead>
-		<tr>
-			<th>Candidate</th>
-			<th>Percent</th>
-			<th>Votes</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Adam Schiff (Dem)</td>
-			<td>52%</td>
-			<td>4,892</td>
-		</tr>
-		<tr>
-			<td>Steve Garvey (GOP)</td>
-			<td>48%</td>
-			<td>4,516</td>
-		</tr>
-	</tbody>
-</table>
+<div class="result-table-wrapper">
+	<div class="thead flexbox">
+			<span class="name">Candidate</span>
+			<span class="percentage">Percent</span>
+			<span class="votes">Votes</span>
+	</div>
+	<div class="row winner dem">
+    <span class="bar-container">
+      <span class="bar" style="width: 54.9%"></span>
+    </span>
+		<span class="name">Adam Schiff</span>
+		<span class="percentage">54.9%</span>
+		<span class="votes">136,893</span>
+	</div>
+	<div class="row gop">
+    <span class="bar-container">
+      <span class="bar" style="width: 45.1%"></span>
+    </span>
+		<span class="name">Steve Garvey</span>
+		<span class="percentage">45.1%</span>
+		<span class="votes">112,255</span>
+	</div>
+	<p>Last updated <span data-as="updated"></span></p>
+</div>
+
+<div class="result-table-wrapper president">
+	<div class="thead flexbox">
+			<span class="name">Candidate</span>
+			<span class="percentage">Percent</span>
+			<span class="votes">Votes</span>
+	</div>
+	<div class="row dem">
+    <span class="bar-container">
+      <span class="bar" style="width: 50.1%"></span>
+    </span>
+		<span class="name">Kamala Harris</span>
+		<span class="percentage">50.1%</span>
+		<span class="votes">136,893</span>
+	</div>
+	<div class="row gop">
+    <span class="bar-container">
+      <span class="bar" style="width: 48.9%"></span>
+    </span>
+		<span class="name">Donald Trump</span>
+		<span class="percentage">48.9%</span>
+		<span class="votes">112,255</span>
+	</div>
+	<p>Last updated <span data-as="updated"></span></p>
+</div>

@@ -1,0 +1,498 @@
+{
+  "caucus": "",
+  "special": "",
+  "general": "",
+  "runoff": "",
+  "races": [
+    {
+      "id": "8589",
+      "date": "3/5/2024",
+      "test": false,
+      "seat": "1",
+      "state": "CA",
+      "eevp": 99.66,
+      "type": "All-Party Primary",
+      "office": "S",
+      "results": [
+        {
+          "id": "8589",
+          "updated": 1715289520933,
+          "precincts": 20855,
+          "reporting": 20855,
+          "reportingPercentage": 100,
+          "eevp": 99.66,
+          "winners": [
+            "89",
+            "160951"
+          ],
+          "total": 7276537,
+          "candidates": [
+            {
+              "first": "Adam",
+              "last": "Schiff",
+              "party": "Dem",
+              "id": "89",
+              "votes": 2299507,
+              "winner": true,
+              "percentage": 31.6
+            },
+            {
+              "first": "Steve",
+              "last": "Garvey",
+              "party": "GOP",
+              "id": "160951",
+              "votes": 2292414,
+              "winner": true,
+              "percentage": 31.5
+            },
+            {
+              "first": "Katie",
+              "last": "Porter",
+              "party": "Dem",
+              "id": "66666",
+              "votes": 1115606,
+              "percentage": 15.33
+            },
+            {
+              "first": "Barbara",
+              "last": "Lee",
+              "party": "Dem",
+              "id": "28",
+              "votes": 714408,
+              "percentage": 9.82
+            },
+            {
+              "first": "Eric",
+              "last": "Early",
+              "party": "GOP",
+              "id": "68048",
+              "votes": 240723,
+              "percentage": 3.31
+            },
+            {
+              "first": "James",
+              "last": "Bradley",
+              "party": "GOP",
+              "id": "66647",
+              "votes": 98180,
+              "percentage": 1.35
+            },
+            {
+              "first": "Christina",
+              "last": "Pascucci",
+              "party": "Dem",
+              "id": "160947",
+              "votes": 61755,
+              "percentage": 0.85
+            },
+            {
+              "first": "Sharleta",
+              "last": "Bassett",
+              "party": "GOP",
+              "id": "160950",
+              "votes": 54422,
+              "percentage": 0.75
+            },
+            {
+              "first": "Sarah",
+              "last": "Liew",
+              "party": "GOP",
+              "id": "68055",
+              "votes": 38483,
+              "percentage": 0.53
+            },
+            {
+              "first": "Laura",
+              "last": "Garza ",
+              "party": "NPP",
+              "id": "160956",
+              "votes": 34320,
+              "percentage": 0.47
+            },
+            {
+              "first": "Jonathan",
+              "last": "Reiss",
+              "party": "GOP",
+              "id": "70580",
+              "votes": 34283,
+              "percentage": 0.47
+            },
+            {
+              "first": "Sepi",
+              "last": "Gilani",
+              "party": "Dem",
+              "id": "160946",
+              "votes": 34056,
+              "percentage": 0.47
+            },
+            {
+              "first": "Gail",
+              "last": "Lightfoot",
+              "party": "Lib",
+              "id": "7691",
+              "votes": 33046,
+              "percentage": 0.45
+            },
+            {
+              "first": "Denice",
+              "last": "Gary-Pandol",
+              "party": "GOP",
+              "id": "160952",
+              "votes": 25494,
+              "percentage": 0.35
+            },
+            {
+              "first": "James",
+              "last": "Macauley",
+              "party": "GOP",
+              "id": "70570",
+              "votes": 23168,
+              "percentage": 0.32
+            },
+            {
+              "first": "Harmesh",
+              "last": "Kumar",
+              "party": "Dem",
+              "id": "105744",
+              "votes": 21522,
+              "percentage": 0.3
+            },
+            {
+              "first": "David",
+              "last": "Peterson",
+              "party": "Dem",
+              "id": "60110",
+              "votes": 21076,
+              "percentage": 0.29
+            },
+            {
+              "first": "Douglas",
+              "last": "Pierce",
+              "party": "Dem",
+              "id": "66494",
+              "votes": 19371,
+              "percentage": 0.27
+            },
+            {
+              "first": "Major",
+              "last": "Singh",
+              "party": "NPP",
+              "id": "69774",
+              "votes": 16965,
+              "percentage": 0.23
+            },
+            {
+              "first": "John",
+              "last": "Rose",
+              "party": "Dem",
+              "id": "161465",
+              "votes": 14577,
+              "percentage": 0.2
+            },
+            {
+              "first": "Perry",
+              "last": "Pound",
+              "party": "Dem",
+              "id": "160948",
+              "votes": 14134,
+              "percentage": 0.19
+            },
+            {
+              "first": "Raji",
+              "last": "Rab",
+              "party": "Dem",
+              "id": "65055",
+              "votes": 13558,
+              "percentage": 0.19
+            },
+            {
+              "first": "Mark",
+              "last": "Ruzon",
+              "party": "NPP",
+              "id": "160957",
+              "votes": 13429,
+              "percentage": 0.18
+            },
+            {
+              "first": "Forrest",
+              "last": "Jones",
+              "party": "AIP",
+              "id": "160955",
+              "votes": 13027,
+              "percentage": 0.18
+            },
+            {
+              "first": "Stefan",
+              "last": "Simchowitz",
+              "party": "GOP",
+              "id": "160953",
+              "votes": 12717,
+              "percentage": 0.17
+            },
+            {
+              "first": "Martin",
+              "last": "Veprauskas",
+              "party": "GOP",
+              "id": "160954",
+              "votes": 9714,
+              "percentage": 0.13
+            },
+            {
+              "first": "Don",
+              "last": "Grundmann",
+              "party": "NPP",
+              "id": "41",
+              "votes": 6582,
+              "percentage": 0.09
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8589",
+      "date": "3/5/2024",
+      "test": false,
+      "seat": "1",
+      "state": "CA",
+      "eevp": 99.66,
+      "type": "All-Party Primary",
+      "office": "S",
+      "results": [
+        {
+          "id": "8589",
+          "updated": 1715289520933,
+          "precincts": 20855,
+          "reporting": 20855,
+          "reportingPercentage": 100,
+          "eevp": 99.66,
+          "winners": [
+            "89",
+            "160951"
+          ],
+          "total": 7276537,
+          "candidates": [
+            {
+              "first": "Adam",
+              "last": "Schiff",
+              "party": "Dem",
+              "id": "89",
+              "votes": 2299507,
+              "winner": true,
+              "percentage": 31.6
+            },
+            {
+              "first": "Steve",
+              "last": "Garvey",
+              "party": "GOP",
+              "id": "160951",
+              "votes": 2292414,
+              "winner": true,
+              "percentage": 31.5
+            },
+            {
+              "first": "Katie",
+              "last": "Porter",
+              "party": "Dem",
+              "id": "66666",
+              "votes": 1115606,
+              "percentage": 15.33
+            },
+            {
+              "first": "Barbara",
+              "last": "Lee",
+              "party": "Dem",
+              "id": "28",
+              "votes": 714408,
+              "percentage": 9.82
+            },
+            {
+              "first": "Eric",
+              "last": "Early",
+              "party": "GOP",
+              "id": "68048",
+              "votes": 240723,
+              "percentage": 3.31
+            },
+            {
+              "first": "James",
+              "last": "Bradley",
+              "party": "GOP",
+              "id": "66647",
+              "votes": 98180,
+              "percentage": 1.35
+            },
+            {
+              "first": "Christina",
+              "last": "Pascucci",
+              "party": "Dem",
+              "id": "160947",
+              "votes": 61755,
+              "percentage": 0.85
+            },
+            {
+              "first": "Sharleta",
+              "last": "Bassett",
+              "party": "GOP",
+              "id": "160950",
+              "votes": 54422,
+              "percentage": 0.75
+            },
+            {
+              "first": "Sarah",
+              "last": "Liew",
+              "party": "GOP",
+              "id": "68055",
+              "votes": 38483,
+              "percentage": 0.53
+            },
+            {
+              "first": "Laura",
+              "last": "Garza ",
+              "party": "NPP",
+              "id": "160956",
+              "votes": 34320,
+              "percentage": 0.47
+            },
+            {
+              "first": "Jonathan",
+              "last": "Reiss",
+              "party": "GOP",
+              "id": "70580",
+              "votes": 34283,
+              "percentage": 0.47
+            },
+            {
+              "first": "Sepi",
+              "last": "Gilani",
+              "party": "Dem",
+              "id": "160946",
+              "votes": 34056,
+              "percentage": 0.47
+            },
+            {
+              "first": "Gail",
+              "last": "Lightfoot",
+              "party": "Lib",
+              "id": "7691",
+              "votes": 33046,
+              "percentage": 0.45
+            },
+            {
+              "first": "Denice",
+              "last": "Gary-Pandol",
+              "party": "GOP",
+              "id": "160952",
+              "votes": 25494,
+              "percentage": 0.35
+            },
+            {
+              "first": "James",
+              "last": "Macauley",
+              "party": "GOP",
+              "id": "70570",
+              "votes": 23168,
+              "percentage": 0.32
+            },
+            {
+              "first": "Harmesh",
+              "last": "Kumar",
+              "party": "Dem",
+              "id": "105744",
+              "votes": 21522,
+              "percentage": 0.3
+            },
+            {
+              "first": "David",
+              "last": "Peterson",
+              "party": "Dem",
+              "id": "60110",
+              "votes": 21076,
+              "percentage": 0.29
+            },
+            {
+              "first": "Douglas",
+              "last": "Pierce",
+              "party": "Dem",
+              "id": "66494",
+              "votes": 19371,
+              "percentage": 0.27
+            },
+            {
+              "first": "Major",
+              "last": "Singh",
+              "party": "NPP",
+              "id": "69774",
+              "votes": 16965,
+              "percentage": 0.23
+            },
+            {
+              "first": "John",
+              "last": "Rose",
+              "party": "Dem",
+              "id": "161465",
+              "votes": 14577,
+              "percentage": 0.2
+            },
+            {
+              "first": "Perry",
+              "last": "Pound",
+              "party": "Dem",
+              "id": "160948",
+              "votes": 14134,
+              "percentage": 0.19
+            },
+            {
+              "first": "Raji",
+              "last": "Rab",
+              "party": "Dem",
+              "id": "65055",
+              "votes": 13558,
+              "percentage": 0.19
+            },
+            {
+              "first": "Mark",
+              "last": "Ruzon",
+              "party": "NPP",
+              "id": "160957",
+              "votes": 13429,
+              "percentage": 0.18
+            },
+            {
+              "first": "Forrest",
+              "last": "Jones",
+              "party": "AIP",
+              "id": "160955",
+              "votes": 13027,
+              "percentage": 0.18
+            },
+            {
+              "first": "Stefan",
+              "last": "Simchowitz",
+              "party": "GOP",
+              "id": "160953",
+              "votes": 12717,
+              "percentage": 0.17
+            },
+            {
+              "first": "Martin",
+              "last": "Veprauskas",
+              "party": "GOP",
+              "id": "160954",
+              "votes": 9714,
+              "percentage": 0.13
+            },
+            {
+              "first": "Don",
+              "last": "Grundmann",
+              "party": "NPP",
+              "id": "41",
+              "votes": 6582,
+              "percentage": 0.09
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
