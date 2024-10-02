@@ -12,6 +12,7 @@ class BalanceOfPowerSenate extends ElementBase {
     connectedCallback() {
         this.loadData();
         this.illuminate();
+        console.log('senate has changed')
         gopher.watch(`./data/senate.json`, this.loadData);
     }
 
@@ -59,24 +60,34 @@ class BalanceOfPowerSenate extends ElementBase {
         var senate = {
             Dem: { total: InactiveSenateRaces.Dem, gains: 0 },
             GOP: { total: InactiveSenateRaces.GOP, gains: 0 },
-            Ind: { total: InactiveSenateRaces.Other, gains: 0 }
+            Ind: { total: InactiveSenateRaces.Other, gains: 0 },
+            Other: { total: (0), gains: 0  },
+            Con: { total: (0), gains: 0  },
+            Lib: { total: (0), gains: 0  }
         }
 
         results.forEach(function (r) {
-            if (r.hasOwnProperty('called') && r.called == true) {
-                if (r.id == '46329' && r.winnerParty == 'Ind') {
-                    mcmullinWon = true;
-                }
-
-                var winnerParty = r.winnerParty;
-                var previousWinner = r.previousParty;
-
-                senate[winnerParty].total += 1;
-                if (winnerParty != previousWinner) {
-                    senate[winnerParty].gains += 1;
-                    senate[previousWinner].gains -= 1;
-                }
+          if (r.hasOwnProperty('called') && r.called == true) {
+            if (r.id == '46329' && r.winnerParty == 'Ind') {
+              mcmullinWon = true;
             }
+        
+            var winnerParty = r.winnerParty;
+            var previousWinner = r.previousParty;
+        
+            if (!senate[winnerParty]) {
+              senate[winnerParty] = { total: 0, gains: 0 };
+            }
+            if (!senate[previousWinner]) {
+              senate[previousWinner] = { total: 0, gains: 0 };
+            }
+        
+            senate[winnerParty].total += 1;
+            if (winnerParty != previousWinner) {
+              senate[winnerParty].gains += 1;
+              senate[previousWinner].gains -= 1;
+            }
+          }
         });
 
         senate.Ind.width = senate.Ind.total;

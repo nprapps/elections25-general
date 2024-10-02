@@ -11,6 +11,7 @@ class BalanceOfPowerHouse extends ElementBase {
   connectedCallback() {
     this.loadData();
     this.illuminate();
+    console.log('house has changed')
     gopher.watch(`./data/house.json`, this.loadData);
   }
 
@@ -47,12 +48,18 @@ class BalanceOfPowerHouse extends ElementBase {
     var house = {
       Dem: { total: (0) },
       GOP: { total: (0) },
-      Ind: { total: (0) }
+      Ind: { total: (0) },
+      Other: { total: (0) },
+      Con: { total: (0) },
+      Lib: { total: (0) }
     }
 
     results.forEach(function (r) {
       if (r.hasOwnProperty('called') && r.called == true) {
         var winnerParty = r.winnerParty;
+        if (!house[winnerParty]) {
+          house[winnerParty] = { total: 0 };
+        }
         house[winnerParty].total += 1;
       }
     });

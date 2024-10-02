@@ -15,6 +15,7 @@ class BalanceOfPowerCombined extends ElementBase {
     connectedCallback() {
         this.loadData();
         this.illuminate();
+        console.log('bop has changed')
         gopher.watch(`./data/bop.json`, this.loadData);
     }
 
@@ -39,11 +40,6 @@ class BalanceOfPowerCombined extends ElementBase {
 
             this.senate = this.data.senate;
             this.house = this.data.house;
-            console.log('=======================')
-            console.log(this.data)
-            console.log(this.senate)
-            console.log(this.house)
-            console.log('=======================')
             this.render()
         } catch (error) {
             console.error("Could not load JSON data:", error);

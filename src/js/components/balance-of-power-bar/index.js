@@ -11,6 +11,7 @@ class BalanceOfPowerBar extends ElementBase {
 
   connectedCallback() {
     this.loadData();
+    console.log('bop has changed')
     gopher.watch("./data/bop.json", this.loadData);
   }
 
@@ -34,6 +35,8 @@ class BalanceOfPowerBar extends ElementBase {
 
   processResults(results) {
 
+    console.log(results)
+
     var InactiveSenateRaces = {
       "GOP": 29,
       "Dem": 34,
@@ -52,12 +55,12 @@ class BalanceOfPowerBar extends ElementBase {
     this.house = {
       Dem: {total: parseInt(InactiveSenateRaces["house_Dem"]), gains: 0},
       GOP: {total: parseInt(InactiveSenateRaces["house_GOP"]), gains: 0},
-      Ind: {total: parseInt(InactiveSenateRaces["house_Other"]), gains: 0}
+      Ind: {total: parseInt(InactiveSenateRaces["house_Other"]), gains: 0},
     };
     this.senate = {
       Dem: {total: InactiveSenateRaces.Dem, gains: 0},
       GOP: {total: InactiveSenateRaces.GOP, gains: 0},
-      Ind: {total: InactiveSenateRaces.Other, gains: 0}
+      Ind: {total: InactiveSenateRaces.Other, gains: 0},
     };
 
     results.president.forEach(r => this.president[r.winner] += r.electoral);
@@ -67,8 +70,16 @@ class BalanceOfPowerBar extends ElementBase {
     results.house.forEach(r => {
       const winnerParty = getParty(r.winner);
       const priorWinner = getParty(r.previous);
+      
+      if (!this.house[winnerParty]) {
+        this.house[winnerParty] = { total: 0, gains: 0 };
+      }
+      if (!this.house[priorWinner]) {
+        this.house[priorWinner] = { total: 0, gains: 0 };
+      }
+      
       this.house[winnerParty].total += 1;
-
+    
       if (r.winner !== r.previous) {
         this.house[winnerParty].gains += 1;
         this.house[priorWinner].gains -= 1;
@@ -77,21 +88,26 @@ class BalanceOfPowerBar extends ElementBase {
 
     results.senate.forEach(r => {
       const winnerParty = getParty(r.winner);
-
+      const previousParty = getParty(r.previous);
+    
+      if (!this.senate[winnerParty]) {
+        this.senate[winnerParty] = { total: 0, gains: 0 };
+      }
+      if (!this.senate[previousParty]) {
+        this.senate[previousParty] = { total: 0, gains: 0 };
+      }
+    
       if (r.hasOwnProperty('winner')) {
         if (r.id == '46329' && r.winner == 'Ind') {
           this.mcmullinWon = true;
         }
       }
-
+    
       this.senate[winnerParty].total += 1;
-      if (r.previous !== "Dem" && r.previous !== "GOP") {
-        r.previous = "Ind";
-      }
-
+    
       if (r.winner !== r.previous) {
-        this.senate[r.winner].gains += 1;
-        this.senate[r.previous].gains -= 1;
+        this.senate[winnerParty].gains += 1;
+        this.senate[previousParty].gains -= 1;
       }
     });
 

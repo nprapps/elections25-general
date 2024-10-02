@@ -88,4 +88,11 @@ module.exports = function (grunt) {
     "Push to live without docs update. Use after restore.",
     ["sheets", "clean", "static", "elex", "publish:live"]
   );
+  grunt.registerTask("server", "Start the dev server without watching", ["connect:dev"]);
+
+  // Create a new task for running the server and test updates without watching
+  grunt.registerTask("test-update", "Run server and test file updates without watching", [
+    "server",
+    "testupdate"
+  ]);
 };
