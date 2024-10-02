@@ -1,8 +1,6 @@
 /*
-
-Builds an array of normalized races from an array of multiple API responses.
-Also sets overrides for candidate/race metadata, and applies winner overrides.
-
+  Builds an array of normalized races from an array of multiple API responses.
+  Also sets overrides for candidate/race metadata, and applies winner overrides.
 */
 
 var ROUNDING = 10000;
@@ -13,8 +11,8 @@ var nprDate = (apDate) => {
   return [m, d, y].join("/");
 };
 
-// candidates to always keep in results
-var NEVER_MERGE = new Set(["8639", "1036"]);
+// presidential candidates to always keep in results
+var NEVER_MERGE = new Set(["8639", "64984"]);
 
 var translation = {
   race: {
@@ -138,6 +136,7 @@ var mergeOthers = function (candidates, raceID, top_n) {
 module.exports = function (resultArray, overrides = {}) {
   // AP data is structured as race->reportingunits, where each "race" includes both state and FIPS
   // we will instead restructure into groupings by geography
+
   var output = [];
 
   var { calls = [], candidates = {}, rosters = {}, states = {} } = overrides;
@@ -158,6 +157,7 @@ module.exports = function (resultArray, overrides = {}) {
 
       for (var unit of race.reportingUnits) {
         var level = unit.level == "FIPSCode" ? "county" : unit.level;
+
         // do we have this race  at this level already?
         var unitMeta = {
           ...raceMeta,
@@ -174,6 +174,7 @@ module.exports = function (resultArray, overrides = {}) {
         }
 
         // create a district property if necessary
+        // if there is only one House seat, then it is at large
         if (level == "district") {
           unitMeta.district =
             unitMeta.name == "At Large"
@@ -241,6 +242,9 @@ module.exports = function (resultArray, overrides = {}) {
         // - Independent candidate(s) exist and
         // If they are an exception in the 'rosters' sheet
         // Be sure to include the right number
+
+        //! Check what does it mean by jungle primary races and do we want to add them here?
+        //general election is their primary
         if (ballot.length > 2 && unitMeta.level != "county") {
           if (roster) {
             ballot = mergeOthers(ballot, raceMeta.id, roster.size);

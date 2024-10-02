@@ -7,7 +7,7 @@ var etags = {};
 var resultsURL = "https://api.ap.org/v3/elections/";
 var resultsParams = {
   format: "JSON",
-  avotes: true,
+  avotes: true, //!check the documentation
 };
 
 var apDate = function (d) {

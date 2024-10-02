@@ -21,18 +21,19 @@ module.exports = function (results, data) {
 
     // Add electoral college winners to states
     // Not done in 2022 since we don't are about EC.
+    // race.id == 0 is usually presidential election
     if (r.id == 0 && (r.level == "state" || r.level == "district")) {
-      var state16 = data.csv.prior_states
+      var state20 = data.csv.prior_states
         .filter((s) => s.votes * 1 && s.state == r.state)
         .sort((a, b) => b.votes - a.votes);
 
       if (r.level == "district") {
-        state16 = state16.filter((s) => s.district == r.district);
+        state20 = state20.filter((s) => s.district == r.district);
       } else {
-        state16 = state16.filter((s) => !s.district);
+        state20 = state20.filter((s) => !s.district);
       }
 
-      var candidates = state16.map(function (c) {
+      var candidates = state20.map(function (c) {
         return {
           last: c.last,
           party: c.party,
@@ -54,20 +55,15 @@ module.exports = function (results, data) {
         .filter((p) => p.fipscode == r.fips)
         .sort((a, b) => b.votepct - a.votepct)
         .slice(0, 2);
-      past_margin.party = top.party;
-      past_margin.margin = top.votepct - second.votepct;
+      past_margin.party = top ? top.party : "";
+      past_margin.margin = top ? top.votepct - second.votepct : "";
 
       var census = data.csv.census_data[r.fips];
-      // var covid = data.csv.covid_county_cases[r.fips]
-      //   ? (data.csv.covid_county_cases[r.fips] / census.population * 1000)
-      //   : null;
-
       var bls = data.csv.unemployment_data[r.fips] || {};
       var { unemployment } = bls;
 
       var countyName = data.csv.county_names[r.fips] || "At large";
 
-      //r.county = { past_margin, ...census, unemployment, covid, countyName };
       r.county = { past_margin, ...census, unemployment, countyName };
     }
   });

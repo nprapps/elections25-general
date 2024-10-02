@@ -54,8 +54,6 @@ async function extractData(type) {
       );
       const party = isParty.length ? isParty[0]["party"] : "";
 
-      console.log({ party });
-
       if (obj[state]) {
         obj[state] = obj[state] + 1;
       } else {
