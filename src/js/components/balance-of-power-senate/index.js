@@ -123,13 +123,10 @@ class BalanceOfPowerSenate extends ElementBase {
 
  <div class="bar-container">
   <div class="bar dem" style="width: ${senate.Dem.total}%">
-    <div class="label">Dem. ${senate.Dem.total >= 51 ? winnerIcon : ""}<span class="number">${senate.Dem.total}</span></div>
   </div>
   <div class="bar other" style="width: ${senate.Ind.width}%">
-    <div class="label">Ind. ${senate.Ind.total >= 51 ? winnerIcon : ""}<span class="number">${senate.Ind.total}</span></div>
   </div>
   <div class="bar gop" style="width: ${senate.GOP.total}%">
-    <div class="label">GOP ${senate.GOP.total >= 51 ? winnerIcon : ""}<span class="number">${senate.GOP.total}</span></div>
   </div>
   <div class="middle"></div>
 </div>
