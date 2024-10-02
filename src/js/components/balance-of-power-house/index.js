@@ -57,12 +57,34 @@ class BalanceOfPowerHouse extends ElementBase {
     results.forEach(function (r) {
       if (r.hasOwnProperty('called') && r.called == true) {
         var winnerParty = r.winnerParty;
+        var previousParty = r.previousParty;
+  
         if (!house[winnerParty]) {
-          house[winnerParty] = { total: 0 };
+          house[winnerParty] = { total: 0, gains: 0 };
         }
+        if (!house[previousParty]) {
+          house[previousParty] = { total: 0, gains: 0 };
+        }
+  
         house[winnerParty].total += 1;
+        
+        if (winnerParty !== previousParty) {
+          house[winnerParty].gains += 1;
+          house[previousParty].gains -= 1;
+        }
       }
     });
+  
+    house.netGainParty = "none";
+    var [topHouse] = Object.keys(house)
+      .filter(k => k !== 'netGainParty' && k !== 'netGain')
+      .map(k => ({ party: k, gains: house[k].gains }))
+      .sort((a, b) => b.gains - a.gains);
+  
+    if (topHouse && topHouse.gains > 0) {
+      house.netGainParty = topHouse.party;
+      house.netGain = topHouse.gains;
+    }
 
     var winnerIcon = `<span class="winner-icon" role="img" aria-label="check mark">
     </span>`
@@ -102,6 +124,13 @@ class BalanceOfPowerHouse extends ElementBase {
         </div>
 
         <div class="chatter"><strong>218</strong> seats for majority</div>
+
+        <div class="net-gain-container">
+        <div class="net-gain ${house.netGainParty}">${house.netGainParty != "none"
+          ? `${house.netGainParty} +${house.netGain}`
+          : "No change"}</div>
+      </div>
+    </div>
       </a>
     </div>
   `;

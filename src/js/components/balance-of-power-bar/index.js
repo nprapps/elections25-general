@@ -145,6 +145,7 @@ class BalanceOfPowerBar extends ElementBase {
 
     this.innerHTML = `
           <main class="embed-bop">
+ <div class="inline">
       <div class="container">
         ${this.renderPresident(winnerIcon)}
         ${this.renderHouse(winnerIcon)}
@@ -152,7 +153,8 @@ class BalanceOfPowerBar extends ElementBase {
       </div>
       <div class="source">Source: AP (as of <date-formatter value="${this.results?.latest}"></date-formatter>)</div>
       ${this.mcmullinWon ? `<div id="mcmullin_note" class="source"><span style="color:#15b16e; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-weight: 400; font-size: 20px; font-weight: bold;">*</span><span id="mcmullin_text" style="font-style:italic;">In the Senate, Bernie Sanders (I-VT) and Angus King (I-ME) caucus with Democrats. The bar chart does not include newly-elected Evan McMullin (I-UT), who has said he will not caucus with either party.</span></div>
-    </main>
+    </div>
+        </main>
 ` : ''}
     `;
   }
@@ -184,7 +186,7 @@ class BalanceOfPowerBar extends ElementBase {
           <div class="middle"></div>
         </div>
         <div class="chatter"><strong>270</strong> electoral votes to win</div>
-        <div class="full-link"><a>See full results ›</a></div>
+        <div class="full-link"><span>See full results ›</span></div>
       </a>
       <div class="divider"></div>
     `;
@@ -218,7 +220,15 @@ class BalanceOfPowerBar extends ElementBase {
           <div class="middle"></div>
         </div>
         <div class="chatter"><strong>218</strong> seats for majority</div>
-        <div class="full-link"><a>See full results ›</a></div>
+       <div class="net-gain-container">
+          <div class="gain-label">Net gain</div>
+          <div class="net-gain ${this.house.netGainParty}">
+            ${this.house.netGainParty != "none"
+              ? this.house.netGainParty + " +" + this.house.netGain
+              : "No change"}
+          </div>
+        </div>
+        <div class="full-link"><span>See full results ›</span></div>
       </a>
       <div class="second divider"></div>
     `;
@@ -259,7 +269,7 @@ class BalanceOfPowerBar extends ElementBase {
               : "No change"}
           </div>
         </div>
-        <div class="full-link"><a>See full results ›</a></div>
+        <div class="full-link"><span>See full results ›</span></div>
       </a>
     `;
   }

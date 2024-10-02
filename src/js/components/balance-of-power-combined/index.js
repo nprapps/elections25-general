@@ -53,9 +53,15 @@ class BalanceOfPowerCombined extends ElementBase {
 
         this.innerHTML = `
       <main class="embed-bop">
-        <div class="balance-of-power-combined">
+        <div class="balance-of-power-combined"">
+        <div style="border: 1px solid #333; margin: 10px; padding: 5px;">
+        Senate:
           <balance-of-power-senate></balance-of-power-senate>
+        </div>
+        <div style="border: 1px solid #333; margin: 10px; padding: 5px;">
+        House:
           <balance-of-power-house></balance-of-power-house>
+        </div>
         </div>
       </main>
     `;
