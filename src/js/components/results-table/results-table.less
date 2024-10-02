@@ -27,19 +27,15 @@ results-table {
 	}
 
 	.winner {
-		&.gop {
-			background-color: @lightred;
-		}
 		&.dem {
 			background-color: @lightblue;
+		}
+		&.gop {
+			background-color: @lightred;
 		}
 		.name {
 			font-weight: bold;
 		}
-	}
-
-	.name {
-		flex-basis: 50%;
 	}
 
 	.bar-container {
@@ -63,6 +59,10 @@ results-table {
 
 	.gop .bar {
 		background-color: @red;
+	}
+
+	.name {
+		flex-basis: 50%;
 	}
 
 	.percentage {

@@ -1,5 +1,6 @@
 const ElementBase = require("../elementBase");
 const dot = require("../../lib/dot");
+import gopher from "../gopher.js";
 const template = dot.compile(require("./_results-table.html"));
 const { classify, mapToElements, formatAPDate, formatTime } = require("../utils");
 
@@ -16,6 +17,11 @@ class ResultsTable extends ElementBase {
 
   connectedCallback() {
     this.loadData();
+    gopher.watch(this.getAttribute("data-file"), this.loadData);
+  }
+
+  disconnectedCallback() {
+    gopher.unwatch("./data/house.json", this.loadData);
   }
 
   async loadData() {
@@ -34,14 +40,13 @@ class ResultsTable extends ElementBase {
   render() {
     if (!this.data) return;
 
-    let result = this.data.results[0];
-
-    var elements = this.illuminate();
+    const result = this.data.results.find(d => d.id === this.getAttribute("race-id"));
+    const elements = this.illuminate();
 
     elements.updated.innerHTML = `
       ${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}
     `;
-    let candidates = mapToElements(elements.tbody, result.candidates);
+    const candidates = mapToElements(elements.tbody, result.candidates);
 
     candidates.forEach(d => {
       let data = d[0];
@@ -49,6 +54,9 @@ class ResultsTable extends ElementBase {
       
       el.classList.add("row");
       el.classList.add(classify(data.party));
+      if (data.winner) {
+        el.classList.add("winner");
+      }
 
       el.innerHTML = `
         <span class="bar-container">
