@@ -15,6 +15,7 @@ module.exports = function (grunt) {
   // Grunt doesn't like top-level async, so define this here and call it immediately
   var task = async function () {
     // ranked choice voting for 22.
+
     var RCV_linkages = grunt.data.json.rcv;
     var test = grunt.option("APtest");
 
@@ -23,21 +24,14 @@ module.exports = function (grunt) {
 
     var tickets = [
       {
-        date: "2022-12-06",
+        date: "2024-11-05",
         params: {
-          officeID: "S",
+          officeID: "G,S,P",
           level: "FIPSCode",
         },
       },
       {
-        date: "2022-11-08",
-        params: {
-          officeID: "G,S",
-          level: "FIPSCode",
-        },
-      },
-      {
-        date: "2022-11-08",
+        date: "2024-11-05",
         params: {
           officeID: "H,I",
           level: "state",
@@ -51,6 +45,9 @@ module.exports = function (grunt) {
       var response = await redeemTicket(t, { test, offline });
       if (!response) continue;
       // filter state results out of district requests
+
+      //! Why do we have this condition, when we don't query for district results
+      // might be relevant for nebraska and maine. will need to check how AP is handling these two in 24
       if (t.params.level == "district") {
         response.races.forEach(function (race) {
           if (!race.reportingUnits) return;
@@ -66,57 +63,51 @@ module.exports = function (grunt) {
     var results = normalize(rawResults, grunt.data.json);
 
     // Only include general election results if an RCV runoff is not available
-    RCV_linkages.forEach(function (rcv_linkage) {
-      this_rcv_race = results.filter(
-        (race) => race.id == rcv_linkage["rcv_race_id"]
-      )[0];
+    // RCV_linkages.forEach(function (rcv_linkage) {
+    //   this_rcv_race = results.filter(
+    //     (race) => race.id == rcv_linkage["general_race_id"]
+    //   )[0];
 
-      if (this_rcv_race.called) {
-        // If the rcv race has been called, use it and filter out the "normal" race
-        console.log(
-          "RCV " +
-            this_rcv_race.district +
-            " " +
-            this_rcv_race.id +
-            " has been called, using it"
-        );
+    //   if (this_rcv_race && this_rcv_race.called) {
+    //     // If the rcv race has been called, use it and filter out the "normal" race
+    //     console.log(
+    //       `RCV ${this_rcv_race.district} ${this_rcv_race.id} has been called, using it`
+    //     );
 
-        // Set the new race to have the same status as the old race before filtering it out
-        var thisGeneralRaceIsKey = results.find(
-          (race) => race.id == rcv_linkage["general_race_id"]
-        ).keyRace;
-        var thisGeneralRaceRating = results.find(
-          (race) => race.id == rcv_linkage["general_race_id"]
-        ).rating;
+    //     // Set the new race to have the same status as the old race before filtering it out
+    //     var thisGeneralRaceIsKey = results.find(
+    //       (race) => race.id == rcv_linkage["general_race_id"]
+    //     ).keyRace;
+    //     var thisGeneralRaceRating = results.find(
+    //       (race) => race.id == rcv_linkage["general_race_id"]
+    //     ).rating;
 
-        if (typeof thisGeneralRaceIsKey !== "undefined") {
-          results.find(
-            (race) => race.id == rcv_linkage["rcv_race_id"]
-          ).keyRace = thisGeneralRaceIsKey;
-          results.find((race) => race.id == rcv_linkage["rcv_race_id"]).rating =
-            thisGeneralRaceRating;
-        }
+    //     if (typeof thisGeneralRaceIsKey !== "undefined") {
+    //       results.find(
+    //         (race) => race.id == rcv_linkage["rcv_race_id"]
+    //       ).keyRace = thisGeneralRaceIsKey;
+    //       results.find((race) => race.id == rcv_linkage["rcv_race_id"]).rating =
+    //         thisGeneralRaceRating;
+    //     }
 
-        // Ignore the general election race details
-        results = results.filter(
-          (race) => race.id != rcv_linkage["general_race_id"]
-        );
-      } else {
-        console.log(
-          "RCV race " +
-            this_rcv_race.id +
-            " has NOT been called yet, NOT using the RCV result"
-        );
-        results = results.filter(
-          (race) => race.id != rcv_linkage["rcv_race_id"]
-        );
-      }
-    });
+    //     // Ignore the general election race details
+    //     results = results.filter(
+    //       (race) => race.id != rcv_linkage["general_race_id"]
+    //     );
+    //   } else {
+    //     console.log(
+    //       `RCV race ${this_rcv_race.id} has NOT been called yet, NOT using the RCV result`
+    //     );
+    //     results = results.filter(
+    //       (race) => race.id != rcv_linkage["general_race_id"]
+    //     );
+    //   }
+    // });
 
     // Ignore contest for end of 2016 CA term held during 2022
     // https://www.capradio.org/articles/2022/10/17/us-sen-alex-padilla-will-appear-on-californias-june-primary-ballot-twice-heres-why/
     // And ignore contest for unexpired term in Indiana, House seat 2
-    results = results.filter((race) => race.id != 8964 && race.id != 15766);
+    //! results = results.filter((race) => race.id != 8964 && race.id != 15766);
 
     // filter generator for states that split their electoral college votes.
     var stateOrDistrictFilter = function (level) {
@@ -130,6 +121,7 @@ module.exports = function (grunt) {
     };
 
     grunt.log.writeln("Merging in external data...");
+
     augment(results, grunt.data);
 
     var { longform } = grunt.data.archieml;
