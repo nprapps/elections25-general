@@ -102,3 +102,5 @@ class BalanceOfPowerHouse extends ElementBase {
 }
 
 customElements.define("balance-of-power-house", BalanceOfPowerHouse);
+
+export default BalanceOfPowerHouse;
