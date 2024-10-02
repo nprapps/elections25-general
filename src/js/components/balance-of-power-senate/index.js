@@ -95,6 +95,7 @@ class BalanceOfPowerSenate extends ElementBase {
         }
 
         this.innerHTML = `
+      <main class="embed-bop">
     <div id="embed-bop-on-page" class="embed-bop">
     <a class="link-container senate" href="http://apps.npr.org/election-results-live-2022/#/senate" target="_top">
       <div class="number-container">
