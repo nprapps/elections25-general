@@ -6,7 +6,7 @@
     },
     "live": {
       "bucket": "apps.npr.org",
-      "path": "elections24-general"
+      "path": "2024-election-results"
     }
   },
   "styles": {
