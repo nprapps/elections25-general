@@ -110,17 +110,6 @@ module.exports = function (grunt) {
       );
       var data = Object.create(grunt.data || {});
       data.t = grunt.template;
-
-      /*=================================================*/
-      // Find all CSS files in the build directory
-      var cssFiles = grunt.file.expand("build/**/*.css");
-      // Create HTML links for each CSS file
-      var cssLinks = cssFiles.map(function (file) {
-        return '<link rel="stylesheet" type="text/css" href="' + file.replace('build/', '') + '">';
-      }).join('\n');
-      data.cssLinks = cssLinks;
-      /*=================================================*/
-
       files.forEach(function (file) {
         var src = file.src.shift();
         grunt.verbose.writeln("Processing file: " + src);

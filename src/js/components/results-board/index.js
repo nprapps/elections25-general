@@ -40,27 +40,42 @@ class ResultsBoardNamed extends ElementBase {
     async loadData() {
         this.isLoading = true;
         
+        let raceDataFile, statesDataFile;
+        
+        if (this.office.toLowerCase() === 'senate') {
+          raceDataFile = './data/senate.json';
+          statesDataFile = './data/states.sheets.json';
+        } else if (this.office.toLowerCase() === 'house') {
+          raceDataFile = './data/house.json';
+          statesDataFile = './data/states.sheets.json';
+        } else {
+          console.error('Invalid office type');
+          this.isLoading = false;
+          this.render();
+          return;
+        }
+      
         try {
-          const [senateResponse, statesResponse] = await Promise.all([
-            fetch('./data/senate.json'),
-            fetch('./data/states.sheets.json')
+          const [raceResponse, statesResponse] = await Promise.all([
+            fetch(raceDataFile),
+            fetch(statesDataFile)
           ]);
-    
-          if (!senateResponse.ok || !statesResponse.ok) {
-            throw new Error(`HTTP error! senate status: ${senateResponse.status}, states status: ${statesResponse.status}`);
+      
+          if (!raceResponse.ok || !statesResponse.ok) {
+            throw new Error(`HTTP error! race status: ${raceResponse.status}, states/districts status: ${statesResponse.status}`);
           }
-    
-          const [senateData, statesData] = await Promise.all([
-            senateResponse.json(),
+      
+          const [raceData, statesData] = await Promise.all([
+            raceResponse.json(),
             statesResponse.json()
           ]);
-    
-          console.log('Senate data:', senateData);
-          console.log('States data:', statesData);
-    
-          this.races = senateData.results || [];
+      
+          console.log(`${this.office} data:`, raceData);
+          console.log('States/Districts data:', statesData);
+      
+          this.races = raceData.results || [];
           this.states = statesData || {};
-    
+      
           this.isLoading = false;
           this.render();
         } catch (error) {
@@ -98,8 +113,10 @@ class ResultsBoardNamed extends ElementBase {
     render() {
         let hasFlips = false;
 
+        console.log('///////////')
         console.log('these are the races')
         console.log(this.races)
+        console.log('///////////')
 
         this.races.some(function (r) {
             let [winner] = r.candidates.filter(c => c.winner);
@@ -136,7 +153,7 @@ class ResultsBoardNamed extends ElementBase {
         ];
 
         this.innerHTML = `
-    <div class="${classNames.filter(c => c).join(" ")}">
+    <div class="${classNames.filter(c => c).join(" ")} middle">
       ${this.hed ? `<h3 class="board-hed">${this.hed}</h3>` : ""}
       <div class="board-inner">
         ${tables.map(races => `
@@ -147,11 +164,6 @@ class ResultsBoardNamed extends ElementBase {
                 console.log("Found RCV race...");
                 console.log(r);
             }
-            console.log('==================')
-            console.log(this.races)
-            console.log('==================')
-
-
             var hasResult = r.eevp || r.reporting || r.called || r.runoff;
 
             var reporting = r.eevp;
@@ -176,7 +188,7 @@ class ResultsBoardNamed extends ElementBase {
             }
 
             return `
-                <tr key="${r.id}" class="tr ${hasResult ? "closed" : "open"} index-${i}" role="row">
+                <tr key="${r.id}" class="tr ${hasResult ? "open" : "closed"} index-${i}" role="row">
                   <td class="state" role="cell">
                     <a target="_top" href="?#/states/${r.state}/${r.office}">
                       <span class="not-small">
