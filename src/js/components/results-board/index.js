@@ -43,7 +43,7 @@ class ResultsBoardNamed extends ElementBase {
         try {
           const [senateResponse, statesResponse] = await Promise.all([
             fetch('./data/senate.json'),
-            fetch('./data/states.sheet.json')
+            fetch('./data/states.sheets.json')
           ]);
     
           if (!senateResponse.ok || !statesResponse.ok) {
