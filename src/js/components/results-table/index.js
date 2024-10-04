@@ -1,8 +1,9 @@
+import gopher from "../gopher.js";
+
 const ElementBase = require("../elementBase");
 const dot = require("../../lib/dot");
-import gopher from "../gopher.js";
 const template = dot.compile(require("./_results-table.html"));
-const { classify, mapToElements, formatAPDate, formatTime, formatComma } = require("../utils");
+const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIcon } = require("../utils");
 
 const headshots = {
   Harris:
@@ -60,6 +61,9 @@ class ResultsTable extends ElementBase {
     }
     
     const candidates = mapToElements(elements.tbody, result.candidates);
+    if (candidates.length < 2) {
+      elements.uncontestedFootnote.innerHTML = "The AP does not tabulate votes for uncontested races and declares their winners as soon as polls close.";
+    }
     candidates.forEach(candidate => {
       let d = candidate[0];
       let el = candidate[1];
@@ -71,11 +75,13 @@ class ResultsTable extends ElementBase {
       }
 
       el.innerHTML = `
-        <span aria-hidden="true" class="headshot" style="background-image: url(${headshots[d.last]})"></span>
+        <span aria-hidden="true" class="headshot"${headshots[d.last] ? 'style="background-image: url(' + headshots[d.last] + ')"' : ''}></span>
         <span class="bar-container">
           <span class="bar" style="width: ${d.percent * 100}%"></span>
         </span>
-        <span class="name">${d.first} ${d.last}</span>
+        <span class="name">
+          ${d.first} ${d.last}${d.incumbent ? "<span class='incumbent-icon'> &#x2022;</span>" : ""}${d.winner === "X" ? winnerIcon : ""}${d.winner === "R" ? "<span class='runoff-indicator'> - runoff</span>" : ""}
+        </span>
         <span class="percentage">${(d.percent * 100).toFixed(1)}%</span>
         <span class="votes">${formatComma(d.votes)}</span>
       `

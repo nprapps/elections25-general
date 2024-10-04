@@ -63,6 +63,24 @@ results-table {
 		display: block;
 	}
 
+	.incumbent-icon {
+		font-size: 1.4em;
+		line-height: 0;
+	}
+
+	.winner-icon {
+		display: inline-block;
+		margin-left: 0.5em;
+		position: absolute;
+    top: calc(50% - 0.6em);
+		width: 1em;
+	}
+
+	.runoff-indicator {
+		color: #555;
+		font-style: italic;
+	}
+
 	.bar-container {
 		bottom: 0;
 		height: 0.5em;
@@ -92,7 +110,8 @@ results-table {
 	}
 
 	.tbody .name, .tbody .percentage, .tbody .votes {
-		padding-top: 1.2em;
+		line-height: 1em;
+		padding-top: 1.4em;
 	}
 
 	.name {
