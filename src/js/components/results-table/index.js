@@ -6,7 +6,7 @@ const { classify, mapToElements, formatAPDate, formatTime, formatComma } = requi
 
 const headshots = {
   Harris:
-    "https://apps.npr.org/dailygraphics/graphics/prez-candidates-jan-list-20190116/assets/joe_biden.png",
+    "./assets/synced/kamala-harris.png",
   Trump:
     "https://apps.npr.org/dailygraphics/graphics/prez-candidates-jan-list-20190116/assets/donald_trump.png",
 };
@@ -71,12 +71,12 @@ class ResultsTable extends ElementBase {
       }
 
       el.innerHTML = `
-        <span aria-hidden="true" class="headshot"></span>
+        <span aria-hidden="true" class="headshot" style="background-image: url(${headshots[d.last]})"></span>
         <span class="bar-container">
           <span class="bar" style="width: ${d.percent * 100}%"></span>
         </span>
         <span class="name">${d.first} ${d.last}</span>
-        <span class="percentage">${d.percent * 100}%</span>
+        <span class="percentage">${(d.percent * 100).toFixed(1)}%</span>
         <span class="votes">${formatComma(d.votes)}</span>
       `
     });
