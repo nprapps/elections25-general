@@ -10,25 +10,27 @@ class BalanceOfPowerCombined extends ElementBase {
         this.loadData = this.loadData.bind(this);
         this.senate = null;
         this.house = null;
+        this.races = [];
     }
 
     connectedCallback() {
         this.loadData();
         this.illuminate();
-        console.log('bop has changed')
+        console.log('bop has changed');
         gopher.watch(`./data/bop.json`, this.loadData);
+
+        // Parse the race attribute
+        const raceAttr = this.getAttribute('race');
+        if (raceAttr) {
+            this.races = raceAttr.toLowerCase().split(' ');
+        }
     }
 
-    // Lifecycle: Called when the element is removed from the DOM
     disconnectedCallback() {
         console.log('BalanceOfPower removed from the DOM');
         gopher.unwatch(`./data/bop.json`, this.loadData);
     }
 
-    /*====================*/
-    //Load the data from a local json file, and call teh render() function to fill in the shadowDom
-    //TODO: verify how to make this senate vs house
-    /*====================*/
     async loadData() {
         try {
             const response = await fetch('./data/bop.json');
@@ -37,44 +39,36 @@ class BalanceOfPowerCombined extends ElementBase {
             }
             this.data = await response.json();
 
-
             this.senate = this.data.senate;
             this.house = this.data.house;
-            this.render()
+            this.render();
         } catch (error) {
             console.error("Could not load JSON data:", error);
         }
     }
-    /*====================*/
-    //Some render logic, then return the template of the inner html code
-    /*====================*/
+
     render() {
         if (!this.senate || !this.house) return;
 
-        this.innerHTML = `
-      <main class="embed-bop">
-        <div class="balance-of-power-combined"">
-        <div style="border: 1px solid #333; margin: 10px; padding: 5px;">
-        Senate:
-          <balance-of-power-senate></balance-of-power-senate>
-        </div>
-        <div style="border: 1px solid #333; margin: 10px; padding: 5px;">
-        House:
-          <balance-of-power-house></balance-of-power-house>
-        </div>
-        </div>
-      </main>
-    `;
+        let content = '<main class="embed-bop"><div class="balance-of-power-combined">';
 
-        // After rendering, set the data for child components
-        const senateComponent = this.querySelector('balance-of-power-senate');
-        const houseComponent = this.querySelector('balance-of-power-house');
+        if (this.races.length === 0 || this.races.includes('senate')) {
+            content += `
+                <balance-of-power-senate></balance-of-power-senate>
+            `;
+        }
 
-        //use this to pass in the appropriate data
-        //if (senateComponent) senateComponent.setData(this.senate);
-        //if (houseComponent) houseComponent.setData(this.house);
+        if (this.races.length === 0 || this.races.includes('house')) {
+            content += `
+                <balance-of-power-house></balance-of-power-house>
+            `;
+        }
+
+        content += '</div></main>';
+
+        this.innerHTML = content;
     }
 }
 
-customElements.define("balance-of-power-combined", BalanceOfPowerCombined);
+customElements.define('balance-of-power-combined', BalanceOfPowerCombined);
 export default BalanceOfPowerCombined;
