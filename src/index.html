@@ -18,7 +18,9 @@
     <balance-of-power-bar race="house senate"></balance-of-power-bar>  
   
     <results-table data-file="./data/house.json" race-id="5702"></results-table>
-
+    <div class="board-container Senate">
+    <results-board data-races='./data/senate.json' office="Senate" split="true" hed="Election Results"></results-board>
+  </div>
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
     </script>

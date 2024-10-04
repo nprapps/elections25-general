@@ -16,7 +16,6 @@ class BalanceOfPowerCombined extends ElementBase {
     connectedCallback() {
         this.loadData();
         this.illuminate();
-        console.log('bop has changed');
         gopher.watch(`./data/bop.json`, this.loadData);
 
         // Parse the race attribute
@@ -27,7 +26,6 @@ class BalanceOfPowerCombined extends ElementBase {
     }
 
     disconnectedCallback() {
-        console.log('BalanceOfPower removed from the DOM');
         gopher.unwatch(`./data/bop.json`, this.loadData);
     }
 

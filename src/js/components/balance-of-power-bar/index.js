@@ -11,7 +11,6 @@ class BalanceOfPowerBar extends ElementBase {
 
   connectedCallback() {
     this.loadData();
-    console.log('bop has changed')
     gopher.watch("./data/bop.json", this.loadData);
   }
 
@@ -34,8 +33,6 @@ class BalanceOfPowerBar extends ElementBase {
   }
 
   processResults(results) {
-
-    console.log(results)
 
     var InactiveSenateRaces = {
       "GOP": 29,

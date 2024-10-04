@@ -11,13 +11,11 @@ class BalanceOfPowerHouse extends ElementBase {
   connectedCallback() {
     this.loadData();
     this.illuminate();
-    console.log('house has changed')
     gopher.watch(`./data/house.json`, this.loadData);
   }
 
     // Lifecycle: Called when the element is removed from the DOM
     disconnectedCallback() {
-      console.log('BalanceOfPower removed from the DOM');
       gopher.unwatch(`./data/house.json`, this.loadData);
     }
 
