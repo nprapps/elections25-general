@@ -6,11 +6,12 @@
     },
     "live": {
       "bucket": "apps.npr.org",
-      "path": "2024-election-results"
+      "path": "elections24-general"
     }
   },
   "styles": {
-    "src/css/seed.less": "build/style.css"
+    "src/css/seed.less": "build/style.css",
+    "src/js/components/results-table/results-table.less": "build/styles/results-table.css"
   },
   "scripts": {
     "src/js/main.js": "build/app.js"

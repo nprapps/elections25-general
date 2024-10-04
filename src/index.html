@@ -2,27 +2,22 @@
 <html lang="en-US">
   <head>
     <%= t.include("partials/_head.html", grunt.data.json) %>
-    <%= cssLinks %>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-
-
     <div style="border: 1px solid #333; margin-bottom: 10px; background-color: #f3f3f3; padding: 20px;">
-    <h2>Balance of Power Combined:</h2>
-    House
-    <balance-of-power-combined race="house"></balance-of-power-combined>
-    Senate
-    <balance-of-power-combined race="senate"></balance-of-power-combined>
-    House and Senate
-    <balance-of-power-combined race="house senate"></balance-of-power-combined>  
-  </div>
+      <h2>Balance of Power Combined:</h2>
+      House
+      <balance-of-power-combined race="house"></balance-of-power-combined>
+      Senate
+      <balance-of-power-combined race="senate"></balance-of-power-combined>
+      House and Senate
+      <balance-of-power-combined race="house senate"></balance-of-power-combined>  
+    </div>
 
-
-  <div style="border: 1px solid #333; background-color: #f3f3f3; padding: 20px;">
-    <h2>Balance of Power Bar:</h2>
-    <balance-of-power-bar></balance-of-power-bar>
-  </div>
+    <balance-of-power-bar race="house senate"></balance-of-power-bar>  
+  
+    <results-table data-file="./data/house.json" race-id="5702"></results-table>
 
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
