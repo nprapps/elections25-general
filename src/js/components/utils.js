@@ -126,11 +126,14 @@ var classify = function(str) {
     .replace(/-+$/, '');            // Trim - from end of text
 };
 
+var formatComma = s => s.toLocaleString().replace(/\.0+$/, "");
+
 module.exports = {
   apMonths,
   inDays,
   formatAPDate,
   formatTime,
+  formatComma,
   parseNPRDate,
   groupBy,
   mapToElements,
