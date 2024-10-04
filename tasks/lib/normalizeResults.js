@@ -25,6 +25,8 @@ var translation = {
     seatNumber: "seatNum",
     seat: "seatName",
     description: "description",
+    flippedSeat: "flippedSeat",
+    winThreshold: "winThreshold",
   },
   unit: {
     level: "level",
@@ -46,6 +48,7 @@ var translation = {
     avotes: "avotes",
     electoral: "electWon",
     winner: "winner",
+    winnerDateTime: "winnerDateTime",
     incumbent: "incumbent",
   },
   metadata: {
