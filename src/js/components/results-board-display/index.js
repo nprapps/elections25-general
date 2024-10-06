@@ -114,8 +114,6 @@ class ResultsBoardDisplay extends ElementBase {
             alert = '';
         }
 
-
-
         if (results) {
             var sorted = results.slice().sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0);
 
@@ -129,14 +127,11 @@ class ResultsBoardDisplay extends ElementBase {
                 var bucketRating = getBucket(r.rating);
                 if (bucketRating) buckets[bucketRating].push(r);
             });
-
         }
 
         let content = '';
       
         if (this.office.includes('Senate')) {
-            console.log('yahhoooo')
-            console.log(buckets)
             content += `
                 <div class="board-container Senate">
                     ${this.results ? `
@@ -159,10 +154,35 @@ class ResultsBoardDisplay extends ElementBase {
                             class="last"
                             races='${JSON.stringify(buckets.likelyR)}'>
                         </results-board>
-                    ` : 'hello'}
+                    ` : ''}
                 </div>
             `;
-            console.log(this.results )
+        } else if (this.office.includes('House')) {
+            content += `
+                <div class="board-container House">
+                    ${this.results ? `
+                        <results-board 
+                            office="House"
+                            split="true"
+                            hed="Competitive Seats"
+                            class="middle"
+                            races='${JSON.stringify(buckets.tossup)}'>
+                        </results-board>
+                        <results-board 
+                            office="House"
+                            hed="Likely/Solid Democratic"
+                            class="first"
+                            races='${JSON.stringify(buckets.likelyD)}'>
+                        </results-board>
+                        <results-board 
+                            office="House"
+                            hed="Likely/Solid Republican"
+                            class="last"
+                            races='${JSON.stringify(buckets.likelyR)}'>
+                        </results-board>
+                    ` : ''}
+                </div>
+            `;
         }
         content += '</div>'
         this.innerHTML = content
