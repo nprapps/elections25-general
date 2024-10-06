@@ -94,6 +94,32 @@
 @sans-base: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 @serif-base: Georgia, "Times New Roman", Times, serif;
 
+.gotham() {
+  font-family: @gotham;
+  font-weight: normal;
+  font-weight: 400;
+}
+
+// Normal Knockout
+.knockout() {
+  font-family: @knockout;
+  font-weight: normal;
+}
+
+// Knockout, uppercased
+.knockout-upper() {
+  .knockout();
+  text-transform: uppercase;
+}
+
+// Knockout for headings
+.knockout-header() {
+  .knockout-upper();
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+}
+
+
 // Export values to CSS custom properties
 :root {
   --accent-dark: @accent-dark;

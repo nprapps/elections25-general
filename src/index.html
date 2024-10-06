@@ -4,6 +4,8 @@
     <%= t.include("partials/_head.html", grunt.data.json) %>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="styles/results-board.css">
+    <link rel="stylesheet" type="text/css" href="styles/results-board-key.css">
+
   </head>
   <body>
     <div style="border: 1px solid #333; margin-bottom: 10px; background-color: #f3f3f3; padding: 20px;">
@@ -24,7 +26,8 @@
 
     Results Board Display:
     <results-board-display office="Senate" split="true" hed="Competitive"></results-board-display>
-    <results-board-display office="House" split="true" hed="Competitive"></results-board-display>
+    <results-board-key race="house"></results-board-key>
+
 
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;

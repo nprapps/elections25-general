@@ -13,8 +13,8 @@
     "src/css/seed.less": "build/style.css",
     "src/js/components/results-table/results-table.less": "build/styles/results-table.css",
     "src/js/components/results-board/results-board.less": "build/styles/results-board.css",
+    "src/js/components/results-board-key/results-board-key.less": "build/styles/results-board-key.css",
     "src/js/components/results-board-display/results-board-display.less": "build/styles/results-board-display.css"
-
   },
   "scripts": {
     "src/js/main.js": "build/app.js"

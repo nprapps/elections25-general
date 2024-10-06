@@ -6,6 +6,8 @@ require("./components/balance-of-power-combined");
 require("./components/balance-of-power-bar");
 require("./components/results-board");
 require("./components/results-board-display");
+require("./components/results-board-key");
+
 
 
 
