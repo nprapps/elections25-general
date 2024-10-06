@@ -1,6 +1,7 @@
 var ElementBase = require("../elementBase");
 import { reportingPercentage, sortByParty, goingToRCVRunOff } from "../util";
-//import states from "../states.sheet.json";
+import states from "../data/states.sheet.json";
+
 
 class ResultsBoardNamed extends ElementBase {
     constructor() {
@@ -41,6 +42,11 @@ class ResultsBoardNamed extends ElementBase {
         this.isLoading = true;
         
         let raceDataFile, statesDataFile;
+
+        console.log('------------')
+
+        console.log(states)
+        console.log('------------')
         
         if (this.office.toLowerCase() === 'senate') {
           raceDataFile = './data/senate.json';
