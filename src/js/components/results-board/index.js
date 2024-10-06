@@ -1,15 +1,16 @@
 var ElementBase = require("../elementBase");
 import { reportingPercentage, sortByParty, goingToRCVRunOff } from "../util";
-import states from "../data/states.sheet.json";
+//import states from "../data/states.sheet.json";
 
 
-class ResultsBoardNamed extends ElementBase {
+class ResultsBoard extends ElementBase {
     constructor() {
         super();
         this.loadData = this.loadData.bind(this);
-        this.races = [];
+        this.races = JSON.parse(this.getAttribute('races'));
         this.states = {};
         this.office = '';
+        this.hed = this.getAttribute('hed') || '';
         this.split = false;
         this.addClass = '';
     }
@@ -29,67 +30,48 @@ class ResultsBoardNamed extends ElementBase {
             case 'add-class':
                 this.addClass = newValue;
                 break;
+            case 'hed':
+                this.hed = newValue;
+                break;
         }
-        this.render();
     }
 
     connectedCallback() {
         this.loadData();
-        this.render();
     }
 
     async loadData() {
         this.isLoading = true;
-        
-        let raceDataFile, statesDataFile;
 
-        console.log('------------')
+        let statesDataFile;
 
-        console.log(states)
-        console.log('------------')
-        
         if (this.office.toLowerCase() === 'senate') {
-          raceDataFile = './data/senate.json';
-          statesDataFile = './data/states.sheets.json';
+            statesDataFile = './data/states.sheet.json';
         } else if (this.office.toLowerCase() === 'house') {
-          raceDataFile = './data/house.json';
-          statesDataFile = './data/states.sheets.json';
+            statesDataFile = './data/states.sheet.json';
         } else {
-          console.error('Invalid office type');
-          this.isLoading = false;
-          this.render();
-          return;
+            console.error('Invalid office type');
+            this.isLoading = false;
+            this.render();
+            return;
         }
-      
+
         try {
-          const [raceResponse, statesResponse] = await Promise.all([
-            fetch(raceDataFile),
-            fetch(statesDataFile)
-          ]);
+            const response = await fetch(statesDataFile);
+            
+            if (!response.ok) {
+              throw new Error(`HTTP error! states/districts status: ${response.status}`);
+            }
       
-          if (!raceResponse.ok || !statesResponse.ok) {
-            throw new Error(`HTTP error! race status: ${raceResponse.status}, states/districts status: ${statesResponse.status}`);
-          }
-      
-          const [raceData, statesData] = await Promise.all([
-            raceResponse.json(),
-            statesResponse.json()
-          ]);
-      
-          console.log(`${this.office} data:`, raceData);
-          console.log('States/Districts data:', statesData);
-      
-          this.races = raceData.results || [];
-          this.states = statesData || {};
-      
-          this.isLoading = false;
-          this.render();
-        } catch (error) {
-          console.error("Could not load JSON data:", error);
-          this.isLoading = false;
-          this.render(); // Render to show error state
+            this.states = await response.json() || {};
+            this.isLoading = false;
+            this.render();
+          } catch (error) {
+            console.error("Could not load JSON data:", error);
+            this.isLoading = false;
+            this.render(); // Render to show error state
         }
-      }
+    }
 
     CandidateCells(race, winner) {
         var sorted = race.candidates.slice(0, 2).sort(sortByParty);
@@ -119,11 +101,6 @@ class ResultsBoardNamed extends ElementBase {
     render() {
         let hasFlips = false;
 
-        console.log('///////////')
-        console.log('these are the races')
-        console.log(this.races)
-        console.log('///////////')
-
         this.races.some(function (r) {
             let [winner] = r.candidates.filter(c => c.winner);
             if (goingToRCVRunOff(r.id)) {
@@ -138,7 +115,7 @@ class ResultsBoardNamed extends ElementBase {
             }
         });
 
-        console.log("hasflips: " + hasFlips);
+        //console.log("hasflips: " + hasFlips);
 
         hasFlips = true;
 
@@ -158,18 +135,19 @@ class ResultsBoardNamed extends ElementBase {
             hasFlips ? "has-flips" : "no-flips"
         ];
 
+
         this.innerHTML = `
     <div class="${classNames.filter(c => c).join(" ")} middle">
       ${this.hed ? `<h3 class="board-hed">${this.hed}</h3>` : ""}
       <div class="board-inner">
         ${tables.map(races => `
           <table class="named results table" role="table">
-            ${this.races.map((r, i) => {
+            ${races.map((r, i) => {
             var goingToRCV = goingToRCVRunOff(r.id);
-            if (goingToRCV) {
-                console.log("Found RCV race...");
-                console.log(r);
-            }
+            //if (goingToRCV) {
+            //console.log("Found RCV race...");
+            //console.log(r);
+            //}
             var hasResult = r.eevp || r.reporting || r.called || r.runoff;
 
             var reporting = r.eevp;
@@ -232,6 +210,6 @@ class ResultsBoardNamed extends ElementBase {
     }
 }
 
-customElements.define('results-board', ResultsBoardNamed);
+customElements.define('results-board', ResultsBoard);
 
-export default ResultsBoardNamed;
+export default ResultsBoard;
