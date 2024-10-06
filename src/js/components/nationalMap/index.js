@@ -150,27 +150,27 @@ class NationalMap extends ElementBase {
   }
 
   onMove(e) {
- 
-    const svg = this.svgContainerRef.current
+    // Select the SVG element
+    this.svg = this.svgContainerRef.current.querySelector("svg");
     const tooltip = this.querySelector('.tooltip');
-
+  
     // hover styles
-    const currentHover = svg.querySelector(".hover");
+    const currentHover = this.svg.querySelector(".hover");
     if (currentHover) {
       currentHover.classList.remove("hover");
     }
-
+  
     this.tooltip.classList.remove("shown");
     if (!e.target.hasAttribute("data-postal")) {
       return;
     }
-
+  
     const group = e.target.closest("svg > g");
-    svg.appendChild(group);
+    this.svg.appendChild(group);
     e.target.parentNode.classList.add("hover");
-
+  
     // tooltips
-    const bounds = svg.getBoundingClientRect();
+    const bounds = this.svg.getBoundingClientRect();
     let x = e.clientX - bounds.left;
     let y = e.clientY - bounds.top;
     if (x > bounds.width / 2) {
@@ -180,55 +180,42 @@ class NationalMap extends ElementBase {
     }
     this.tooltip.style.left = x + "px";
     this.tooltip.style.top = y + "px";
-
-    console.log('this is being called')
-
-
+  
     const stateName = e.target.getAttribute("data-postal");
     const district = e.target.getAttribute("data-district");
     const districtDisplay = district == "AL" ? " At-Large" : " " + district;
     const results = this.races.filter((r) => r.state == stateName);
     let result;
-
+  
     if (district) {
       result = results.filter((r) => (r.district == district))[0];
     } else {
       result = results[0];
     }
-
-   // Filter candidates with a percent value
-  const candidates = result.candidates
-
-  //original code
-  /*
-  const candidates = result.candidates.filter(candidate => {
-    console.log('Candidate:', candidate);
-    return candidate.percent != null && candidate.percent !== undefined;
-  });
-  */
-
-  console.log('Filtered candidates:', candidates);
-
-  // Generate tooltip content
-  const candidateRows = candidates.map(candidate => `
-    <div class="row">
-      <div class="party ${candidate.party}"></div>
-      <div class="name">${candidate.last}</div>
-      ${candidate.winner === "X" ? winnerIcon : ""}
-      <div class="perc">${Math.round(candidate.votes * 1000) / 10}%</div>
-    </div>
-  `).join("");
-
-  const tooltipContent = `
-    <h3>${result.stateName}${district ? districtDisplay : ""} <span>(${result.electoral})</span></h3>
-    <div class="candidates">${candidateRows}</div>
-    <div class="reporting">${reportingPercentage(result.eevp || result.reportingPercent)}% in</div>
-  `;
-
-  this.tooltip.innerHTML = tooltipContent;
-
-  console.log('Tooltip content:', tooltipContent);
-
+  
+    // Filter candidates with a percent value
+    const candidates = result.candidates
+  
+    console.log('Filtered candidates:', candidates);
+  
+    // Generate tooltip content
+    const candidateRows = candidates.map(candidate => `
+      <div class="row">
+        <div class="party ${candidate.party}"></div>
+        <div class="name">${candidate.last}</div>
+        ${candidate.winner === "X" ? winnerIcon : ""}
+        <div class="perc">${Math.round(candidate.votes * 1000) / 10}%</div>
+      </div>
+    `).join("");
+  
+    const tooltipContent = `
+      <h3>${result.stateName}${district ? districtDisplay : ""} <span>(${result.electoral})</span></h3>
+      <div class="candidates">${candidateRows}</div>
+      <div class="reporting">${reportingPercentage(result.eevp || result.reportingPercent)}% in</div>
+    `;
+  
+    this.tooltip.innerHTML = tooltipContent;
+  
     this.tooltip.classList.add("shown");
   }
 
