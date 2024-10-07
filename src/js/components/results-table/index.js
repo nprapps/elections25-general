@@ -56,6 +56,8 @@ class ResultsTable extends ElementBase {
       ${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}
     `;
 
+    elements.eevp.innerHTML = result.eevp;
+
     if (result.office === "P") {
       elements.wrapper.classList.add("president");
     }
