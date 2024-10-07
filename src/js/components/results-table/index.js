@@ -9,7 +9,7 @@ const headshots = {
   Harris:
     "./assets/synced/kamala-harris.png",
   Trump:
-    "https://apps.npr.org/dailygraphics/graphics/prez-candidates-jan-list-20190116/assets/donald_trump.png",
+    "https://apps.npr.org/primary-election-results-2024/assets/synced/trump.png",
 };
 
 class ResultsTable extends ElementBase {
@@ -59,11 +59,21 @@ class ResultsTable extends ElementBase {
     if (result.office === "P") {
       elements.wrapper.classList.add("president");
     }
+
+    if (result.office === "H") {
+      elements.resultsTableHed.innerHTML = result.seat;
+    } else {
+      elements.resultsTableHed.style.display = "none";
+    }
     
     const candidates = mapToElements(elements.tbody, result.candidates);
+
     if (candidates.length < 2) {
       elements.uncontestedFootnote.innerHTML = "The AP does not tabulate votes for uncontested races and declares their winners as soon as polls close.";
+    } else {
+      elements.uncontestedFootnote.style.display = "none";
     }
+
     candidates.forEach(candidate => {
       let d = candidate[0];
       let el = candidate[1];
