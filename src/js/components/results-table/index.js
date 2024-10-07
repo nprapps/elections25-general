@@ -1,9 +1,16 @@
+import gopher from "../gopher.js";
+
 const ElementBase = require("../elementBase");
 const dot = require("../../lib/dot");
-import gopher from "../gopher.js";
 const template = dot.compile(require("./_results-table.html"));
-const { classify, mapToElements, formatAPDate, formatTime } = require("../utils");
+const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIcon } = require("../utils");
 
+const headshots = {
+  Harris:
+    "./assets/synced/kamala-harris.png",
+  Trump:
+    "https://apps.npr.org/primary-election-results-2024/assets/synced/trump.png",
+};
 
 class ResultsTable extends ElementBase {
   constructor() {
@@ -21,12 +28,12 @@ class ResultsTable extends ElementBase {
   }
 
   disconnectedCallback() {
-    gopher.unwatch("./data/house.json", this.loadData);
+    gopher.unwatch(this.getAttribute("data-file"), this.loadData);
   }
 
   async loadData() {
     try {
-      const response = await fetch('./data/house.json');
+      const response = await fetch(this.getAttribute("data-file"));
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -40,31 +47,55 @@ class ResultsTable extends ElementBase {
   render() {
     if (!this.data) return;
 
-    const result = this.data.results.find(d => d.id === this.getAttribute("race-id"));
+    const result = this.data.results.find(d => {
+      return d.id === this.getAttribute("race-id") && d.state === this.getAttribute("state")
+    });
     const elements = this.illuminate();
 
     elements.updated.innerHTML = `
       ${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}
     `;
+
+    elements.eevp.innerHTML = result.eevp;
+
+    if (result.office === "P") {
+      elements.wrapper.classList.add("president");
+    }
+
+    if (result.office === "H") {
+      elements.resultsTableHed.innerHTML = result.seat;
+    } else {
+      elements.resultsTableHed.style.display = "none";
+    }
+    
     const candidates = mapToElements(elements.tbody, result.candidates);
 
-    candidates.forEach(d => {
-      let data = d[0];
-      let el = d[1];
+    if (candidates.length < 2) {
+      elements.uncontestedFootnote.innerHTML = "The AP does not tabulate votes for uncontested races and declares their winners as soon as polls close.";
+    } else {
+      elements.uncontestedFootnote.style.display = "none";
+    }
+
+    candidates.forEach(candidate => {
+      let d = candidate[0];
+      let el = candidate[1];
       
       el.classList.add("row");
-      el.classList.add(classify(data.party));
-      if (data.winner) {
+      el.classList.add(classify(d.party));
+      if (d.winner === "X") {
         el.classList.add("winner");
       }
 
       el.innerHTML = `
+        <span aria-hidden="true" class="headshot"${headshots[d.last] ? 'style="background-image: url(' + headshots[d.last] + ')"' : ''}></span>
         <span class="bar-container">
-          <span class="bar" style="width: ${data.percent * 100}%"></span>
+          <span class="bar" style="width: ${d.percent * 100}%"></span>
         </span>
-        <span class="name">${data.first} ${data.last}</span>
-        <span class="percentage">${data.percent * 100}%</span>
-        <span class="votes">${data.votes}</span>
+        <span class="name">
+          ${d.first} ${d.last}${d.incumbent ? "<span class='incumbent-icon'> &#x2022;</span>" : ""}${d.winner === "X" ? winnerIcon : ""}${d.winner === "R" ? "<span class='runoff-indicator'> - runoff</span>" : ""}
+        </span>
+        <span class="percentage">${(d.percent * 100).toFixed(1)}%</span>
+        <span class="votes">${formatComma(d.votes)}</span>
       `
     });
   }

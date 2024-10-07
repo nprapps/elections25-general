@@ -1,11 +1,13 @@
 <link rel="stylesheet" type="text/css" href="styles/results-table.css">
 
-<div class="result-table-wrapper">
+<div class="result-table-wrapper" data-as="wrapper">
+	<h3 data-as="resultsTableHed"></h3>
 	<div class="thead flexbox">
 			<span class="name">Candidate</span>
 			<span class="percentage">Percent</span>
 			<span class="votes">Votes</span>
 	</div>
 	<div class="tbody" data-as="tbody"></div>
-	<p>Last updated <span data-as="updated"></span></p>
+	<p class="footnote">AP estimate: <span data-as="eevp"></span>% reporting</p>
+	<p class="footnote"><span data-as="uncontestedFootnote"></span>Last updated <span data-as="updated"></span></p>
 </div>

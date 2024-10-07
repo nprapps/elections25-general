@@ -42,6 +42,11 @@
       <cartogram-map races={results}></cartogram-map>
       <electoral-bubbles races={results}></electoral-bubbles>
     </div>
+
+        <results-table data-file="./data/house.json" race-id="5701" state="CA"></results-table>
+    <results-table data-file="./data/house.json" race-id="5702" state="CA"></results-table>
+    <results-table data-file="./data/house.json" race-id="5703" state="CA"></results-table>
+    <results-table data-file="./data/president.json" race-id="0" state="CA"></results-table>
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
     </script>
