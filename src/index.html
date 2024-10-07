@@ -3,9 +3,45 @@
   <head>
     <%= t.include("partials/_head.html", grunt.data.json) %>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="styles/results-board.css">
+    <link rel="stylesheet" type="text/css" href="styles/results-board-key.css">
+    <link rel="stylesheet" type="text/css" href="styles/nationalMap.css">
+    <link rel="stylesheet" type="text/css" href="styles/cartogram.css">
+    <link rel="stylesheet" type="text/css" href="styles/electoralBubbles.css">
   </head>
   <body>
+    <div style="border: 1px solid #333; margin-bottom: 10px; background-color: #f3f3f3; padding: 20px;">
+      <h2>Balance of Power Combined:</h2>
+      House
+      <balance-of-power-combined race="house"></balance-of-power-combined>
+      Senate
+      <balance-of-power-combined race="senate"></balance-of-power-combined>
+      House and Senate
+      <balance-of-power-combined race="house senate"></balance-of-power-combined>  
+    </div>
 
+    Balance of Power combined:
+    <balance-of-power-bar race="house senate"></balance-of-power-bar>  
+
+    Results Table:
+    <results-table data-file="./data/house.json" race-id="5702"></results-table>
+
+    Results Board Display:
+    Senate
+    <results-board-display office="Senate" split="true" hed="Competitive"></results-board-display>
+    Governor
+    <results-board-display office="governor" split="true" hed="Competitive"></results-board-display>
+    President
+    <results-board-display office="president" split="true" hed="Competitive"></results-board-display>
+
+
+    <results-board-key race="house"></results-board-key>
+
+    <div icon="./assets/icons/ico-geo.svg" label="Geography">
+      <national-map races={results}></national-map>
+      <cartogram-map races={results}></cartogram-map>
+      <electoral-bubbles races={results}></electoral-bubbles>
+    </div>
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
     </script>

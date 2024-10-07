@@ -1,0 +1,78 @@
+
+@import "values";
+@import "embeds";
+
+
+results-table {
+	font-family: @sans;
+	text-align: left;
+	font-size: .9em;
+
+	.result-table-wrapper {
+		max-width: 600px;
+		margin-bottom: 100px;
+	}
+
+	.thead {
+		color: #787878;
+		display: flex;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+	}
+
+	.row {
+		background-color: #efefef;
+		display: flex;
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 1em 0;
+    position: relative;
+	}
+
+	.winner {
+		&.dem {
+			background-color: @lightblue;
+		}
+		&.gop {
+			background-color: @lightred;
+		}
+		.name {
+			font-weight: bold;
+		}
+	}
+
+	.bar-container {
+		bottom: 0;
+		height: 0.5em;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+
+	.bar {
+		position: absolute;
+		height: 0.5em;
+		bottom: 0;
+		left: 0;
+	}
+
+	.dem .bar {
+		background-color: @blue;
+	}
+
+	.gop .bar {
+		background-color: @red;
+	}
+
+	.name {
+		flex-basis: 50%;
+	}
+
+	.percentage {
+		flex-basis: 25%;
+	}
+
+	.votes {
+		flex-basis: 25%;
+	}
+}

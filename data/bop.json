@@ -1,0 +1,2393 @@
+{
+    "president": [],
+    "house": [
+      {
+        "id": "3156",
+        "state": "AK",
+        "winner": "Dem"
+      },
+      {
+        "id": "1005",
+        "state": "AL",
+        "winner": "GOP"
+      },
+      {
+        "id": "1011",
+        "state": "AL",
+        "winner": "GOP"
+      },
+      {
+        "id": "1374",
+        "state": "AL",
+        "winner": "GOP"
+      },
+      {
+        "id": "1375",
+        "state": "AL",
+        "winner": "GOP"
+      },
+      {
+        "id": "1376",
+        "state": "AL",
+        "winner": "GOP"
+      },
+      {
+        "id": "1377",
+        "state": "AL",
+        "winner": "GOP"
+      },
+      {
+        "id": "1378",
+        "state": "AL",
+        "winner": "Dem"
+      },
+      {
+        "id": "5104",
+        "state": "AR",
+        "winner": "GOP"
+      },
+      {
+        "id": "5105",
+        "state": "AR",
+        "winner": "GOP"
+      },
+      {
+        "id": "5107",
+        "state": "AR",
+        "winner": "GOP"
+      },
+      {
+        "id": "6092",
+        "state": "AR",
+        "winner": "GOP"
+      },
+      {
+        "id": "3004",
+        "state": "AZ",
+        "winner": "GOP"
+      },
+      {
+        "id": "3006",
+        "state": "AZ",
+        "winner": "GOP"
+      },
+      {
+        "id": "3008",
+        "state": "AZ",
+        "winner": "Dem"
+      },
+      {
+        "id": "3010",
+        "state": "AZ",
+        "winner": "Dem"
+      },
+      {
+        "id": "3012",
+        "state": "AZ",
+        "winner": "GOP"
+      },
+      {
+        "id": "3544",
+        "state": "AZ",
+        "winner": "GOP"
+      },
+      {
+        "id": "3920",
+        "state": "AZ",
+        "winner": "Dem"
+      },
+      {
+        "id": "3924",
+        "state": "AZ",
+        "winner": "GOP"
+      },
+      {
+        "id": "4173",
+        "state": "AZ",
+        "winner": "GOP"
+      },
+      {
+        "id": "5692",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5693",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5694",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5695",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5696",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5697",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5698",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5699",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5701",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5702",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5703",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5704",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5705",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5706",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5707",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5708",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5709",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5710",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5711",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5712",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5713",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5714",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5715",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5716",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5717",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5718",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5719",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5720",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5721",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5722",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5723",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5725",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5726",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5727",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5728",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5729",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5730",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5731",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5732",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5733",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5734",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5735",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "5736",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5739",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5741",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "5742",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "6235",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "6478",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "7296",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "8149",
+        "state": "CA",
+        "winner": "GOP"
+      },
+      {
+        "id": "8514",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "8725",
+        "state": "CA",
+        "winner": "Dem"
+      },
+      {
+        "id": "6614",
+        "state": "CO",
+        "winner": "Dem"
+      },
+      {
+        "id": "6615",
+        "state": "CO",
+        "winner": "GOP"
+      },
+      {
+        "id": "6616",
+        "state": "CO",
+        "winner": "GOP"
+      },
+      {
+        "id": "6617",
+        "state": "CO",
+        "winner": "GOP"
+      },
+      {
+        "id": "6618",
+        "state": "CO",
+        "winner": "Dem"
+      },
+      {
+        "id": "6954",
+        "state": "CO",
+        "winner": "Dem"
+      },
+      {
+        "id": "7191",
+        "state": "CO",
+        "winner": "Dem"
+      },
+      {
+        "id": "7727",
+        "state": "CO",
+        "winner": "Dem"
+      },
+      {
+        "id": "7007",
+        "state": "CT",
+        "winner": "Dem"
+      },
+      {
+        "id": "7009",
+        "state": "CT",
+        "winner": "Dem"
+      },
+      {
+        "id": "7011",
+        "state": "CT",
+        "winner": "Dem"
+      },
+      {
+        "id": "7013",
+        "state": "CT",
+        "winner": "Dem"
+      },
+      {
+        "id": "7015",
+        "state": "CT",
+        "winner": "Dem"
+      },
+      {
+        "id": "8074",
+        "state": "DE",
+        "winner": "Dem"
+      },
+      {
+        "id": "10009",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10011",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10013",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10015",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10017",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10019",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10021",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10023",
+        "state": "FL",
+        "winner": "Dem"
+      },
+      {
+        "id": "10025",
+        "state": "FL",
+        "winner": "Dem"
+      },
+      {
+        "id": "10027",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10029",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10031",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10033",
+        "state": "FL",
+        "winner": "Dem"
+      },
+      {
+        "id": "10035",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10037",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10039",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10041",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10393",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "10396",
+        "state": "FL",
+        "winner": "Dem"
+      },
+      {
+        "id": "10398",
+        "state": "FL",
+        "winner": "Dem"
+      },
+      {
+        "id": "11126",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "11128",
+        "state": "FL",
+        "winner": "Dem"
+      },
+      {
+        "id": "11129",
+        "state": "FL",
+        "winner": "Dem"
+      },
+      {
+        "id": "11586",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "11587",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "11670",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "12210",
+        "state": "FL",
+        "winner": "Dem"
+      },
+      {
+        "id": "12229",
+        "state": "FL",
+        "winner": "GOP"
+      },
+      {
+        "id": "11007",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "11009",
+        "state": "GA",
+        "winner": "Dem"
+      },
+      {
+        "id": "11011",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "11013",
+        "state": "GA",
+        "winner": "Dem"
+      },
+      {
+        "id": "11015",
+        "state": "GA",
+        "winner": "Dem"
+      },
+      {
+        "id": "11019",
+        "state": "GA",
+        "winner": "Dem"
+      },
+      {
+        "id": "11021",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "11023",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "11025",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "11610",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "12237",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "12238",
+        "state": "GA",
+        "winner": "Dem"
+      },
+      {
+        "id": "12463",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "12547",
+        "state": "GA",
+        "winner": "GOP"
+      },
+      {
+        "id": "12008",
+        "state": "HI",
+        "winner": "Dem"
+      },
+      {
+        "id": "12881",
+        "state": "HI",
+        "winner": "Dem"
+      },
+      {
+        "id": "17071",
+        "state": "IA",
+        "winner": "GOP"
+      },
+      {
+        "id": "17072",
+        "state": "IA",
+        "winner": "GOP"
+      },
+      {
+        "id": "17073",
+        "state": "IA",
+        "winner": "GOP"
+      },
+      {
+        "id": "17074",
+        "state": "IA",
+        "winner": "GOP"
+      },
+      {
+        "id": "13253",
+        "state": "ID",
+        "winner": "GOP"
+      },
+      {
+        "id": "13254",
+        "state": "ID",
+        "winner": "GOP"
+      },
+      {
+        "id": "15990",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15992",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15993",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15994",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15995",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15996",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15997",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15998",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15999",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "16000",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "16001",
+        "state": "IL",
+        "winner": "GOP"
+      },
+      {
+        "id": "16002",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "16003",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "16004",
+        "state": "IL",
+        "winner": "GOP"
+      },
+      {
+        "id": "16005",
+        "state": "IL",
+        "winner": "GOP"
+      },
+      {
+        "id": "16006",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "16310",
+        "state": "IL",
+        "winner": "Dem"
+      },
+      {
+        "id": "15014",
+        "state": "IN",
+        "winner": "Dem"
+      },
+      {
+        "id": "15017",
+        "state": "IN",
+        "winner": "GOP"
+      },
+      {
+        "id": "15020",
+        "state": "IN",
+        "winner": "GOP"
+      },
+      {
+        "id": "15023",
+        "state": "IN",
+        "winner": "GOP"
+      },
+      {
+        "id": "15026",
+        "state": "IN",
+        "winner": "GOP"
+      },
+      {
+        "id": "15029",
+        "state": "IN",
+        "winner": "GOP"
+      },
+      {
+        "id": "15032",
+        "state": "IN",
+        "winner": "Dem"
+      },
+      {
+        "id": "15035",
+        "state": "IN",
+        "winner": "GOP"
+      },
+      {
+        "id": "15038",
+        "state": "IN",
+        "winner": "GOP"
+      },
+      {
+        "id": "17007",
+        "state": "KS",
+        "winner": "GOP"
+      },
+      {
+        "id": "17009",
+        "state": "KS",
+        "winner": "Dem"
+      },
+      {
+        "id": "17355",
+        "state": "KS",
+        "winner": "GOP"
+      },
+      {
+        "id": "17720",
+        "state": "KS",
+        "winner": "GOP"
+      },
+      {
+        "id": "18009",
+        "state": "KY",
+        "winner": "Dem"
+      },
+      {
+        "id": "18013",
+        "state": "KY",
+        "winner": "GOP"
+      },
+      {
+        "id": "18015",
+        "state": "KY",
+        "winner": "GOP"
+      },
+      {
+        "id": "18622",
+        "state": "KY",
+        "winner": "GOP"
+      },
+      {
+        "id": "18624",
+        "state": "KY",
+        "winner": "GOP"
+      },
+      {
+        "id": "18835",
+        "state": "KY",
+        "winner": "GOP"
+      },
+      {
+        "id": "20556",
+        "state": "LA",
+        "winner": "GOP"
+      },
+      {
+        "id": "20557",
+        "state": "LA",
+        "winner": "Dem"
+      },
+      {
+        "id": "20558",
+        "state": "LA",
+        "winner": "GOP"
+      },
+      {
+        "id": "20559",
+        "state": "LA",
+        "winner": "GOP"
+      },
+      {
+        "id": "20560",
+        "state": "LA",
+        "winner": "GOP"
+      },
+      {
+        "id": "20561",
+        "state": "LA",
+        "winner": "GOP"
+      },
+      {
+        "id": "22947",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "22948",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "22949",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "22950",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "22952",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "22953",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "22954",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "23865",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "24356",
+        "state": "MA",
+        "winner": "Dem"
+      },
+      {
+        "id": "21746",
+        "state": "MD",
+        "winner": "GOP"
+      },
+      {
+        "id": "21749",
+        "state": "MD",
+        "winner": "Dem"
+      },
+      {
+        "id": "21752",
+        "state": "MD",
+        "winner": "Dem"
+      },
+      {
+        "id": "21754",
+        "state": "MD",
+        "winner": "Dem"
+      },
+      {
+        "id": "21757",
+        "state": "MD",
+        "winner": "Dem"
+      },
+      {
+        "id": "21760",
+        "state": "MD",
+        "winner": "Dem"
+      },
+      {
+        "id": "21762",
+        "state": "MD",
+        "winner": "Dem"
+      },
+      {
+        "id": "21764",
+        "state": "MD",
+        "winner": "Dem"
+      },
+      {
+        "id": "20644",
+        "state": "ME",
+        "winner": "Dem"
+      },
+      {
+        "id": "21405",
+        "state": "ME",
+        "winner": "Dem"
+      },
+      {
+        "id": "23805",
+        "state": "MI",
+        "winner": "GOP"
+      },
+      {
+        "id": "23806",
+        "state": "MI",
+        "winner": "GOP"
+      },
+      {
+        "id": "23807",
+        "state": "MI",
+        "winner": "Dem"
+      },
+      {
+        "id": "23808",
+        "state": "MI",
+        "winner": "GOP"
+      },
+      {
+        "id": "23809",
+        "state": "MI",
+        "winner": "GOP"
+      },
+      {
+        "id": "23810",
+        "state": "MI",
+        "winner": "Dem"
+      },
+      {
+        "id": "23811",
+        "state": "MI",
+        "winner": "Dem"
+      },
+      {
+        "id": "23812",
+        "state": "MI",
+        "winner": "Dem"
+      },
+      {
+        "id": "23813",
+        "state": "MI",
+        "winner": "GOP"
+      },
+      {
+        "id": "23814",
+        "state": "MI",
+        "winner": "GOP"
+      },
+      {
+        "id": "23815",
+        "state": "MI",
+        "winner": "Dem"
+      },
+      {
+        "id": "23816",
+        "state": "MI",
+        "winner": "Dem"
+      },
+      {
+        "id": "23817",
+        "state": "MI",
+        "winner": "Dem"
+      },
+      {
+        "id": "24007",
+        "state": "MN",
+        "winner": "GOP"
+      },
+      {
+        "id": "24010",
+        "state": "MN",
+        "winner": "Dem"
+      },
+      {
+        "id": "24013",
+        "state": "MN",
+        "winner": "Dem"
+      },
+      {
+        "id": "24016",
+        "state": "MN",
+        "winner": "Dem"
+      },
+      {
+        "id": "24019",
+        "state": "MN",
+        "winner": "Dem"
+      },
+      {
+        "id": "24022",
+        "state": "MN",
+        "winner": "GOP"
+      },
+      {
+        "id": "24025",
+        "state": "MN",
+        "winner": "GOP"
+      },
+      {
+        "id": "24028",
+        "state": "MN",
+        "winner": "GOP"
+      },
+      {
+        "id": "26023",
+        "state": "MO",
+        "winner": "GOP"
+      },
+      {
+        "id": "26025",
+        "state": "MO",
+        "winner": "GOP"
+      },
+      {
+        "id": "26027",
+        "state": "MO",
+        "winner": "GOP"
+      },
+      {
+        "id": "26029",
+        "state": "MO",
+        "winner": "Dem"
+      },
+      {
+        "id": "26031",
+        "state": "MO",
+        "winner": "GOP"
+      },
+      {
+        "id": "26033",
+        "state": "MO",
+        "winner": "GOP"
+      },
+      {
+        "id": "26035",
+        "state": "MO",
+        "winner": "GOP"
+      },
+      {
+        "id": "27025",
+        "state": "MO",
+        "winner": "Dem"
+      },
+      {
+        "id": "25929",
+        "state": "MS",
+        "winner": "Dem"
+      },
+      {
+        "id": "26488",
+        "state": "MS",
+        "winner": "GOP"
+      },
+      {
+        "id": "26489",
+        "state": "MS",
+        "winner": "GOP"
+      },
+      {
+        "id": "27167",
+        "state": "MS",
+        "winner": "GOP"
+      },
+      {
+        "id": "28447",
+        "state": "MT",
+        "winner": "GOP"
+      },
+      {
+        "id": "28576",
+        "state": "MT",
+        "winner": "GOP"
+      },
+      {
+        "id": "34969",
+        "state": "NC",
+        "winner": "GOP"
+      },
+      {
+        "id": "34973",
+        "state": "NC",
+        "winner": "GOP"
+      },
+      {
+        "id": "34975",
+        "state": "NC",
+        "winner": "GOP"
+      },
+      {
+        "id": "34977",
+        "state": "NC",
+        "winner": "GOP"
+      },
+      {
+        "id": "35385",
+        "state": "NC",
+        "winner": "Dem"
+      },
+      {
+        "id": "35386",
+        "state": "NC",
+        "winner": "Dem"
+      },
+      {
+        "id": "35387",
+        "state": "NC",
+        "winner": "Dem"
+      },
+      {
+        "id": "35388",
+        "state": "NC",
+        "winner": "GOP"
+      },
+      {
+        "id": "35389",
+        "state": "NC",
+        "winner": "Dem"
+      },
+      {
+        "id": "35390",
+        "state": "NC",
+        "winner": "GOP"
+      },
+      {
+        "id": "35391",
+        "state": "NC",
+        "winner": "GOP"
+      },
+      {
+        "id": "35419",
+        "state": "NC",
+        "winner": "Dem"
+      },
+      {
+        "id": "35753",
+        "state": "NC",
+        "winner": "Dem"
+      },
+      {
+        "id": "36216",
+        "state": "NC",
+        "winner": "Dem"
+      },
+      {
+        "id": "35342",
+        "state": "ND",
+        "winner": "GOP"
+      },
+      {
+        "id": "28382",
+        "state": "NE",
+        "winner": "GOP"
+      },
+      {
+        "id": "28384",
+        "state": "NE",
+        "winner": "GOP"
+      },
+      {
+        "id": "28385",
+        "state": "NE",
+        "winner": "GOP"
+      },
+      {
+        "id": "30015",
+        "state": "NH",
+        "winner": "Dem"
+      },
+      {
+        "id": "30017",
+        "state": "NH",
+        "winner": "Dem"
+      },
+      {
+        "id": "31202",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "31205",
+        "state": "NJ",
+        "winner": "GOP"
+      },
+      {
+        "id": "31208",
+        "state": "NJ",
+        "winner": "GOP"
+      },
+      {
+        "id": "31211",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "31212",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "31215",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "31216",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "31218",
+        "state": "NJ",
+        "winner": "GOP"
+      },
+      {
+        "id": "31220",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "31223",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "31226",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "31230",
+        "state": "NJ",
+        "winner": "Dem"
+      },
+      {
+        "id": "32052",
+        "state": "NM",
+        "winner": "Dem"
+      },
+      {
+        "id": "33279",
+        "state": "NM",
+        "winner": "Dem"
+      },
+      {
+        "id": "34051",
+        "state": "NM",
+        "winner": "Dem"
+      },
+      {
+        "id": "3",
+        "state": "NV",
+        "winner": "Dem"
+      },
+      {
+        "id": "30155",
+        "state": "NV",
+        "winner": "Dem"
+      },
+      {
+        "id": "30989",
+        "state": "NV",
+        "winner": "GOP"
+      },
+      {
+        "id": "30992",
+        "state": "NV",
+        "winner": "Dem"
+      },
+      {
+        "id": "36581",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36582",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36583",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36584",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36585",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36586",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36587",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36588",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36590",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36591",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36592",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36593",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36594",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36595",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36596",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36597",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36598",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36599",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36600",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36601",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36602",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36603",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36604",
+        "state": "NY",
+        "winner": "GOP"
+      },
+      {
+        "id": "36605",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "39859",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "39860",
+        "state": "NY",
+        "winner": "Dem"
+      },
+      {
+        "id": "36015",
+        "state": "OH",
+        "winner": "Dem"
+      },
+      {
+        "id": "36019",
+        "state": "OH",
+        "winner": "Dem"
+      },
+      {
+        "id": "36021",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "36023",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "36025",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "36027",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "36031",
+        "state": "OH",
+        "winner": "Dem"
+      },
+      {
+        "id": "36033",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "36035",
+        "state": "OH",
+        "winner": "Dem"
+      },
+      {
+        "id": "36039",
+        "state": "OH",
+        "winner": "Dem"
+      },
+      {
+        "id": "36041",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "36043",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "37258",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "37564",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "37571",
+        "state": "OH",
+        "winner": "GOP"
+      },
+      {
+        "id": "37030",
+        "state": "OK",
+        "winner": "GOP"
+      },
+      {
+        "id": "37034",
+        "state": "OK",
+        "winner": "GOP"
+      },
+      {
+        "id": "37036",
+        "state": "OK",
+        "winner": "GOP"
+      },
+      {
+        "id": "37855",
+        "state": "OK",
+        "winner": "GOP"
+      },
+      {
+        "id": "37856",
+        "state": "OK",
+        "winner": "GOP"
+      },
+      {
+        "id": "38529",
+        "state": "OR",
+        "winner": "GOP"
+      },
+      {
+        "id": "38530",
+        "state": "OR",
+        "winner": "Dem"
+      },
+      {
+        "id": "38531",
+        "state": "OR",
+        "winner": "Dem"
+      },
+      {
+        "id": "38532",
+        "state": "OR",
+        "winner": "GOP"
+      },
+      {
+        "id": "39031",
+        "state": "OR",
+        "winner": "Dem"
+      },
+      {
+        "id": "39166",
+        "state": "OR",
+        "winner": "Dem"
+      },
+      {
+        "id": "39008",
+        "state": "PA",
+        "winner": "GOP"
+      },
+      {
+        "id": "39010",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "39011",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "39012",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "39013",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "39014",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "39015",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "39017",
+        "state": "PA",
+        "winner": "GOP"
+      },
+      {
+        "id": "39018",
+        "state": "PA",
+        "winner": "GOP"
+      },
+      {
+        "id": "39019",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "39020",
+        "state": "PA",
+        "winner": "GOP"
+      },
+      {
+        "id": "39021",
+        "state": "PA",
+        "winner": "GOP"
+      },
+      {
+        "id": "39023",
+        "state": "PA",
+        "winner": "GOP"
+      },
+      {
+        "id": "39024",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "39303",
+        "state": "PA",
+        "winner": "Dem"
+      },
+      {
+        "id": "40041",
+        "state": "PA",
+        "winner": "GOP"
+      },
+      {
+        "id": "40306",
+        "state": "PA",
+        "winner": "GOP"
+      },
+      {
+        "id": "40015",
+        "state": "RI",
+        "winner": "Dem"
+      },
+      {
+        "id": "40017",
+        "state": "RI",
+        "winner": "Dem"
+      },
+      {
+        "id": "41003",
+        "state": "SC",
+        "winner": "GOP"
+      },
+      {
+        "id": "41004",
+        "state": "SC",
+        "winner": "GOP"
+      },
+      {
+        "id": "41313",
+        "state": "SC",
+        "winner": "GOP"
+      },
+      {
+        "id": "41315",
+        "state": "SC",
+        "winner": "Dem"
+      },
+      {
+        "id": "41908",
+        "state": "SC",
+        "winner": "GOP"
+      },
+      {
+        "id": "41922",
+        "state": "SC",
+        "winner": "GOP"
+      },
+      {
+        "id": "41972",
+        "state": "SC",
+        "winner": "GOP"
+      },
+      {
+        "id": "42005",
+        "state": "SD",
+        "winner": "GOP"
+      },
+      {
+        "id": "43003",
+        "state": "TN",
+        "winner": "GOP"
+      },
+      {
+        "id": "43007",
+        "state": "TN",
+        "winner": "GOP"
+      },
+      {
+        "id": "43009",
+        "state": "TN",
+        "winner": "GOP"
+      },
+      {
+        "id": "43011",
+        "state": "TN",
+        "winner": "GOP"
+      },
+      {
+        "id": "43013",
+        "state": "TN",
+        "winner": "GOP"
+      },
+      {
+        "id": "43015",
+        "state": "TN",
+        "winner": "GOP"
+      },
+      {
+        "id": "43017",
+        "state": "TN",
+        "winner": "GOP"
+      },
+      {
+        "id": "43019",
+        "state": "TN",
+        "winner": "GOP"
+      },
+      {
+        "id": "43020",
+        "state": "TN",
+        "winner": "Dem"
+      },
+      {
+        "id": "45871",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45872",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45873",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45874",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45875",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45876",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45877",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "45878",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45879",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "45880",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45881",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45882",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45883",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45884",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45885",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45886",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "45887",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45888",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "45889",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45890",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "45891",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45892",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45893",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45894",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45895",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45896",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45897",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45899",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "45900",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "47179",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "48732",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "48733",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "49477",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "49478",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "49479",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "49480",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "49950",
+        "state": "TX",
+        "winner": "Dem"
+      },
+      {
+        "id": "49951",
+        "state": "TX",
+        "winner": "GOP"
+      },
+      {
+        "id": "45669",
+        "state": "UT",
+        "winner": "GOP"
+      },
+      {
+        "id": "45670",
+        "state": "UT",
+        "winner": "GOP"
+      },
+      {
+        "id": "49548",
+        "state": "UT",
+        "winner": "GOP"
+      },
+      {
+        "id": "49642",
+        "state": "UT",
+        "winner": "GOP"
+      },
+      {
+        "id": "47001",
+        "state": "VA",
+        "winner": "GOP"
+      },
+      {
+        "id": "47003",
+        "state": "VA",
+        "winner": "GOP"
+      },
+      {
+        "id": "47005",
+        "state": "VA",
+        "winner": "Dem"
+      },
+      {
+        "id": "47007",
+        "state": "VA",
+        "winner": "Dem"
+      },
+      {
+        "id": "47009",
+        "state": "VA",
+        "winner": "GOP"
+      },
+      {
+        "id": "47011",
+        "state": "VA",
+        "winner": "GOP"
+      },
+      {
+        "id": "47013",
+        "state": "VA",
+        "winner": "Dem"
+      },
+      {
+        "id": "47015",
+        "state": "VA",
+        "winner": "Dem"
+      },
+      {
+        "id": "47017",
+        "state": "VA",
+        "winner": "GOP"
+      },
+      {
+        "id": "47019",
+        "state": "VA",
+        "winner": "Dem"
+      },
+      {
+        "id": "47021",
+        "state": "VA",
+        "winner": "Dem"
+      },
+      {
+        "id": "46374",
+        "state": "VT",
+        "winner": "Dem"
+      },
+      {
+        "id": "2",
+        "state": "WA",
+        "winner": "Dem"
+      },
+      {
+        "id": "4",
+        "state": "WA",
+        "winner": "Dem"
+      },
+      {
+        "id": "48008",
+        "state": "WA",
+        "winner": "Dem"
+      },
+      {
+        "id": "48009",
+        "state": "WA",
+        "winner": "Dem"
+      },
+      {
+        "id": "48011",
+        "state": "WA",
+        "winner": "GOP"
+      },
+      {
+        "id": "48013",
+        "state": "WA",
+        "winner": "GOP"
+      },
+      {
+        "id": "48015",
+        "state": "WA",
+        "winner": "Dem"
+      },
+      {
+        "id": "48017",
+        "state": "WA",
+        "winner": "Dem"
+      },
+      {
+        "id": "48020",
+        "state": "WA",
+        "winner": "Dem"
+      },
+      {
+        "id": "49358",
+        "state": "WA",
+        "winner": "Dem"
+      },
+      {
+        "id": "50040",
+        "state": "WI",
+        "winner": "GOP"
+      },
+      {
+        "id": "50044",
+        "state": "WI",
+        "winner": "Dem"
+      },
+      {
+        "id": "50048",
+        "state": "WI",
+        "winner": "GOP"
+      },
+      {
+        "id": "50052",
+        "state": "WI",
+        "winner": "Dem"
+      },
+      {
+        "id": "50056",
+        "state": "WI",
+        "winner": "GOP"
+      },
+      {
+        "id": "50060",
+        "state": "WI",
+        "winner": "GOP"
+      },
+      {
+        "id": "50064",
+        "state": "WI",
+        "winner": "GOP"
+      },
+      {
+        "id": "50068",
+        "state": "WI",
+        "winner": "GOP"
+      },
+      {
+        "id": "49273",
+        "state": "WV",
+        "winner": "GOP"
+      },
+      {
+        "id": "49274",
+        "state": "WV",
+        "winner": "GOP"
+      },
+      {
+        "id": "51401",
+        "state": "WY",
+        "winner": "GOP"
+      }
+    ],
+    "senate": [
+      {
+        "id": "12597",
+        "state": "GA",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "3153",
+        "state": "AK",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "1683",
+        "state": "AL",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "5103",
+        "state": "AR",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "3002",
+        "state": "AZ",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "8516",
+        "state": "CA",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "7190",
+        "state": "CO",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "9147",
+        "state": "CT",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "11160",
+        "state": "FL",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "12211",
+        "state": "HI",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "17246",
+        "state": "IA",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "14055",
+        "state": "ID",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "16413",
+        "state": "IL",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "15765",
+        "state": "IN",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "17681",
+        "state": "KS",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "18847",
+        "state": "KY",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "20555",
+        "state": "LA",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "21744",
+        "state": "MD",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "27023",
+        "state": "MO",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "35384",
+        "state": "NC",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "35541",
+        "state": "ND",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "31459",
+        "state": "NH",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "30323",
+        "state": "NV",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "39242",
+        "state": "NY",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "36780",
+        "state": "OH",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "38145",
+        "state": "OK",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "38620",
+        "state": "OK",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "38808",
+        "state": "OR",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "39002",
+        "state": "PA",
+        "winner": "Dem",
+        "previous": "GOP"
+      },
+      {
+        "id": "41849",
+        "state": "SC",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "42426",
+        "state": "SD",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "46329",
+        "state": "UT",
+        "winner": "GOP",
+        "previous": "GOP"
+      },
+      {
+        "id": "46373",
+        "state": "VT",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "11",
+        "state": "WA",
+        "winner": "Dem",
+        "previous": "Dem"
+      },
+      {
+        "id": "50885",
+        "state": "WI",
+        "winner": "GOP",
+        "previous": "GOP"
+      }
+    ],
+    "latest": 1698874091399
+  }
