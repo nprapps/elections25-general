@@ -3,7 +3,7 @@ import gopher from "../gopher.js";
 const ElementBase = require("../elementBase");
 const dot = require("../../lib/dot");
 const template = dot.compile(require("./_results-table.html"));
-const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIcon } = require("../utils");
+const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIcon } = require("../util");
 
 const headshots = {
   Harris:
