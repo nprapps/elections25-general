@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="styles/results-board-key.css">
     <link rel="stylesheet" type="text/css" href="styles/nationalMap.css">
     <link rel="stylesheet" type="text/css" href="styles/cartogram.css">
-
+    <link rel="stylesheet" type="text/css" href="styles/electoralBubbles.css">
   </head>
   <body>
     <div style="border: 1px solid #333; margin-bottom: 10px; background-color: #f3f3f3; padding: 20px;">
@@ -33,6 +33,7 @@
     <div icon="./assets/icons/ico-geo.svg" label="Geography">
       <national-map races={results}></national-map>
       <cartogram-map races={results}></cartogram-map>
+      <electoral-bubbles races={results}></electoral-bubbles>
     </div>
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;

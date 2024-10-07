@@ -9,7 +9,8 @@ require("./components/results-board-display");
 require("./components/results-board-key");
 require("./components/nationalMap");
 require("./components/cartogram");
-
+require("./components/electoralBubbles")
+require("./components/tabs");
 
 
 
