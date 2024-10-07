@@ -15,7 +15,9 @@
     "src/js/components/results-board/results-board.less": "build/styles/results-board.css",
     "src/js/components/results-board-key/results-board-key.less": "build/styles/results-board-key.css",
     "src/js/components/results-board-display/results-board-display.less": "build/styles/results-board-display.css",
-    "src/js/components/nationalMap/nationalMap.less": "build/styles/nationalMap.css"
+    "src/js/components/nationalMap/nationalMap.less": "build/styles/nationalMap.css",
+    "src/js/components/cartogram/cartogram.less": "build/styles/cartogram.css"
+
 
   },
   "scripts": {

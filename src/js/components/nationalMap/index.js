@@ -137,7 +137,6 @@ class NationalMap extends ElementBase {
     // Initialize labels
     this.initLabels();
 
-    console.log(svg)
     return svg;
   }
 
@@ -193,11 +192,10 @@ class NationalMap extends ElementBase {
       result = results[0];
     }
   
-    // Filter candidates with a percent value
-    const candidates = result.candidates
-  
-    console.log('Filtered candidates:', candidates);
-  
+        // Filter candidates with a percent value; old way is commented out
+        //const candidates = result.candidates.filter(c => c.percent);
+        const candidates = result.candidates
+    
     // Generate tooltip content
     const candidateRows = candidates.map(candidate => `
       <div class="row">

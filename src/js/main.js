@@ -8,6 +8,8 @@ require("./components/results-board");
 require("./components/results-board-display");
 require("./components/results-board-key");
 require("./components/nationalMap");
+require("./components/cartogram");
+
 
 
 
