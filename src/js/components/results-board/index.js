@@ -5,14 +5,14 @@ import { reportingPercentage, sortByParty, goingToRCVRunOff } from "../util";
 
 class ResultsBoard extends ElementBase {
     constructor() {
-        super();
-        this.loadData = this.loadData.bind(this);
-        this.races = JSON.parse(this.getAttribute('races'));
-        this.states = {};
-        this.office = '';
-        this.hed = this.getAttribute('hed') || '';
-        this.split = false;
-        this.addClass = '';
+      super();
+      this.loadData = this.loadData.bind(this);
+      this.races = JSON.parse(this.getAttribute('races') || '[]');
+      this.states = {};
+      this.office = this.getAttribute('office') || '';
+      this.hed = this.getAttribute('hed') || '';
+      this.split = this.getAttribute('split') === 'true';
+      this.addClass = this.getAttribute('add-class') || '';
     }
 
     static get observedAttributes() {
@@ -43,18 +43,7 @@ class ResultsBoard extends ElementBase {
     async loadData() {
         this.isLoading = true;
 
-        let statesDataFile;
-
-        if (this.office.toLowerCase() === 'senate') {
-            statesDataFile = './data/states.sheet.json';
-        } else if (this.office.toLowerCase() === 'house') {
-            statesDataFile = './data/states.sheet.json';
-        } else {
-            console.error('Invalid office type');
-            this.isLoading = false;
-            this.render();
-            return;
-        }
+        let statesDataFile = './data/states.sheet.json';
 
         try {
             const response = await fetch(statesDataFile);
@@ -170,8 +159,11 @@ class ResultsBoard extends ElementBase {
                     ballotLabel = ` ${r.seat}`;
                     break;
             }
+                    console.log('/////')
+                    console.log(this.states[r.state])
+                    console.log('/////')
 
-            return `
+           return `
                 <tr key="${r.id}" class="tr ${hasResult ? "open" : "closed"} index-${i}" role="row">
                   <td class="state" role="cell">
                     <a target="_top" href="?#/states/${r.state}/${r.office}">
@@ -186,17 +178,16 @@ class ResultsBoard extends ElementBase {
                   <td class="open-label" colspan="3" role="cell">Last polls close at ${this.states[r.state].closingTime} ET</td>
                   ${this.CandidateCells(r, winner)}
                   <td class="reporting" role="cell">${percentIn}</td>
-                  ${this.office == "Senate" ? `
+                  ${this.office === "Senate" || this.office === "House" || this.office === "governor" ? `
                     <td class="little-label ${flipped ? winner.party : ''}" role="cell">
                       <span class="${goingToRCV ? "rcv-label" : ""}">${goingToRCV ? "RCV" : ""}</span>
                       <span class="${r.runoff ? "runoff-label" : ""}">${r.runoff ? "R.O." : ""}</span>
-                      <span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>
+                      ${this.office !== "House" ? `<span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>` : ''}
                     </td>
                   ` : ''}
-                  ${this.office == "House" ? `
-                    <td class="little-label" role="cell">
-                      <span class="${goingToRCV ? "runoff-label" : ""}">${goingToRCV ? "RCV" : ""}</span>
-                      <span class="${r.runoff ? "runoff-label" : ""}">${r.runoff ? "R.O." : ""}</span>
+                  ${this.office === "president" ? `
+                    <td class="little-label ${flipped ? winner.party : ''}" role="cell">
+                      <span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>
                     </td>
                   ` : ''}
                 </tr>

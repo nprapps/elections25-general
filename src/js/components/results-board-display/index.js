@@ -7,27 +7,43 @@ class ResultsBoardDisplay extends ElementBase {
     constructor() {
         super();
         this.loadData = this.loadData.bind(this);
-        this.senate = null;
-        this.house = null;
-        this.races = [];
+        this.results = [];
         this.office = this.getAttribute('office') || '';
         this.split = this.getAttribute('split') === 'true';
         this.hed = this.getAttribute('hed') || '';
         this.state = {};
 
+        // Set the data file name based on the office type
+        switch (this.office.toLowerCase()) {
+            case 'senate':
+                this.dataFileName = 'senate.json';
+                break;
+            case 'house':
+                this.dataFileName = 'house.json';
+                break;
+            case 'governor':
+                this.dataFileName = 'gov.json';
+                break;
+            case 'president':
+                this.dataFileName = 'president.json';
+                break;
+            default:
+                this.dataFileName = null;
+                console.error('Invalid office type');
+        }
     }
 
     connectedCallback() {
         this.loadData();
         this.illuminate();
-        gopher.watch(`./data/senate.json`, this.loadData);
-        gopher.watch(`./data/house.json`, this.loadData);
 
-        // Parse the race attribute
-        const raceAttr = this.getAttribute('race');
-        if (raceAttr) {
-            this.races = raceAttr.toLowerCase().split(' ');
+        // Watch the appropriate data file if it's set
+        if (this.dataFileName) {
+            gopher.watch(`./data/${this.dataFileName}`, this.loadData);
         }
+
+        // Always watch states data
+        gopher.watch(`./data/states.sheet.json`, this.loadData);
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -47,23 +63,16 @@ class ResultsBoardDisplay extends ElementBase {
     }
 
     disconnectedCallback() {
-        gopher.unwatch(`./data/senate.json`, this.loadData);
-        gopher.unwatch(`./data/house.json`, this.loadData);
+        if (this.dataFileName) {
+            gopher.unwatch(`./data/${this.dataFileName}`, this.loadData);
+        }
+        gopher.unwatch(`./data/states.sheet.json`, this.loadData);
     }
 
     async loadData() {
         this.isLoading = true;
 
-
-        let raceDataFile, statesDataFile;
-
-        if (this.office.toLowerCase() === 'senate') {
-            raceDataFile = './data/senate.json';
-            statesDataFile = './data/states.sheet.json';
-        } else if (this.office.toLowerCase() === 'house') {
-            raceDataFile = './data/house.json';
-            statesDataFile = './data/states.sheet.json';
-        } else {
+        if (!this.dataFileName) {
             console.error('Invalid office type');
             this.isLoading = false;
             this.render();
@@ -72,12 +81,12 @@ class ResultsBoardDisplay extends ElementBase {
 
         try {
             const [raceResponse, statesResponse] = await Promise.all([
-                fetch(raceDataFile),
-                fetch(statesDataFile)
+                fetch(`./data/${this.dataFileName}`),
+                fetch('./data/states.sheet.json')
             ]);
 
             if (!raceResponse.ok || !statesResponse.ok) {
-                throw new Error(`HTTP error! race status: ${raceResponse.status}, states/districts status: ${statesResponse.status}`);
+                throw new Error(`HTTP error! race status: ${raceResponse.status}, states status: ${statesResponse.status}`);
             }
 
             const [raceData, statesData] = await Promise.all([
@@ -85,12 +94,12 @@ class ResultsBoardDisplay extends ElementBase {
                 statesResponse.json()
             ]);
 
-            //===========//
-            //this is where set the races for that feel into the results board 
-            //=============//
-            this.races = raceData.results || [];
             this.results = raceData.results || [];
             this.states = statesData || {};
+
+            console.log('/////')
+            console.log(this.results)
+            console.log('/////')
 
             this.isLoading = false;
             this.render();
@@ -129,8 +138,12 @@ class ResultsBoardDisplay extends ElementBase {
             });
         }
 
+        console.log('=========')
+        console.log(buckets)
+        console.log('=========')
+
         let content = '';
-      
+
         if (this.office.includes('Senate')) {
             content += `
                 <div class="board-container Senate">
@@ -183,9 +196,52 @@ class ResultsBoardDisplay extends ElementBase {
                     ` : ''}
                 </div>
             `;
+        } else if (this.office.includes('governor')) {
+            console.log('governor')
+            content += `
+                <div class="board-container Gov">
+                    ${this.results ? `
+                        <results-board 
+                            office="Governor"
+                            split="true"
+                            hed="Competitive Seats"
+                            class="middle"
+                            races='${JSON.stringify(sorted)}'>
+                        </results-board>
+                    ` : ''}
+                </div>
+            `;
+        } else if (this.office.includes('president')) {
+            console.log('president')
+            content += `
+                <div class="board-container President">
+                    ${this.results ? `
+                        <results-board 
+                            office="President"
+                            split="true"
+                            hed="Competitive States"
+                            class="middle"
+                            races='${JSON.stringify(buckets.tossup)}'>
+                        </results-board>
+                        <results-board 
+                            office="President"
+                            hed="Likely Democratic"
+                            class="first"
+                            races='${JSON.stringify(buckets.likelyD)}'>
+                        </results-board>
+                        <results-board 
+                            office="President"
+                            hed="Likely Republican"
+                            class="last"
+                            races='${JSON.stringify(buckets.likelyR)}'>
+                        </results-board>
+                    ` : ''}
+                </div>
+            `;
         }
-        content += '</div>'
-        this.innerHTML = content
+
+        content += '</div>';
+        this.innerHTML = content;
     }
 }
 
