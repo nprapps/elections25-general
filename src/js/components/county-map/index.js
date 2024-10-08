@@ -268,3 +268,5 @@ class CountyMap extends ElementBase {
     tooltip.classList.add("shown");
   }
 }
+
+customElements.define("county-map", CountyMap);
