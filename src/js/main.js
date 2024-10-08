@@ -11,3 +11,4 @@ require("./components/nationalMap");
 require("./components/cartogram");
 require("./components/electoralBubbles")
 require("./components/tabs");
+require("./components/county-map");
