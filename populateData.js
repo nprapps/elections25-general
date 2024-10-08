@@ -24,6 +24,10 @@ async function extractData(type) {
     officeID = "G";
   }
 
+  if (type === "measures") {
+    officeID = "I";
+  }
+
   const apiData = await axios({
     url: baseURL + `&officeID=${officeID}`,
     headers: { "x-api-key": process.env.AP_API_KEY },
@@ -92,8 +96,32 @@ async function extractData(type) {
     const csv = parser.parse(results);
     fs.writeFileSync("governor.csv", csv);
   }
+
+  if (type === "measures") {
+    races.map((race) => {
+      const state = race.reportingUnits[0].statePostal;
+
+      results.push({
+        key: race.raceID,
+        state,
+        name: race.seatName,
+        category: race.category,
+        theme: "",
+        description: race.description,
+        sumary: race.summary,
+        description_orig: "",
+        featured: "",
+        notes: "",
+      });
+    });
+
+    const parser = new Parser({});
+    const csv = parser.parse(results);
+    fs.writeFileSync("measures.csv", csv);
+  }
 }
 
 // extractData("senate");
-extractData("house");
+// extractData("house");
 // extractData("governor");
+extractData("measures");
