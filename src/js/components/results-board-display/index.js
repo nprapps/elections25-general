@@ -97,10 +97,6 @@ class ResultsBoardDisplay extends ElementBase {
             this.results = raceData.results || [];
             this.states = statesData || {};
 
-            console.log('/////')
-            console.log(this.results)
-            console.log('/////')
-
             this.isLoading = false;
             this.render();
         } catch (error) {
@@ -137,10 +133,6 @@ class ResultsBoardDisplay extends ElementBase {
                 if (bucketRating) buckets[bucketRating].push(r);
             });
         }
-
-        console.log('=========')
-        console.log(buckets)
-        console.log('=========')
 
         let content = '';
 
@@ -197,7 +189,6 @@ class ResultsBoardDisplay extends ElementBase {
                 </div>
             `;
         } else if (this.office.includes('governor')) {
-            console.log('governor')
             content += `
                 <div class="board-container Gov">
                     ${this.results ? `
@@ -212,7 +203,6 @@ class ResultsBoardDisplay extends ElementBase {
                 </div>
             `;
         } else if (this.office.includes('president')) {
-            console.log('president')
             content += `
                 <div class="board-container President">
                     ${this.results ? `

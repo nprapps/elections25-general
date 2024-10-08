@@ -282,7 +282,6 @@ class ElectoralBubbles extends ElementBase {
 
         //TODO: make this better
         //this is where we define the buckets. technically, this should happen in the parent div
-        console.log(this.results)
         if (results) {
             var sorted = results.slice().sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0);
 

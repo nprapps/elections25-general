@@ -159,9 +159,6 @@ class ResultsBoard extends ElementBase {
                     ballotLabel = ` ${r.seat}`;
                     break;
             }
-                    console.log('/////')
-                    console.log(this.states[r.state])
-                    console.log('/////')
 
            return `
                 <tr key="${r.id}" class="tr ${hasResult ? "open" : "closed"} index-${i}" role="row">
