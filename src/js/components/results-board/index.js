@@ -68,15 +68,6 @@ class ResultsBoard extends ElementBase {
         var sorted = race.candidates.slice(0, 2).sort(sortByParty);
         var leading = race.candidates[0];
         var reporting = race.eevp;
-        if (reporting !== null || reporting !== "0" || reporting !== 0) {
-          console.log('////////');
-          console.log('Race data:', race);
-          console.log('Leading party:', leading);
-          console.log('Reporting percentage :', leading.percent);
-          console.log('Reporting percentage:', reporting);
-          console.log('Reporting percentage:', typeof(reporting));
-          console.log('////////');
-        }
 
         var highestPercent = Math.max(...race.candidates.map(c => c.percent));
 

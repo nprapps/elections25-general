@@ -311,10 +311,6 @@ class NationalMap extends ElementBase {
       const stateGroup = this.svg.querySelector(`.${state}`);
       if (!stateGroup) return;
 
-      console.log('this is the current state')
-      console.log(stateGroup)
-      console.log('////')
-
       stateGroup.classList.remove("early", "winner", "leader", "GOP", "Dem");
 
       if (eevp > 0) {
