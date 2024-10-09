@@ -343,13 +343,13 @@ class ElectoralBubbles extends ElementBase {
             viewBox="0 0 ${width} ${height + offset}"
           >
             <text class="leading-cue dem desktop" x="${width / 2 - 40}" y="20">
-              &lt; Stronger Biden Lead
+              &lt; Stronger Harris Lead
             </text>
             <text class="leading-cue dem mobile" x="${width / 2 - 40}" y="20">
               Stronger
             </text>
             <text class="leading-cue dem mobile" x="${width / 2 - 40}" y="35">
-              &lt; Biden Lead
+              &lt; Harris Lead
             </text>
             <text class="tied" x="${width / 2}" y="20">
               Tied

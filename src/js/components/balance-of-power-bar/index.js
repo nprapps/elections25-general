@@ -162,7 +162,7 @@ class BalanceOfPowerBar extends ElementBase {
         <h3>President</h3>
         <div class="number-container">
           <div class="candidate dem">
-            <div class="name">Biden ${this.president.Dem >= 270 ? winnerIcon : ""}</div>
+            <div class="name">Harris ${this.president.Dem >= 270 ? winnerIcon : ""}</div>
             <div class="votes">${this.president.Dem}</div>
           </div>
           ${this.president.Other ? `

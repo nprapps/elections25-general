@@ -49,7 +49,7 @@ class Leaderboard extends ElementBase {
         this.innerHTML = `
             <ul class="electoral-leaderboard">
                 <li class="party dem">
-                    <label>Biden ${demSum >= 270 ? winnerIcon : ""}</label>
+                    <label>Harris ${demSum >= 270 ? winnerIcon : ""}</label>
                     ${demSum}
                 </li>
 
