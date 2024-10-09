@@ -28,17 +28,6 @@
     Results Table:
     <results-table data-file="./data/house.json" race-id="5702"></results-table>
 
-    Results Board Display:
-    Senate
-    <results-board-display office="Senate" split="true" hed="Competitive"></results-board-display>
-    Governor
-    <results-board-display office="governor" split="true" hed="Competitive"></results-board-display>
-    President
-    <results-board-display office="president" split="true" hed="Competitive"></results-board-display>
-
-
-    <results-board-key race="house"></results-board-key>
-
     <div icon="./assets/icons/ico-geo.svg" label="Geography">
       <national-map races="{results}"></national-map>
       <cartogram-map races="{results}"></cartogram-map>
@@ -48,10 +37,11 @@
     <main class="app constrained">
       <board-president></board-president>
       <board-senate></board-senate>
+      <board-governor></board-governor>
     </main>
 
 
-        <results-table data-file="./data/house.json" race-id="5701" state="CA"></results-table>
+      <results-table data-file="./data/house.json" race-id="5701" state="CA"></results-table>
     <results-table data-file="./data/house.json" race-id="5702" state="CA"></results-table>
     <results-table data-file="./data/house.json" race-id="5703" state="CA"></results-table>
     <results-table data-file="./data/president.json" race-id="0" state="CA"></results-table>
