@@ -5,7 +5,7 @@ class ResultsBoardKey extends ElementBase {
     constructor() {
       super();
       this.race = '';
-      this.simple = false;
+      this.simple = this.hasAttribute('simple');
       this.full = !this.simple;
       this.hasParties = this.race !== "ballot";
       this.hasPickup = this.race === "senate"; // suppress flips in house '22 race b/c redistricting

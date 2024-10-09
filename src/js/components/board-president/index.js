@@ -5,6 +5,8 @@ import { getBucket, sumElectoral, groupCalled } from "../util.js";
 import ElectoralBars from "../electoral-bars";
 import Leaderboard from "../leader-board";
 import ResultBoardDisplay from "../results-board-display";
+import ResultBoardKey from "../results-board-key";
+
 
 
 class BoardPresident extends ElementBase {
@@ -72,9 +74,12 @@ class BoardPresident extends ElementBase {
           ${test ? '<test-banner></test-banner>' : ''}
 
           <electoral-bars called='${JSON.stringify(called)}'></electoral-bars>
-          <h1 tabindex="-1">Presidential Results</h1>
-              <results-board-display office="president" split="true" hed="Competitive"></results-board-display>
+        <leader-board called='${JSON.stringify(called)}'></leader-board>
 
+          <h1 tabindex="-1">Presidential Results</h1>
+                <results-board-key race="president" simple="true"></results-board-key>
+              <results-board-display office="president" split="true" hed="Competitive"></results-board-display>
+              <results-board-key race="president"></results-board-key>
           <hr class="divider" />
         </div>
       `;

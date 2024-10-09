@@ -7,7 +7,6 @@ import { getBucket, sumElectoral, groupCalled } from "../util.js";
 class ElectoralBars extends ElementBase {
     constructor() {
         super();
-        console.log('electoral bars is running')
         this.called = this.getAttribute('called');
     }
 
@@ -16,9 +15,6 @@ class ElectoralBars extends ElementBase {
     }
   
     render() {
-        console.log(this.called)
-        console.log(JSON.parse(this.called || '{}'))
-
         const called = JSON.parse(this.called || '{}');
         const sumElectoral = party => Object.values(called[party] || {}).reduce((sum, value) => sum + value, 0);
         const dWidth = sumElectoral('Dem') / 538 * 100;

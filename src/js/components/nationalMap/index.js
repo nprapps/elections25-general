@@ -101,7 +101,6 @@ class NationalMap extends ElementBase {
 
   render() {
     this.innerHTML = `
-      <board-key race="president" simple="true"></board-key>
       <div class="map">
         <div class="svg-container" role="img" aria-label="National map of results"></div>
         <div class="tooltip"></div>

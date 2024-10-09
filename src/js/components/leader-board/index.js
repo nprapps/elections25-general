@@ -38,7 +38,6 @@ class Leaderboard extends ElementBase {
     }
     
     render() {
-        console.log(this.called);
         const called = JSON.parse(this.called || '{}');
         const sumElectoral = party => Object.values(called[party] || {}).reduce((sum, value) => sum + value, 0);
 
