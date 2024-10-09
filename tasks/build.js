@@ -134,6 +134,17 @@ module.exports = function (grunt) {
         var output = process(stateTemplate, { state });
         grunt.file.write(`build/share/${state}.html`, output);
       }
+
+      // loading in the sheets. hopefully a temporary fix
+      //TODO: come up with more robust fix
+      const sheetFiles = ['states', 'senate', 'house', 'governors'];
+
+      sheetFiles.forEach(file => {
+        const jsonData = grunt.file.readJSON(`data/${file}.sheet.json`);
+        grunt.file.write(`build/data/${file}.sheet.json`, JSON.stringify(jsonData, null, 2));
+
+      });
+
     }
   );
 };

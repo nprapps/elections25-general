@@ -10,7 +10,15 @@
     }
   },
   "styles": {
-    "src/css/seed.less": "build/style.css"
+    "src/css/seed.less": "build/style.css",
+    "src/js/components/results-table/results-table.less": "build/styles/results-table.css",
+    "src/js/components/results-board/results-board.less": "build/styles/results-board.css",
+    "src/js/components/results-board-key/results-board-key.less": "build/styles/results-board-key.css",
+    "src/js/components/results-board-display/results-board-display.less": "build/styles/results-board-display.css",
+    "src/js/components/nationalMap/nationalMap.less": "build/styles/nationalMap.css",
+    "src/js/components/cartogram/cartogram.less": "build/styles/cartogram.css",
+    "src/js/components/electoralBubbles/electoralBubbles.less": "build/styles/electoralBubbles.css",
+    "src/js/components/results-table/results-table.less": "build/styles/results-table.css"
   },
   "scripts": {
     "src/js/main.js": "build/app.js"

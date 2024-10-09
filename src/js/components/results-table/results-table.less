@@ -1,0 +1,135 @@
+@import "./values";
+
+results-table {
+	font-family: @sans;
+	text-align: left;
+	font-size: .9em;
+
+	.result-table-wrapper {
+		max-width: 600px;
+	}
+
+	.thead {
+		color: #787878;
+		display: flex;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+	}
+
+	.president .thead {
+		margin-left: 4em;
+	}
+
+	.row {
+		background-color: #efefef;
+		display: flex;
+		height: 4em;
+    margin-bottom: 4px;
+    position: relative;
+    width: 100%;
+	}
+
+	.president .row {
+		border-radius: 4em 0 0 4em;
+	}
+
+	.winner {
+		&.dem {
+			background-color: @lightblue;
+		}
+		&.gop {
+			background-color: @lightred;
+		}
+		.name {
+			font-weight: bold;
+		}
+	}
+
+	.headshot {
+		background-color: #efefef;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    border-radius: 2em;
+    border: 1px solid white;
+    display: none;
+    flex-basis: 4em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 4em;
+	}
+
+	.president .headshot {
+		display: block;
+	}
+
+	.incumbent-icon {
+		font-size: 1.4em;
+		line-height: 0;
+	}
+
+	.winner-icon {
+		display: inline-block;
+		margin-left: 0.5em;
+		position: absolute;
+    top: calc(50% - 0.6em);
+		width: 1em;
+	}
+
+	.runoff-indicator {
+		color: #555;
+		font-style: italic;
+	}
+
+	.bar-container {
+		bottom: 0;
+		height: 0.5em;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+
+	.president .bar-container {
+		left: 4em;
+    width: calc(100% - 4em);
+	}
+
+	.bar {
+		position: absolute;
+		height: 0.5em;
+		bottom: 0;
+		left: 0;
+	}
+
+	.dem .bar {
+		background-color: @blue;
+	}
+
+	.gop .bar {
+		background-color: @red;
+	}
+
+	.tbody .name, .tbody .percentage, .tbody .votes {
+		line-height: 1em;
+		padding-top: 1.4em;
+	}
+
+	.name {
+		flex-basis: 50%;
+		padding-left: 0.5em;
+	}
+
+	.percentage, .votes {
+		text-align: right;
+		flex-basis: 25%;
+	}
+
+	.votes:last-child {
+		padding-right: 0.5em;
+	}
+
+	.footnote {
+		color: #787878;
+		line-height: 1.4;
+		margin: 0;
+	}
+}
