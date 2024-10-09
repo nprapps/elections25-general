@@ -7,7 +7,7 @@ const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIc
 
 const headshots = {
   Harris:
-    "https://apps.npr.org/primary-election-results-2024/assets/synced/trump.png",
+    "./assets/synced/kamala-harris.png",
   Trump:
     "https://apps.npr.org/primary-election-results-2024/assets/synced/trump.png",
 };
@@ -45,6 +45,9 @@ class ResultsTable extends ElementBase {
   }
 
   render() {
+    console.log('===========')
+    console.log(this.data)
+    console.log('===========')
 
     if (!this.data) return;
 

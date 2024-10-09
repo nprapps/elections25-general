@@ -142,7 +142,6 @@ module.exports = function (grunt) {
       sheetFiles.forEach(file => {
         const jsonData = grunt.file.readJSON(`data/${file}.sheet.json`);
         grunt.file.write(`build/data/${file}.sheet.json`, JSON.stringify(jsonData, null, 2));
-
       });
 
     }

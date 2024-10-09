@@ -2,7 +2,6 @@ import ElementBase from "../elementBase";
 import gopher from "../gopher.js";
 import ResultsTable from "../results-table";
 
-
 const STATES_WITHOUT_COUNTY_INFO = ["AK"];
 
 class StateLevelResults extends ElementBase {
