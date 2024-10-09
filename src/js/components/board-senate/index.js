@@ -2,13 +2,13 @@ var ElementBase = require("../elementBase");
 
 import gopher from "../gopher.js";
 import { getBucket, sumElectoral, groupCalled } from "../util.js";
-import ElectoralBars from "../electoral-bars";
-import Leaderboard from "../leader-board";
+
 import ResultBoardDisplay from "../results-board-display";
 import ResultBoardKey from "../results-board-key";
+import BalanceOfPowerCombined from "../balance-of-power-combined";
 
 
-class BoardPresident extends ElementBase {
+class BoardSenate extends ElementBase {
     constructor() {
         super();
         this.state = {};
@@ -28,7 +28,7 @@ class BoardPresident extends ElementBase {
 
 
     async loadData() {
-        let presidentDataFile = './data/president.json';
+        let presidentDataFile = './data/senate.json';
     
         try {
           const presidentResponse = await fetch(presidentDataFile);
@@ -71,19 +71,16 @@ class BoardPresident extends ElementBase {
         this.innerHTML = `
         <div class="president board">
           ${test ? '<test-banner></test-banner>' : ''}
+          <h1 tabindex="-1">Senate Results</h1>
+           <balance-of-power-combined race="senate"></balance-of-power-combined>
+            <results-board-display office="Senate" split="true" hed="Competitive"></results-board-display>
+            <results-board-key race="senate"></results-board-key>
 
-          <electoral-bars called='${JSON.stringify(called)}'></electoral-bars>
-        <leader-board called='${JSON.stringify(called)}'></leader-board>
-
-          <h1 tabindex="-1">Presidential Results</h1>
-                <results-board-key race="president" simple="true"></results-board-key>
-              <results-board-display office="president" split="true" hed="Competitive"></results-board-display>
-              <results-board-key race="president"></results-board-key>
           <hr class="divider" />
         </div>
       `;
     }
 }
 
-customElements.define('board-president', BoardPresident);
-export default BoardPresident;
+customElements.define('board-senate', BoardSenate);
+export default BoardSenate;

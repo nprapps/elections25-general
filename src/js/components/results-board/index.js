@@ -1,5 +1,6 @@
 var ElementBase = require("../elementBase");
 import { reportingPercentage, sortByParty, goingToRCVRunOff } from "../util";
+import gopher from "../gopher.js";
 //import states from "../data/states.sheet.json";
 
 
@@ -37,7 +38,8 @@ class ResultsBoard extends ElementBase {
     }
 
     connectedCallback() {
-        this.loadData();
+      this.loadData();
+      gopher.watch(`./data/senate.json`, this.loadData);
     }
 
     async loadData() {
@@ -66,6 +68,10 @@ class ResultsBoard extends ElementBase {
         var sorted = race.candidates.slice(0, 2).sort(sortByParty);
         var leading = race.candidates[0];
         var reporting = race.eevp;
+
+        console.log('candidate cell')
+        console.log(race)
+        console.log('////////')
 
         return sorted.map(function (c) {
             var className = ["candidate", c.party];
@@ -126,11 +132,17 @@ class ResultsBoard extends ElementBase {
 
 
         this.innerHTML = `
-    <div class="${classNames.filter(c => c).join(" ")} middle">
+    <div class="${classNames.filter(c => c).join(" ")}">
       ${this.hed ? `<h3 class="board-hed">${this.hed}</h3>` : ""}
       <div class="board-inner">
         ${tables.map(races => `
           <table class="named results table" role="table">
+                <tr>
+                  <th class="state-hed">State</th>
+                  <th colspan="2" class="name-hed">Top candidates</th>
+                  <th class="reporting-hed">% in</th>
+                  <th></th>
+                </tr>
             ${races.map((r, i) => {
             var goingToRCV = goingToRCVRunOff(r.id);
             //if (goingToRCV) {

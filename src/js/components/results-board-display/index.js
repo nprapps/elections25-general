@@ -168,7 +168,6 @@ class ResultsBoardDisplay extends ElementBase {
                     ${this.results ? `
                         <results-board 
                             office="House"
-                            split="true"
                             hed="Competitive Seats"
                             class="middle"
                             races='${JSON.stringify(buckets.tossup)}'>

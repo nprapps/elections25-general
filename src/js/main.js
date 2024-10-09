@@ -8,7 +8,9 @@ require("./components/results-board");
 require("./components/results-board-display");
 require("./components/results-board-key");
 require("./components/board-president");
+require("./components/board-senate");
 require("./components/nationalMap");
 require("./components/cartogram");
 require("./components/electoralBubbles")
 require("./components/county-map")
+
