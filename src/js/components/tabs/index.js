@@ -37,7 +37,7 @@ const firstNotNull = function(...values) {
   }
 };
 
-class TabsComponent extends ElementBase {
+class Tabs extends ElementBase {
   constructor() {
     super();
     this.choose = this.choose.bind(this);
@@ -127,4 +127,4 @@ class TabsComponent extends ElementBase {
   }
 }
 
-customElements.define('tabs-component', TabsComponent);
+customElements.define('tabs-component', Tabs);

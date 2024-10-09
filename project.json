@@ -20,7 +20,9 @@
     "src/js/components/electoralBubbles/electoralBubbles.less": "build/styles/electoralBubbles.css",
     "src/js/components/board-president/board-president.less": "build/styles/board-president.css",
     "src/js/components/state-level-results/state-level-results.less": "build/styles/state-level-results.css",
-    "src/js/components/county-map/county-map.less": "build/styles/county-map.css"
+    "src/js/components/county-map/county-map.less": "build/styles/county-map.css",
+    "src/js/components/tabs/tabs.less": "build/styles/tabs.css"
+
   },
   "scripts": {
     "src/js/main.js": "build/app.js"

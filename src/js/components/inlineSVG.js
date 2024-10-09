@@ -1,20 +1,28 @@
+import ElementBase from "./elementBase";
+
 class InlineSVG extends ElementBase {
-    constructor() {
-        super();
-        this.svgContainer = this;
-      }
-    
-      async connectedCallback() {
-        if (this.getAttribute('src')) {
-          const response = await fetch(this.getAttribute('src'));
-          const svgText = await response.text();
-          this.innerHTML = svgText;
-        }
-      }
-    
-      static get observedAttributes() {
-        return ['src', 'class'];
-      }
+  constructor() {
+    super();
+    this.svgContainer = this;
+  }
+
+  async connectedCallback() {
+    if (this.getAttribute('src')) {
+      const response = await fetch(this.getAttribute('src'));
+      this.svgContent = await response.text();
     }
-    
-    customElements.define('inline-svg', InlineSVG);
+    this.render();
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'class') {
+      this.render();
+    }
+  }
+
+  render() {
+    this.innerHTML = `<div class="inline-svg ${this.getAttribute('class') || ''}" role="img" alt="">${this.svgContent || ''}</div>`;
+  }
+}
+
+customElements.define('inline-svg', InlineSVG);
