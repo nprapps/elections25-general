@@ -69,10 +69,6 @@ class ResultsBoard extends ElementBase {
         var leading = race.candidates[0];
         var reporting = race.eevp;
 
-        console.log('candidate cell')
-        console.log(race)
-        console.log('////////')
-
         return sorted.map(function (c) {
             var className = ["candidate", c.party];
             if (reporting > .5 && c == leading) className.push("leading");

@@ -8,7 +8,7 @@ import ResultBoardKey from "../results-board-key";
 import BalanceOfPowerCombined from "../balance-of-power-combined";
 
 
-class BoardSenate extends ElementBase {
+class BoardHouse extends ElementBase {
     constructor() {
         super();
         this.state = {};
@@ -28,12 +28,12 @@ class BoardSenate extends ElementBase {
 
 
     async loadData() {
-        let presidentDataFile = './data/senate.json';
+        let houseDataFile = './data/house.json';
     
         try {
-          const presidentResponse = await fetch(presidentDataFile);
-          const presidentData = await presidentResponse.json();
-          this.results = presidentData.results || {};
+          const houseResponse = await fetch(houseDataFile);
+          const houseData = await houseResponse.json();
+          this.results = houseData.results || {};
           this.render();
         } catch (error) {
           console.error('Error fetching president data:', error);
@@ -73,20 +73,17 @@ class BoardSenate extends ElementBase {
           ${test ? '<test-banner></test-banner>' : ''}
         <div class="header">
           <div class="title-wrapper">
-            <h1 tabindex="-1">Senate Results</h1>
+            <h1 tabindex="-1">House Results</h1>
           </div>
-          <div class="bop-wrapper">
-           <balance-of-power-combined race="senate"></balance-of-power-combined>
-           </div>
+           <balance-of-power-combined race="house"></balance-of-power-combined>
         </div>
-            <results-board-display office="Senate" split="true" hed="Competitive"></results-board-display>
-            <results-board-key race="senate"></results-board-key>
-
+            <results-board-display office="House" split="true" hed="Competitive"></results-board-display>
+            <results-board-key race="house"></results-board-key>
           <hr class="divider" />
         </div>
       `;
     }
 }
 
-customElements.define('board-senate', BoardSenate);
-export default BoardSenate;
+customElements.define('board-house', BoardHouse);
+export default BoardHouse;
