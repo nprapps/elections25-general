@@ -68,23 +68,39 @@ class ResultsBoard extends ElementBase {
         var sorted = race.candidates.slice(0, 2).sort(sortByParty);
         var leading = race.candidates[0];
         var reporting = race.eevp;
+        if (reporting !== null || reporting !== "0" || reporting !== 0) {
+          console.log('////////');
+          console.log('Race data:', race);
+          console.log('Leading party:', leading);
+          console.log('Reporting percentage :', leading.percent);
+          console.log('Reporting percentage:', reporting);
+          console.log('Reporting percentage:', typeof(reporting));
+          console.log('////////');
+        }
+
+        var highestPercent = Math.max(...race.candidates.map(c => c.percent));
 
         return sorted.map(function (c) {
+            console.log("Candidate:", c.last, "Percent:", c.percent);
+        
             var className = ["candidate", c.party];
-            if (reporting > .5 && c == leading) className.push("leading");
+            
+            // Apply 'leading' class to the candidate(s) with the highest percentage
+            if (c.percent === highestPercent) className.push("leading");
+            
             if (c.winner == "X") className.push("winner");
             if (winner && !c.winner) className.push("loser");
             if (race.runoff) className.push("runoff");
-
+        
             return `
-        <td role="cell" class="${className.join(" ")}">
-          <div class="name">
-            <div class="last">${c.last}</div>
-            <div class="incumbent">${c.incumbent ? "●" : ""}</div>
-          </div>
-          <div class="perc">${Math.round(c.percent * 1000) / 10}%</div> 
-        </td>
-      `;
+                <td role="cell" class="${className.join(" ")}">
+                  <div class="name">
+                    <div class="last">${c.last}</div>
+                    <div class="incumbent">${c.incumbent ? "●" : ""}</div>
+                  </div>
+                  <div class="perc">${Math.round(c.percent * 1000) / 10}%</div> 
+                </td>
+            `;
         }).join('');
     }
 
@@ -169,7 +185,7 @@ class ResultsBoard extends ElementBase {
             }
 
            return `
-                <tr key="${r.id}" class="tr ${hasResult ? "open" : "closed"} index-${i}" role="row">
+                <tr key="${r.id}" class="tr ${hasResult ? "closed" : "open"} index-${i}" role="row">
                   <td class="state" role="cell">
                     <a target="_top" href="?#/states/${r.state}/${r.office}">
                       <span class="not-small">

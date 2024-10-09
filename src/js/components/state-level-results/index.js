@@ -48,7 +48,6 @@ class StateLevelResults extends ElementBase {
     }
 
     onData(data) {
-        console.log(data)
         var updated = Math.max(...data.results.map(r => r.updated));
         var event = new CustomEvent("updatedtime", {
             detail: updated,
@@ -80,15 +79,9 @@ class StateLevelResults extends ElementBase {
 
         var content = offices.map(o => {
             var data = grouped[o];
-            console.log('///////////////////////////////////////')
-            console.log(o)
-            console.log(data)
             // Filter house races for keyRaces
             if (o == "H") {
-                console.log(data)
                 data = data.filter(d => d.keyRace);
-                console.log(data)
-                console.log('///////////')
                 data.sort(numberSort);
                 if (!data.length) return "";
             }
@@ -97,7 +90,6 @@ class StateLevelResults extends ElementBase {
                 data.sort(nameSort);
                 if (!data.length) return "";
             }
-            console.log('///////////////////////////////////////')
             var label = this.Strings[`office-${o}`];
             var noCountyResults = STATES_WITHOUT_COUNTY_INFO.includes(
                 this.getAttribute("state")

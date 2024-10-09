@@ -4,7 +4,6 @@ import InlineSVG from "../inlineSVG";
 
 
 function Tab(props) {
-  console.log(props)
   return `
     <button
       role="tab"

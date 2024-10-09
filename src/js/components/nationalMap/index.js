@@ -67,12 +67,10 @@ class NationalMap extends ElementBase {
 
   disconnectedCallback() {
     const svg = this.svgContainer;
-    /*
     if (svg) {
       svg.removeEventListener("mousemove", this.onMove);
       svg.removeEventListener("click", this.onClick);
     }
-      */
     gopher.unwatch(`./data/president.json`, this.loadData);
   }
 
@@ -138,6 +136,7 @@ class NationalMap extends ElementBase {
     // Initialize labels
     this.initLabels();
 
+    svg = this.svg
     return svg;
   }
 
@@ -296,7 +295,6 @@ class NationalMap extends ElementBase {
   }
 
   paint() {
-    console.log(this.svg)
     if (!this.svg) {
       console.error("SVG not available for painting");
       return;
@@ -312,6 +310,10 @@ class NationalMap extends ElementBase {
       const winner = r.winnerParty;
       const stateGroup = this.svg.querySelector(`.${state}`);
       if (!stateGroup) return;
+
+      console.log('this is the current state')
+      console.log(stateGroup)
+      console.log('////')
 
       stateGroup.classList.remove("early", "winner", "leader", "GOP", "Dem");
 

@@ -45,10 +45,6 @@ class ResultsTable extends ElementBase {
   }
 
   render() {
-    console.log('===========')
-    console.log(this.data)
-    console.log('===========')
-
     if (!this.data) return;
 
     const result = this.data.results.find(d => {
