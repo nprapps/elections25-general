@@ -208,16 +208,16 @@ class ResultsBoardDisplay extends ElementBase {
                     ${this.results ? `
                         <results-board 
                             office="President"
+                            hed="Likely Democratic"
+                            class="first"
+                            races='${JSON.stringify(buckets.likelyD)}'>
+                        </results-board>
+                        <results-board 
+                            office="President"
                             split="true"
                             hed="Competitive States"
                             class="middle"
                             races='${JSON.stringify(buckets.tossup)}'>
-                        </results-board>
-                        <results-board 
-                            office="President"
-                            hed="Likely Democratic"
-                            class="first"
-                            races='${JSON.stringify(buckets.likelyD)}'>
                         </results-board>
                         <results-board 
                             office="President"

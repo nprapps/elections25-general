@@ -7,8 +7,8 @@ require("./components/balance-of-power-bar");
 require("./components/results-board");
 require("./components/results-board-display");
 require("./components/results-board-key");
+require("./components/board-president");
 require("./components/nationalMap");
 require("./components/cartogram");
 require("./components/electoralBubbles")
-require("./components/tabs");
-require("./components/county-map");
+require("./components/county-map")

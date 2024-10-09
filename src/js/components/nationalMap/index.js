@@ -202,7 +202,7 @@ class NationalMap extends ElementBase {
         <div class="party ${candidate.party}"></div>
         <div class="name">${candidate.last}</div>
         ${candidate.winner === "X" ? winnerIcon : ""}
-        <div class="perc">${Math.round(candidate.votes * 1000) / 10}%</div>
+        <div class="perc">${Math.round(candidate.percent * 1000) / 10}%</div>
       </div>
     `).join("");
   

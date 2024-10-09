@@ -18,7 +18,7 @@
     "src/js/components/nationalMap/nationalMap.less": "build/styles/nationalMap.css",
     "src/js/components/cartogram/cartogram.less": "build/styles/cartogram.css",
     "src/js/components/electoralBubbles/electoralBubbles.less": "build/styles/electoralBubbles.css",
-    "src/js/components/results-table/results-table.less": "build/styles/results-table.css",
+    "src/js/components/board-president/board-president.less": "build/styles/board-president.css",
     "src/js/components/county-map/county-map.less": "build/styles/county-map.css"
   },
   "scripts": {

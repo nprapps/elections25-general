@@ -1,4 +1,6 @@
+
 const ElementBase = require("../elementBase");
+
 import { reportingPercentage, winnerIcon } from "../util.js";
 import track from "../../lib/tracking";
 import gopher from "../gopher.js";
@@ -38,6 +40,7 @@ class ElectoralBubbles extends ElementBase {
         this.svg = null;
         this.tooltip = null;
         this.lastHover = null;
+        this.races = {}
     
         this.collisionRadius = this.collisionRadius.bind(this);
         this.intersect = this.intersect.bind(this);
@@ -64,19 +67,40 @@ class ElectoralBubbles extends ElementBase {
     
         this.observer = new IntersectionObserver(this.intersect);
         this.running = false;
-    
+        this.loadData();
         window.addEventListener("resize", this.resize);
       }
+
+      async loadData() {
+        let presidentDataFile = './data/president.json';
+    
+        try {
+          const presidentResponse = await fetch(presidentDataFile);
+          const presidentData = await presidentResponse.json();
+      
+          this.races = presidentData.results || {};
+
+    
+          // Initialize the component after data is loaded
+          this.render();
+          this.svg = this.querySelector('.bubble-svg');
+          this.tooltip = this.querySelector('.tooltip');
+          this.resize();
+          this.observer.observe(this);
+          
+          if (this.races && Object.keys(this.races).length > 0) {
+            this.updateNodes(this.races);
+          } else {
+            console.log('No data available for nodes');
+          }
+        } catch (error) {
+          console.error('Error fetching president data:', error);
+        }
+      }
+      
     
       connectedCallback() {
-        this.render();
-        this.svg = this.querySelector('.bubble-svg');
-        this.tooltip = this.querySelector('.tooltip');
-        this.resize();
-        this.observer.observe(this);
-        if (this.hasAttribute('results')) {
-          this.updateNodes(JSON.parse(this.getAttribute('results')));
-        }
+        this.loadData()
       }
     
       disconnectedCallback() {
@@ -86,12 +110,6 @@ class ElectoralBubbles extends ElementBase {
     
       static get observedAttributes() {
         return ['results'];
-      }
-    
-      attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'results' && oldValue !== newValue) {
-          this.updateNodes(JSON.parse(newValue));
-        }
       }
     
       xAccess(d) {
@@ -175,6 +193,8 @@ class ElectoralBubbles extends ElementBase {
     
       updateNodes(results) {
         let { nodes } = this.state;
+
+
         const touched = new Set();
         const lookup = {};
         results.forEach(r => lookup[r.state + (r.district || "")] = r);
@@ -201,9 +221,11 @@ class ElectoralBubbles extends ElementBase {
             touched.add(upsert);
           }
           lookup[upsert.key] = r;
-        }
-    
+        }    
         nodes = nodes.filter(n => touched.has(n));
+        this.state.nodes = nodes.filter(n => touched.has(n));
+
+
         this.simulation.alpha(1);
         this.state.nodes = nodes;
         this.state.lookup = lookup;
@@ -261,7 +283,6 @@ class ElectoralBubbles extends ElementBase {
     
       render() {
         const { nodes, width } = this.state;
-    
         let distance = 0;
         nodes.forEach(n => {
           n.r = this.nodeRadius(n);
@@ -282,7 +303,7 @@ class ElectoralBubbles extends ElementBase {
 
         //TODO: make this better
         //this is where we define the buckets. technically, this should happen in the parent div
-        if (results) {
+        if (this.results) {
             var sorted = results.slice().sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0);
 
             var buckets = {
@@ -297,7 +318,6 @@ class ElectoralBubbles extends ElementBase {
             });
         }
 
-
         for (const k in buckets) {
           uncalled[k] = buckets[k].filter(r => !r.called && (r.eevp || 0) <= .5);
         }
@@ -310,10 +330,10 @@ class ElectoralBubbles extends ElementBase {
           tossup: "Competitive states",
           likelyR: "Likely Republican"
         };
+
     
         this.innerHTML = `
       <div class="electoral-bubbles">
-        <board-key race="president" simple="true"></board-key>
         <div class="aspect-ratio">
           <svg class="bubble-svg" 
             role="img"
@@ -429,4 +449,5 @@ class ElectoralBubbles extends ElementBase {
         });
       }
     }
+
 customElements.define('electoral-bubbles', ElectoralBubbles);

@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="styles/nationalMap.css">
     <link rel="stylesheet" type="text/css" href="styles/cartogram.css">
     <link rel="stylesheet" type="text/css" href="styles/electoralBubbles.css">
+    <link rel="stylesheet" type="text/css" href="styles/board-president.css">
+
   </head>
   <body>
     <div style="border: 1px solid #333; margin-bottom: 10px; background-color: #f3f3f3; padding: 20px;">
@@ -38,10 +40,13 @@
     <results-board-key race="house"></results-board-key>
 
     <div icon="./assets/icons/ico-geo.svg" label="Geography">
-      <national-map races={results}></national-map>
-      <cartogram-map races={results}></cartogram-map>
-      <electoral-bubbles races={results}></electoral-bubbles>
+      <national-map races="{results}"></national-map>
+      <cartogram-map races="{results}"></cartogram-map>
+      <electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>
     </div>
+
+    <board-president></board-president>
+
 
         <results-table data-file="./data/house.json" race-id="5701" state="CA"></results-table>
     <results-table data-file="./data/house.json" race-id="5702" state="CA"></results-table>
