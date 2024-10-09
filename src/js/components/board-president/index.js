@@ -25,7 +25,7 @@ class BoardPresident extends ElementBase {
   }
 
   disconnectedCallback() {
-    gopher.unwatch(this.getAttribute("data-file"), this.onData);
+    gopher.unwatch(this.getAttribute("./data/president.json"), this.onData);
   }
 
 
@@ -79,11 +79,11 @@ class BoardPresident extends ElementBase {
           <h1 tabindex="-1">Presidential Results</h1>
               <results-board-key race="president" simple="true"></results-board-key>
               <tabs-component>
-              <div icon="./assets/icons/ico-geo.svg" label="Geography">
-                <national-map races="{results}"></national-map>
-              </div>
               <div icon="./assets/icons/ico-cartogram.svg" label="Electoral">
                 <cartogram-map races="{results}"></cartogram-map>
+              </div>
+              <div icon="./assets/icons/ico-geo.svg" label="Geography">
+                <national-map races="{results}"></national-map>
               </div>
               <div icon="./assets/icons/ico-bubbles.svg" label="Margins">
                 <electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>
