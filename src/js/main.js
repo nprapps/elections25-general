@@ -11,8 +11,11 @@ require("./components/board-president");
 require("./components/board-senate");
 require("./components/board-governor");
 require("./components/board-house");
+require("./components/state-level-results")
 require("./components/nationalMap");
 require("./components/cartogram");
 require("./components/electoralBubbles")
 require("./components/county-map")
+
+
 

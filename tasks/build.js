@@ -137,7 +137,7 @@ module.exports = function (grunt) {
 
       // loading in the sheets. hopefully a temporary fix
       //TODO: come up with more robust fix
-      const sheetFiles = ['states', 'senate', 'house', 'governors'];
+      const sheetFiles = ['states', 'senate', 'house', 'governors', 'strings'];
 
       sheetFiles.forEach(file => {
         const jsonData = grunt.file.readJSON(`data/${file}.sheet.json`);
