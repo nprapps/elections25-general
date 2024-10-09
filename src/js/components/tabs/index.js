@@ -4,13 +4,13 @@ import InlineSVG from "../inlineSVG";
 
 
 function Tab(props) {
+  console.log(props)
   return `
     <button
       role="tab"
       aria-controls="tab-${props.tab}"
       aria-selected="${props.selected}"
-      onclick="this.getRootNode().host.choose(${props.tab})"
-    >
+      onclick="this.getRootNode().host.choose(${props.tab})">
       ${props.icon ? `<inline-svg alt="" src="${props.icon}" class="icon"></inline-svg>` : ''}
       ${props.label}
     </button>
