@@ -3,53 +3,18 @@
   <head>
     <%= t.include("partials/_head.html", grunt.data.json) %>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="styles/results-board.css">
-    <link rel="stylesheet" type="text/css" href="styles/results-board-key.css">
-    <link rel="stylesheet" type="text/css" href="styles/nationalMap.css">
-    <link rel="stylesheet" type="text/css" href="styles/cartogram.css">
-    <link rel="stylesheet" type="text/css" href="styles/state-level-results.css">
-    <link rel="stylesheet" type="text/css" href="styles/electoralBubbles.css">
-    <link rel="stylesheet" type="text/css" href="styles/board-president.css">
-    <link rel="stylesheet" type="text/css" href="styles/tabs.css">
+    <link rel="stylesheet" type="text/css" href="president.css">
   </head>
   <body>
     <div >
     </div>
 
-    Balance of Power combined:
-    <balance-of-power-bar race="house senate"></balance-of-power-bar>  
-
-    Results Table:
-    <results-table data-file="./data/house.json" race-id="5702"></results-table>
-
-    <div icon="./assets/icons/ico-geo.svg" label="Geography">
-      <national-map races="{results}"></national-map>
-      <cartogram-map races="{results}"></cartogram-map>
-      <electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>
-    </div>
-
     <main class="app constrained">
      <div style="border: 1px solid #333; margin-bottom: 10px; padding: 20px;">
       <board-president></board-president>
+        <cartogram-map races="{results}"></cartogram-map>
     </div>
-    <div style="border: 1px solid #333; margin-bottom: 10px; padding: 20px;">
-      <board-senate></board-senate>
-  </div>
-  <div style="border: 1px solid #333; margin-bottom: 10px; padding: 20px;">
-      <board-governor></board-governor>
-  </div>
     </main>
-
-
-      <results-table data-file="./data/house.json" race-id="5701" state="CA"></results-table>
-    <results-table data-file="./data/house.json" race-id="5702" state="CA"></results-table>
-    <results-table data-file="./data/house.json" race-id="5703" state="CA"></results-table>
-    <results-table data-file="./data/president.json" race-id="0" state="CA"></results-table>
-
-    <state-level-results state="CA"></state-level-results>
-    <state-level-results state="AZ"></state-level-results>
-
-    <county-map state="CA"></county-map>
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
     </script>
