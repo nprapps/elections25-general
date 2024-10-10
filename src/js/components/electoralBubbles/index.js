@@ -449,5 +449,4 @@ class ElectoralBubbles extends ElementBase {
         });
       }
     }
-
 customElements.define('electoral-bubbles', ElectoralBubbles);

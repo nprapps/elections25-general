@@ -134,8 +134,6 @@ class ResultsBoardDisplay extends ElementBase {
             });
         }
 
-        console.log(results)
-
         let content = '';
 
         if (this.office.includes('Senate')) {
@@ -165,10 +163,6 @@ class ResultsBoardDisplay extends ElementBase {
                 </div>
             `;
         } else if (this.office.includes('House')) {
-            console.log('//////////')
-            console.log(buckets)
-            console.log(buckets.tossup)
-            console.log('//////////')
 
             content += `
         <div class="board-container House">

@@ -43,11 +43,7 @@ class NationalMap extends ElementBase {
     try {
       const response = await fetch("./assets/_map-geo.svg");
       const svgText = await response.text();
-      console.log('========================')
-      console.log(this.svg)
       this.svg = await this.loadSVG(svgText); // Store the returned SVG
-      console.log(this.svg)
-      console.log('========================')
     } catch (error) {
       console.error("Failed to load SVG:", error);
       return;
@@ -311,7 +307,6 @@ class NationalMap extends ElementBase {
       const leader = r.candidates[0].party;
       const winner = r.winnerParty;
       const stateGroup = this.svg.querySelector(`.${state}`);
-
       if (!stateGroup) return;
 
       stateGroup.classList.remove("early", "winner", "leader", "GOP", "Dem");

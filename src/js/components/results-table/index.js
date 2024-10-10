@@ -49,7 +49,6 @@ class ResultsTable extends ElementBase {
     } else {
       elements.resultsTableHed.style.display = "none";
     }
-
     const candidates = mapToElements(elements.tbody, result.candidates);
 
     if (candidates.length < 2) {

@@ -3,11 +3,11 @@
 --offline - Use cached data if it exists
 */
 
-var { redeemTicket, apDate } = require("./lib/apResults");
-var normalize = require("./lib/normalizeResults");
-var nullify = require("./lib/nullifyResults");
-var augment = require("./lib/augmentResults");
-var fs = require("fs").promises;
+const { redeemTicket, apDate } = require("./lib/apResults");
+const normalize = require("./lib/normalizeResults");
+const nullify = require("./lib/nullifyResults");
+const augment = require("./lib/augmentResults");
+const fs = require("fs").promises;
 
 module.exports = function (grunt) {
   var elex = {};
@@ -16,13 +16,13 @@ module.exports = function (grunt) {
   var task = async function () {
     // ranked choice voting for 22.
 
-    var RCV_linkages = grunt.data.json.rcv;
-    var test = grunt.option("APtest");
+    const RCV_linkages = grunt.data.json.rcv;
+    const test = grunt.option("APtest");
 
-    var offline = grunt.option("offline");
-    var zero = grunt.option("zero");
+    const offline = grunt.option("offline");
+    const zero = grunt.option("zero");
 
-    var tickets = [
+    const tickets = [
       {
         date: "2024-11-05",
         params: {
@@ -40,27 +40,16 @@ module.exports = function (grunt) {
     ];
 
     // get results from AP
-    var rawResults = [];
-    for (var t of tickets) {
-      var response = await redeemTicket(t, { test, offline });
+    const rawResults = [];
+    for (let t of tickets) {
+      const response = await redeemTicket(t, { test, offline });
       if (!response) continue;
-      // filter state results out of district requests
-
-      //! Why do we have this condition, when we don't query for district results
-      // might be relevant for nebraska and maine. will need to check how AP is handling these two in 24
-      if (t.params.level == "district") {
-        response.races.forEach(function (race) {
-          if (!race.reportingUnits) return;
-          race.reportingUnits = race.reportingUnits.filter(
-            (u) => u.level == "district"
-          );
-        });
-      }
       if (zero) nullify(response);
       rawResults.push(response);
     }
+
     // turn AP into normalized race objects
-    var results = normalize(rawResults, grunt.data.json);
+    const results = normalize(rawResults, grunt.data.json);
 
     // Only include general election results if an RCV runoff is not available
     // RCV_linkages.forEach(function (rcv_linkage) {
@@ -109,7 +98,8 @@ module.exports = function (grunt) {
     // And ignore contest for unexpired term in Indiana, House seat 2
     //! results = results.filter((race) => race.id != 8964 && race.id != 15766);
 
-    // filter generator for states that split their electoral college votes.
+    //! We don't need this anymore because electoral data for ME/NE aren't district level
+    // filter generator for ME/NE states as they split their electoral college votes as of 2024.
     var stateOrDistrictFilter = function (level) {
       return function (result) {
         if (result.id != "0") return true;
@@ -122,9 +112,10 @@ module.exports = function (grunt) {
 
     grunt.log.writeln("Merging in external data...");
 
+    //grunt.data is json + csv + markdown + archieml
     augment(results, grunt.data);
 
-    var { longform } = grunt.data.archieml;
+    const { longform } = grunt.data.archieml;
 
     grunt.log.writeln("Generating data files ");
 
@@ -133,9 +124,9 @@ module.exports = function (grunt) {
 
     // now create slices of various results
     // separate by geography for easier grouping
-    var geo = {
+    const geo = {
       national: results.filter((r) => r.level == "national"),
-      state: results.filter((r) => r.level == "state" || r.level == "district"),
+      state: results.filter((r) => r.level == "state"),
       county: results.filter((r) => r.level == "county"),
     };
 
@@ -150,19 +141,19 @@ module.exports = function (grunt) {
 
     // state-level results
     await fs.mkdir("build/data/states", { recursive: true });
-    var states = {};
-    geo.state.filter(stateOrDistrictFilter("state")).forEach(function (result) {
-      var { state } = result;
+    const states = {};
+    geo.state.forEach(function (result) {
+      const { state } = result;
       if (!states[state]) states[state] = [];
       states[state].push(result);
     });
-    for (var state in states) {
-      var stateOutput = {
+    for (let state in states) {
+      let stateOutput = {
         test,
         results: states[state],
       };
 
-      var stateChatter = longform.statePages[state.toLowerCase()];
+      const stateChatter = longform.statePages[state.toLowerCase()];
       if (stateChatter) {
         stateOutput.chatter = grunt.template.renderMarkdown(stateChatter);
       }
@@ -174,14 +165,15 @@ module.exports = function (grunt) {
 
     // county files
     await fs.mkdir("build/data/counties", { recursive: true });
-    var countyRaces = {};
+    const countyRaces = {};
     geo.county.forEach(function (result) {
-      var { state, id } = result;
-      var key = [state, id].join("-");
+      const { state, id } = result;
+      const key = [state, id].join("-");
       if (!countyRaces[key]) countyRaces[key] = [];
       countyRaces[key].push(result);
     });
-    for (var key in countyRaces) {
+
+    for (let key in countyRaces) {
       await fs.writeFile(
         `build/data/counties/${key}.json`,
         serialize({ test, results: countyRaces[key] })
@@ -189,18 +181,16 @@ module.exports = function (grunt) {
     }
 
     // sliced by office
-    var byOffice = {
-      president: geo.state
-        .filter((r) => r.office == "P")
-        .filter(stateOrDistrictFilter("district")),
+    const byOffice = {
+      president: geo.state.filter((r) => r.office == "P"),
       house: geo.state.filter((r) => r.office == "H"),
       senate: geo.state.filter((r) => r.office == "S"),
       gov: geo.state.filter((r) => r.office == "G"),
       ballots: geo.state.filter((r) => r.office == "I" && r.featured),
     };
 
-    for (var office in byOffice) {
-      var officeOutput = {
+    for (let office in byOffice) {
+      const officeOutput = {
         test,
         results: byOffice[office],
       };
@@ -213,7 +203,7 @@ module.exports = function (grunt) {
     }
 
     // create BOP widget output
-    var mapBOP = function (r) {
+    const mapBOP = function (r) {
       return {
         id: r.id,
         state: r.state,
@@ -224,11 +214,11 @@ module.exports = function (grunt) {
       };
     };
 
-    var latest = []
+    const latest = []
       .concat(geo.national, byOffice.house, byOffice.senate)
       .reduce((t, r) => Math.max(t, r.updated), 0);
 
-    var bop = {
+    const bop = {
       president: byOffice.president.filter((r) => r.called).map(mapBOP),
       house: byOffice.house.filter((r) => r.called).map(mapBOP),
       senate: byOffice.senate.filter((r) => r.called).map(mapBOP),
@@ -238,13 +228,13 @@ module.exports = function (grunt) {
     await fs.writeFile(`build/data/bop.json`, serialize(bop));
   };
 
-  var serialize = (d) => JSON.stringify(d, null, 2);
+  const serialize = (d) => JSON.stringify(d, null, 2);
 
   grunt.registerTask("elex", async function () {
     grunt.task.requires("json");
     grunt.task.requires("csv");
 
-    var done = this.async();
+    const done = this.async();
 
     task().then(done);
   });
