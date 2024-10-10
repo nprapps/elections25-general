@@ -71,8 +71,7 @@ class ResultsBoard extends ElementBase {
 
         var highestPercent = Math.max(...race.candidates.map(c => c.percent));
 
-        return sorted.map(function (c) {
-        
+        return sorted.map(function (c) {        
             var className = ["candidate", c.party];
             
             // Apply 'leading' class to the candidate(s) with the highest percentage
