@@ -11,7 +11,8 @@
   },
   "styles": {
     "src/css/seed.less": "build/style.css",
-    "src/css/senate.less": "build/senate.css"
+    "src/css/senate.less": "build/senate.css",
+    "src/css/state.less": "build/state.css"
   },
   "scripts": {
     "src/js/main.js": "build/app.js"

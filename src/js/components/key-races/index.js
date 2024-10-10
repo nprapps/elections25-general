@@ -32,14 +32,14 @@ class KeyRaces extends ElementBase {
   render() {
     if (!this.data) return;
 
-    let template = "";
+    let template = `
+      <h3>${this.getAttribute("type")}</h3>
+    `;
     let races = this.data.results.filter(d => {
       return (d.state === "CA" && d.keyRace === true);
     });
 
     races.forEach(race => {
-      console.log(JSON.stringify(race));
-
       let table = `
         <results-table state="CA" result='${JSON.stringify(race)}'></results-table>
       `
