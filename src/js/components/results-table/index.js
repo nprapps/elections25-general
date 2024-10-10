@@ -15,7 +15,6 @@ const headshots = {
 class ResultsTable extends ElementBase {
   constructor() {
     super();
-    this.loadData = this.loadData.bind(this);
   }
 
   static get template() {
@@ -23,34 +22,17 @@ class ResultsTable extends ElementBase {
   }
 
   connectedCallback() {
-    this.loadData();
-    gopher.watch(this.getAttribute("data-file"), this.loadData);
+    this.render();
   }
 
   disconnectedCallback() {
-    gopher.unwatch(this.getAttribute("data-file"), this.loadData);
-  }
-
-  async loadData() {
-    try {
-      const response = await fetch(this.getAttribute("data-file"));
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      this.data = await response.json();
-      this.render();
-    } catch (error) {
-      console.error("Could not load JSON data:", error);
-    }
   }
 
   render() {
-    if (!this.data) return;
-
-    const result = this.data.results.find(d => {
-      return d.id === this.getAttribute("race-id") && d.state === this.getAttribute("state")
-    });
+    const result = JSON.parse(this.getAttribute("result"));
     const elements = this.illuminate();
+
+    this.removeAttribute("result");
 
     elements.updated.innerHTML = `
       ${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}
@@ -67,7 +49,7 @@ class ResultsTable extends ElementBase {
     } else {
       elements.resultsTableHed.style.display = "none";
     }
-    
+
     const candidates = mapToElements(elements.tbody, result.candidates);
 
     if (candidates.length < 2) {

@@ -1,4 +1,6 @@
 import gopher from "../gopher.js";
+const ElementBase = require("../elementBase");
+
 import {
   formatters,
   reportingPercentage,
