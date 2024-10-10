@@ -3,18 +3,13 @@
   Also sets overrides for candidate/race metadata, and applies winner overrides.
 */
 
-var ROUNDING = 10000;
-var MERGE_THRESHOLD = 0.05;
-
-var nprDate = (apDate) => {
-  var [y, m, d] = apDate.split("-").map(parseFloat);
-  return [m, d, y].join("/");
-};
+const ROUNDING = 10000;
+const MERGE_THRESHOLD = 0.05;
 
 // presidential candidates to always keep in results
-var NEVER_MERGE = new Set(["8639", "64984"]);
+const NEVER_MERGE = new Set(["8639", "64984"]);
 
-var translation = {
+const translation = {
   race: {
     test: "test",
     id: "raceID",
@@ -75,7 +70,7 @@ Object.keys(translation).forEach((type) => {
   };
 });
 
-var majorParties = new Set(["GOP", "Dem"]);
+const majorParties = new Set(["GOP", "Dem"]);
 var sortCandidates = function (votes, candidates) {
   var compare = function (a, b) {
     // if no votes yet
@@ -142,27 +137,26 @@ module.exports = function (resultArray, overrides = {}) {
 
   var output = [];
 
-  var { calls = [], candidates = {}, rosters = {}, states = {} } = overrides;
-
-  var nprMetadata = {
+  //this the data from the sheets. We will override the data if needed
+  let { calls = [], candidates = {}, rosters = {}, states = {} } = overrides;
+  let nprMetadata = {
     H: overrides.house,
     S: overrides.senate,
     G: overrides.governors,
     I: overrides.ballot_measures,
   };
 
-  for (var response of resultArray) {
-    for (var race of response.races) {
+  for (let response of resultArray) {
+    for (let race of response.races) {
+      //basically this is changing the name of the fields and getting only specific data we need from all the result that is returned from AP
       var raceMeta = translate.race(race);
-
       // early races may not have reporting units yet
       if (!race.reportingUnits) continue;
-
-      for (var unit of race.reportingUnits) {
-        var level = unit.level == "FIPSCode" ? "county" : unit.level;
+      for (let unit of race.reportingUnits) {
+        let level = unit.level == "FIPSCode" ? "county" : unit.level;
 
         // do we have this race  at this level already?
-        var unitMeta = {
+        let unitMeta = {
           ...raceMeta,
           ...translate.unit(unit),
           level,
@@ -176,28 +170,22 @@ module.exports = function (resultArray, overrides = {}) {
           unitMeta.reportingPercent = unitMeta.reporting / unitMeta.precincts;
         }
 
-        // create a district property if necessary
-        // if there is only one House seat, then it is at large
-        if (level == "district") {
-          unitMeta.district =
-            unitMeta.name == "At Large"
-              ? "AL"
-              : unitMeta.name.replace(/district /i, "");
-        }
-
         // add the state name to states
-        var stateKey =
+        const stateKey =
           unitMeta.district && unitMeta.district != "AL"
             ? `${unitMeta.state}-${unitMeta.district}`
             : unitMeta.state;
-        var stateMeta = states[stateKey];
+
+        const stateMeta = states[stateKey];
+
+        //we get this information from the google sheet config
         if (stateMeta) {
           unitMeta.stateName = stateMeta.name;
           unitMeta.stateAP = stateMeta.ap;
           unitMeta.rating = stateMeta.rating;
         }
 
-        var sheetMetadata = (nprMetadata[raceMeta.office] || {})[raceMeta.id];
+        const sheetMetadata = (nprMetadata[raceMeta.office] || {})[raceMeta.id];
         if (sheetMetadata) {
           var meta = translate.metadata(sheetMetadata);
           Object.assign(unitMeta, meta);
@@ -207,8 +195,8 @@ module.exports = function (resultArray, overrides = {}) {
 
         unitMeta.updated = Date.parse(unitMeta.updated);
 
-        var total = 0;
-        var parties = new Set();
+        let total = 0;
+        let parties = new Set();
         var ballot = unit.candidates.map(function (c) {
           c = translate.candidate(c);
           // assign overrides from the sheet by candidate ID
@@ -217,10 +205,8 @@ module.exports = function (resultArray, overrides = {}) {
             for (var k in override) {
               if (override[k]) c[k] = override[k];
             }
-            // console.log(
-            //   `Applying candidate overrides for #${c.id} (${c.first} ${c.last})`
-            // );
           }
+          //calculates the total votes among the candidates in a reportingunit race
           total += c.votes;
           parties.add(c.party);
           return c;
@@ -230,11 +216,7 @@ module.exports = function (resultArray, overrides = {}) {
         var roster = rosters[raceMeta.id];
         if (roster) {
           roster = new Set(roster.toString().split(/,\s*/));
-          // console.log(
-          //   `Overriding the roster for race #${unitMeta.id} - ${roster.size} candidates`
-          // );
-
-          // // KEEP THE CANDIDATES SO WE CAN ROLL UP THE REMAINDER !!!
+          // KEEP THE CANDIDATES SO WE CAN ROLL UP THE REMAINDER !!!
           ballot = ballot.filter((c) => roster.has(c.id));
         }
 
@@ -274,7 +256,7 @@ module.exports = function (resultArray, overrides = {}) {
           );
         }
 
-        var winner = null;
+        let winner = null;
         ballot.forEach(function (c) {
           // assign percentages
           c.percent = Math.round((c.votes / total) * ROUNDING) / ROUNDING;
