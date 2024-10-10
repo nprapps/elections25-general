@@ -9,8 +9,7 @@ function Tab(props) {
       role="tab"
       aria-controls="tab-${props.tab}"
       aria-selected="${props.selected}"
-      onclick="this.getRootNode().host.choose(${props.tab})"
-    >
+      onclick="this.getRootNode().host.choose(${props.tab})">
       ${props.icon ? `<inline-svg alt="" src="${props.icon}" class="icon"></inline-svg>` : ''}
       ${props.label}
     </button>
@@ -37,7 +36,7 @@ const firstNotNull = function(...values) {
   }
 };
 
-class TabsComponent extends ElementBase {
+class Tabs extends ElementBase {
   constructor() {
     super();
     this.choose = this.choose.bind(this);
@@ -127,4 +126,4 @@ class TabsComponent extends ElementBase {
   }
 }
 
-customElements.define('tabs-component', TabsComponent);
+customElements.define('tabs-component', Tabs);

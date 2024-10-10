@@ -1,5 +1,6 @@
 var ElementBase = require("../elementBase");
 import { reportingPercentage, sortByParty, goingToRCVRunOff } from "../util";
+import gopher from "../gopher.js";
 //import states from "../data/states.sheet.json";
 
 
@@ -37,7 +38,8 @@ class ResultsBoard extends ElementBase {
     }
 
     connectedCallback() {
-        this.loadData();
+      this.loadData();
+      gopher.watch(`./data/senate.json`, this.loadData);
     }
 
     async loadData() {
@@ -67,22 +69,27 @@ class ResultsBoard extends ElementBase {
         var leading = race.candidates[0];
         var reporting = race.eevp;
 
-        return sorted.map(function (c) {
+        var highestPercent = Math.max(...race.candidates.map(c => c.percent));
+
+        return sorted.map(function (c) {        
             var className = ["candidate", c.party];
-            if (reporting > .5 && c == leading) className.push("leading");
+            
+            // Apply 'leading' class to the candidate(s) with the highest percentage
+            if (c.percent === highestPercent) className.push("leading");
+            
             if (c.winner == "X") className.push("winner");
             if (winner && !c.winner) className.push("loser");
             if (race.runoff) className.push("runoff");
-
+        
             return `
-        <td role="cell" class="${className.join(" ")}">
-          <div class="name">
-            <div class="last">${c.last}</div>
-            <div class="incumbent">${c.incumbent ? "●" : ""}</div>
-          </div>
-          <div class="perc">${Math.round(c.percent * 1000) / 10}%</div> 
-        </td>
-      `;
+                <td role="cell" class="${className.join(" ")}">
+                  <div class="name">
+                    <div class="last">${c.last}</div>
+                    <div class="incumbent">${c.incumbent ? "●" : ""}</div>
+                  </div>
+                  <div class="perc">${Math.round(c.percent * 1000) / 10}%</div> 
+                </td>
+            `;
         }).join('');
     }
 
@@ -126,11 +133,17 @@ class ResultsBoard extends ElementBase {
 
 
         this.innerHTML = `
-    <div class="${classNames.filter(c => c).join(" ")} middle">
+    <div class="${classNames.filter(c => c).join(" ")}">
       ${this.hed ? `<h3 class="board-hed">${this.hed}</h3>` : ""}
       <div class="board-inner">
         ${tables.map(races => `
           <table class="named results table" role="table">
+                <tr>
+                  <th class="state-hed">State</th>
+                  <th colspan="2" class="name-hed">Top candidates</th>
+                  <th class="reporting-hed">% in</th>
+                  <th></th>
+                </tr>
             ${races.map((r, i) => {
             var goingToRCV = goingToRCVRunOff(r.id);
             //if (goingToRCV) {
@@ -161,7 +174,7 @@ class ResultsBoard extends ElementBase {
             }
 
            return `
-                <tr key="${r.id}" class="tr ${hasResult ? "open" : "closed"} index-${i}" role="row">
+                <tr key="${r.id}" class="tr ${hasResult ? "closed" : "open"} index-${i}" role="row">
                   <td class="state" role="cell">
                     <a target="_top" href="?#/states/${r.state}/${r.office}">
                       <span class="not-small">

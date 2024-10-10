@@ -3,7 +3,7 @@
   <head>
     <%= t.include("partials/_head.html", grunt.data.json) %>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="president.css">
+    <link rel="stylesheet" type="text/css" href="senate.css">
   </head>
   <body>
     <div >
@@ -11,8 +11,7 @@
 
     <main class="app constrained">
      <div style="border: 1px solid #333; margin-bottom: 10px; padding: 20px;">
-      <board-president></board-president>
-        <national-map races="{results}"></national-map>
+      <board-senate></board-senate>
     </div>
     </main>
     <script>

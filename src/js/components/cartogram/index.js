@@ -121,7 +121,6 @@ class Cartogram extends ElementBase {
     this.svg.addEventListener("click", this.onClick);
 
     this.initLabels();
-
     return this.svg;
   }
     

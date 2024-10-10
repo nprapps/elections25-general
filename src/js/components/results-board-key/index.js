@@ -5,7 +5,7 @@ class ResultsBoardKey extends ElementBase {
     constructor() {
       super();
       this.race = '';
-      this.simple = false;
+      this.simple = this.hasAttribute('simple');
       this.full = !this.simple;
       this.hasParties = this.race !== "ballot";
       this.hasPickup = this.race === "senate"; // suppress flips in house '22 race b/c redistricting
@@ -55,7 +55,7 @@ class ResultsBoardKey extends ElementBase {
           ${this.full ? '<h3>Key</h3>' : ''}
           <ul>
             ${this.hasParties ? `
-              <li class="dem">${this.full ? "Democrat" : "Biden"} / <span class="leading">Leading</span> <span class="winner">Winner</span></li>
+              <li class="dem">${this.full ? "Democrat" : "Harris"} / <span class="leading">Leading</span> <span class="winner">Winner</span></li>
               <li class="gop">${this.full ? "Republican" : "Trump"} / <span class="leading">Leading</span> <span class="winner">Winner</span></li>
               ${this.full ? '<li class="ind">Independent / <span class="leading">Leading</span> <span class="winner">Winner</span></li>' : ''}
             ` : ''}

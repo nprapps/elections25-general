@@ -101,7 +101,6 @@ class NationalMap extends ElementBase {
 
   render() {
     this.innerHTML = `
-      <board-key race="president" simple="true"></board-key>
       <div class="map">
         <div class="svg-container" role="img" aria-label="National map of results"></div>
         <div class="tooltip"></div>
@@ -136,7 +135,6 @@ class NationalMap extends ElementBase {
 
     // Initialize labels
     this.initLabels();
-
     return svg;
   }
 
@@ -202,7 +200,7 @@ class NationalMap extends ElementBase {
         <div class="party ${candidate.party}"></div>
         <div class="name">${candidate.last}</div>
         ${candidate.winner === "X" ? winnerIcon : ""}
-        <div class="perc">${Math.round(candidate.votes * 1000) / 10}%</div>
+        <div class="perc">${Math.round(candidate.percent * 1000) / 10}%</div>
       </div>
     `).join("");
   
@@ -295,7 +293,6 @@ class NationalMap extends ElementBase {
   }
 
   paint() {
-    console.log(this.svg)
     if (!this.svg) {
       console.error("SVG not available for painting");
       return;

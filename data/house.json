@@ -50,8 +50,7 @@
             "count": 3,
             "percent": 0
           }
-        ],
-        "keyRace": true
+        ]
       },
       {
         "test": false,
@@ -70,7 +69,7 @@
         "stateName": "Alabama",
         "stateAP": "Ala.",
         "rating": "solid-r",
-        "keyRace": "",
+        "keyRace": true,
         "called": true,
         "winnerParty": "GOP",
         "candidates": [
@@ -1006,7 +1005,7 @@
         "stateName": "California",
         "stateAP": "Calif.",
         "rating": "solid-d",
-        "keyRace": "",
+        "keyRace": true,
         "called": true,
         "winnerParty": "Dem",
         "candidates": [
@@ -1048,7 +1047,7 @@
         "stateName": "California",
         "stateAP": "Calif.",
         "rating": "likely-r",
-        "keyRace": "",
+        "keyRace": true,
         "called": true,
         "winnerParty": "GOP",
         "candidates": [
