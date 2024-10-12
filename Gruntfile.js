@@ -90,11 +90,32 @@ module.exports = function (grunt) {
     "Push to live without docs update. Use after restore.",
     ["sheets", "clean", "static", "elex", "publish:live"]
   );
-  grunt.registerTask("server", "Start the dev server without watching", ["connect:dev"]);
+  grunt.registerTask("server", "Start the dev server without watching", [
+    "connect:dev",
+  ]);
 
   // Create a new task for running the server and test updates without watching
-  grunt.registerTask("test-update", "Run server and test file updates without watching", [
-    "server",
-    "testupdate"
-  ]);
+  grunt.registerTask(
+    "test-update",
+    "Run server and test file updates without watching",
+    ["server", "testupdate"]
+  );
+
+  // Replay AP test
+  grunt.registerTask(
+    "replay",
+    "Run the server for testing events",
+    function () {
+      const seconds = grunt.option('seconds') || 60;
+
+      const tasks = [
+        "static",
+        "datashuffle",
+        "connect:dev",
+        `cron:${seconds}:replay`,
+      ];
+
+      grunt.task.run(tasks)
+    }
+  );
 };

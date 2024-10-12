@@ -37,6 +37,14 @@ Common tasks that you may want to run include:
   * ``publish:live`` uploads to production
   * ``publish:simulated`` does a dry run of uploaded files and their compressed sizes
 
+**Notable flags and combinations of tasks:**
+
+* ``grunt local --APtest`` — run an AP test on your local machine on a 60-second cron
+* ``grunt --offline`` — run the project with the AP data you have locally
+* ``grunt clean sheets docs static publish:live`` — republishes assets + code to the live server but doesn’t touch the data (helpful when results are live)
+* ``grunt update`` — pull the latest content from associated sheets, docs and sync
+* ``grunt replay --offline --seconds=30`` — locally replay a previously-recorded AP test, refreshing the data every 30 seconds (the ``seconds`` flag is optional)
+
 Troubleshooting
 ---------------
 

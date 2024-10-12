@@ -5,6 +5,7 @@
 /** config variables **/
 var tasks = {
   local: ["sheets", "docs", "ap"],
+  replay: ["datashuffle", "ap"],
   publish: ["sheets", "docs", "clean", "ap", "publish"],
   publishLive: ["sheets", "docs", "clean", "ap", "publish:live"],
 };

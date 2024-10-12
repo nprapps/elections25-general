@@ -7,9 +7,8 @@ import subprocess
 MINUTES = 60;
 
 while True:
-  print("Shajia")
   now = time.strftime("%H_%M_%S")
-  os.system("grunt ap --test")
+  os.system("grunt ap --APtest")
   files = os.listdir("temp")
   json = [f for f in files if ("json" in f)]
   folder = posixpath.join("temp/timed", now)
