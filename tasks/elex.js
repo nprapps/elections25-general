@@ -44,6 +44,12 @@ module.exports = function (grunt) {
     for (let t of tickets) {
       const response = await redeemTicket(t, { test, offline });
       if (!response) continue;
+
+      //This is a 2024 special CA senate election that we don't want so we are filtering it out
+      const filteredResponse = response.races.filter(
+        (race) => race.raceID !== "82961"
+      );
+      response.races = filteredResponse;
       if (zero) nullify(response);
       rawResults.push(response);
     }
@@ -183,7 +189,9 @@ module.exports = function (grunt) {
     // sliced by office
     const byOffice = {
       president: geo.state.filter((r) => r.office == "P"),
-      house: geo.state.filter((r) => r.office == "H"),
+      house: geo.state.filter(
+        (r) => r.office == "H" && r.id !== "45888" && r.id !== "50068"
+      ),
       senate: geo.state.filter((r) => r.office == "S"),
       gov: geo.state.filter((r) => r.office == "G"),
       ballots: geo.state.filter((r) => r.office == "I" && r.featured),
@@ -220,7 +228,9 @@ module.exports = function (grunt) {
 
     const bop = {
       president: byOffice.president.filter((r) => r.called).map(mapBOP),
-      house: byOffice.house.filter((r) => r.called).map(mapBOP),
+      house: byOffice.house
+        .filter((r) => r.called && r.id !== "45888" && r.id !== "50068")
+        .map(mapBOP),
       senate: byOffice.senate.filter((r) => r.called).map(mapBOP),
       latest,
     };
