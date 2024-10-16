@@ -7,6 +7,7 @@ and loadSheets, which import data in a compatible way.
 
 // we use a custom template engine for better errors
 var template = require("./lib/template");
+var classify = require("./lib/classify");
 
 var path = require("path");
 var typogr = require("typogr");
@@ -116,6 +117,15 @@ module.exports = function (grunt) {
         var input = grunt.file.read(src);
         var output = process(input, data, src);
         grunt.file.write(file.dest, output);
+      });
+
+      // generate state pages
+      var statePageTemplate = grunt.file.read("src/_state.html");
+      var states = Object.keys(grunt.data.json.states).filter(d => !d.includes("-"));
+      states.forEach(state => {
+        var stateData = grunt.data.json.states[state];
+        var output = process(statePageTemplate, stateData, `states/${state}.html`);
+        grunt.file.write(`build/${classify(stateData.name)}.html`, output);
       });
 
       // generate office share pages
