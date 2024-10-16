@@ -57,48 +57,6 @@ module.exports = function (grunt) {
     // turn AP into normalized race objects
     const results = normalize(rawResults, grunt.data.json);
 
-    // Only include general election results if an RCV runoff is not available
-    // RCV_linkages.forEach(function (rcv_linkage) {
-    //   this_rcv_race = results.filter(
-    //     (race) => race.id == rcv_linkage["general_race_id"]
-    //   )[0];
-
-    //   if (this_rcv_race && this_rcv_race.called) {
-    //     // If the rcv race has been called, use it and filter out the "normal" race
-    //     console.log(
-    //       `RCV ${this_rcv_race.district} ${this_rcv_race.id} has been called, using it`
-    //     );
-
-    //     // Set the new race to have the same status as the old race before filtering it out
-    //     var thisGeneralRaceIsKey = results.find(
-    //       (race) => race.id == rcv_linkage["general_race_id"]
-    //     ).keyRace;
-    //     var thisGeneralRaceRating = results.find(
-    //       (race) => race.id == rcv_linkage["general_race_id"]
-    //     ).rating;
-
-    //     if (typeof thisGeneralRaceIsKey !== "undefined") {
-    //       results.find(
-    //         (race) => race.id == rcv_linkage["rcv_race_id"]
-    //       ).keyRace = thisGeneralRaceIsKey;
-    //       results.find((race) => race.id == rcv_linkage["rcv_race_id"]).rating =
-    //         thisGeneralRaceRating;
-    //     }
-
-    //     // Ignore the general election race details
-    //     results = results.filter(
-    //       (race) => race.id != rcv_linkage["general_race_id"]
-    //     );
-    //   } else {
-    //     console.log(
-    //       `RCV race ${this_rcv_race.id} has NOT been called yet, NOT using the RCV result`
-    //     );
-    //     results = results.filter(
-    //       (race) => race.id != rcv_linkage["general_race_id"]
-    //     );
-    //   }
-    // });
-
     // Ignore contest for end of 2016 CA term held during 2022
     // https://www.capradio.org/articles/2022/10/17/us-sen-alex-padilla-will-appear-on-californias-june-primary-ballot-twice-heres-why/
     // And ignore contest for unexpired term in Indiana, House seat 2
