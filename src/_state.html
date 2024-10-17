@@ -2,5 +2,8 @@
 	<head></head>
 	<body>
 		<h1><%= name %> (<%= key %>)</h1>
+
+    <%= t.include("partials/_stationguides.html", { "state": key, "data": grunt.data.json.gfx_guide }) %>
+    
 	</body>
 </html>
