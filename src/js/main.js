@@ -14,8 +14,6 @@ require("./components/board-house");
 require("./components/state-level-results")
 require("./components/nationalMap");
 require("./components/cartogram");
-require("./components/electoralBubbles")
-require("./components/county-map")
-require("./components/key-races")
-
-
+require("./components/electoralBubbles");
+require("./components/county-map");
+require("./components/results-collection");

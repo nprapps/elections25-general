@@ -1,1 +1,45 @@
+@import "base";
 @import "../js/components/results-table/results-table";
+
+header {
+	display: flex;
+}
+
+label {
+	cursor: pointer;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.state-icon {
+	height: 60px;
+}
+
+h1 {
+	text-transform: none;
+}
+
+input {
+	display: none;
+}
+
+label {
+	color: @linkblue;
+	padding: 0 5px;
+}
+
+input:checked + label {
+	color: black;
+	cursor: default;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+section {
+	display: none;
+	&.shown {
+		display: block;
+	}
+}

@@ -1,9 +1,68 @@
-<html>
-	<head></head>
-	<body>
-		<h1><%= name %> (<%= key %>)</h1>
+<%
+  const senateData = require("../data/senate.json");
+  const stateData = require("../build/data/states/" + key + ".json");
 
-    <%= t.include("partials/_stationguides.html", { "state": key, "data": grunt.data.json.gfx_guide }) %>
-    
-	</body>
+  const offices = {
+    "key-races": "key-races",
+    "president": "P",
+  	"governor": "G",
+  	"senate": "S",
+  	"house": "H",
+  	"ballot-measures": "I"
+  }
+
+  let sections = ["key-races", "president"];
+  let keyRaceSections = ["president"];
+
+  if (stateData.results.filter(d => d.office === "G").length > 0) {
+  	sections.push("governor");
+    keyRaceSections.push("governor");
+  }
+  if (stateData.results.filter(d => d.office === "S").length > 0) {
+  	sections.push("senate");
+  	keyRaceSections.push("senate");
+  }
+  if (key != "DC") {
+  	sections.push("house");
+  }
+  if (stateData.results.filter(d => d.office === "I").length > 0) {
+  	sections.push("ballot-measures");
+  }
+
+  if (stateData.results.filter(d => d.office === "H" && d.keyRace === "yes").length > 0) {
+    keyRaceSections.push("house");
+  }
+  if (stateData.results.filter(d => d.office === "I" && d.keyRace === "yes").length > 0) {
+    keyRaceSections.push("ballot-measures");
+  }
+%>
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <%= t.include("partials/_head.html", grunt.data.json) %>
+    <link rel="stylesheet" type="text/css" href="state.css">
+  </head>
+  <body>
+    <%= t.include("partials/_statePageHeader.html", {state: key, sections: sections}) %>
+    <main class="app constrained">
+      <%= t.include("partials/_stationguides.html", { "state": key, "data": grunt.data.json.gfx_guide }) %>
+    	<% sections.forEach(section => { %>
+    		<section id="<%= section %>-section" <%= section === "key-races" ? "class='shown'" : "" %>>
+    			<% if (section === "key-races") { %>
+            <% keyRaceSections.forEach(office => { %>
+              <results-collection state="<%= key %>" office="<%= offices[office] %>" key-races-only></results-collection>
+            <% }); %>
+    			<% } else { %>
+	    			<results-collection state="<%= key %>" office="<%= offices[section] %>"></results-collection>
+    			<% } %>
+    		</section>
+    	<% }); %>
+    </main>
+    <script>
+      window.PROJECT_ANALYTICS = <%= JSON.stringify(grunt.data.json.project.analytics || {}) %>;
+    </script>
+    <script src="state.js" async></script>
+    <%= t.include("partials/_analytics.html") %>
+  </body>
 </html>
