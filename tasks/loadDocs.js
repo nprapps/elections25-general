@@ -2,7 +2,7 @@ var { google } = require("googleapis");
 var async = require("async");
 var os = require("os");
 var path = require("path");
-var { authenticate } = require("./googleauth");
+var { authenticate } = require("./googleAuth");
 
 module.exports = function (grunt) {
   grunt.registerTask(
