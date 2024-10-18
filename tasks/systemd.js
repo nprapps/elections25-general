@@ -18,6 +18,8 @@ module.exports = function (grunt) {
         GOOGLE_OAUTH_CONSUMER_SECRET: null,
         NODE_VERSION,
         AP_API_KEY: null,
+        AWS_SECRET_ACCESS_KEY: null,
+        AWS_ACCESS_KEY_ID: null
       };
 
       for (var v in env) {
