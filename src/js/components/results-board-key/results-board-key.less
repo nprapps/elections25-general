@@ -14,14 +14,14 @@
 		list-style-type: none;
 		padding-left: 0;
 		display: flex;
-    flex-flow: row wrap;
-    margin-top: 0;
+		flex-flow: row wrap;
+		margin-top: 0;
 
 		li {
 			line-height: 20px;
 			display: block;
 			white-space: nowrap;
-      width: 250px;
+			width: 250px;
 		}
 	}
 
@@ -29,44 +29,55 @@
 		.leading {
 			background: @demDim;
 		}
+
 		.winner {
 			background: @dem;
 		}
 	}
-	.gop, .no {
+
+	.gop,
+	.no {
 		.leading {
 			background: @gopDim;
 		}
+
 		.winner {
 			background: @gop;
 		}
 	}
-	.ind, .yes {
+
+	.ind,
+	.yes {
 		.leading {
 			background: @indDim;
 		}
+
 		.winner {
 			background: @ind;
 		}
 	}
 
-	.leading, .winner {
+	.leading,
+	.winner {
 		padding: 1px 3px;
 		border-radius: 1px;
 		// .gotham();
 		// font-size: 11px;
 	}
+
 	.winner {
 		color: white;
 	}
 
-	.pickup, .runoff {
+	.pickup,
+	.runoff {
 		span {
 			.gotham();
-			font-size: 8px; 
+			font-size: 8px;
 			font-weight: bold;
 		}
 	}
+
 	.pickup {
 		span {
 			color: @dem;
@@ -80,11 +91,22 @@
 			font-size: 10px;
 			color: #9a9a9a;
 		}
+
 		.link {
 			font-style: italic;
 		}
+
 		a {
 			text-decoration: none;
 		}
 	}
+}
+
+.president .board-key ul {
+	justify-content: center;
+}
+
+.president .board-key li {
+	width: 180px;
+	text-align: center;
 }

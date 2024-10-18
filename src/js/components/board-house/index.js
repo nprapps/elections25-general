@@ -75,7 +75,9 @@ class BoardHouse extends ElementBase {
           <div class="title-wrapper">
             <h1 tabindex="-1">House Results</h1>
           </div>
+            <div class="bop-wrapper">
            <balance-of-power-combined race="house"></balance-of-power-combined>
+           </div>
         </div>
             <results-board-display office="House" split="true" hed="Competitive"></results-board-display>
             <results-board-key race="house"></results-board-key>

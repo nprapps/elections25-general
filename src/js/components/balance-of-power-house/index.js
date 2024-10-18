@@ -122,12 +122,6 @@ class BalanceOfPowerHouse extends ElementBase {
         </div>
 
         <div class="chatter"><strong>218</strong> seats for majority</div>
-
-        <div class="net-gain-container">
-        <div class="net-gain ${house.netGainParty}">${house.netGainParty != "none"
-          ? `${house.netGainParty} +${house.netGain}`
-          : "No change"}</div>
-      </div>
     </div>
       </a>
     </div>

@@ -67,7 +67,7 @@ class ResultsBoardKey extends ElementBase {
             ` : ''}
             ${this.full ? `<li class="eevp"><span class="perc">76% in</span> ${this.hasEEVP ? '<span>Estimated share of votes counted*</span>' : "Precincts reporting"}</li>` : ''}
             ${this.full && this.hasIncumbent ? '<li class="incumbent">● Incumbent</li>' : ''}
-            <li class="runoff"><span>RCV</span> Headed to ranked choice vote tabulation</li>
+            ${this.full ? '<li class="runoff"><span>RCV</span> Headed to ranked choice vote tabulation</li>' : ''}
           </ul>
           ${mcmullinWon ? `
             <div id="mcmullin_note">

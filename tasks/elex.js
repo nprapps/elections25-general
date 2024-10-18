@@ -78,6 +78,7 @@ module.exports = function (grunt) {
 
     //grunt.data is json + csv + markdown + archieml
     augment(results, grunt.data);
+    console.log('this is calling')
 
     const { longform } = grunt.data.archieml;
 

@@ -12,7 +12,9 @@
   "styles": {
     "src/css/seed.less": "build/style.css",
     "src/css/senate.less": "build/senate.css",
-    "src/css/state.less": "build/state.css"
+    "src/css/state.less": "build/state.css",
+    "src/css/house.less": "build/house.css",
+    "src/css/county.less": "build/county.css"
   },
   "scripts": {
     "src/js/main.js": "build/app.js",

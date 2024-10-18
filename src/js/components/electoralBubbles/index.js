@@ -4,6 +4,7 @@ const ElementBase = require("../elementBase");
 import { reportingPercentage, winnerIcon } from "../util.js";
 import track from "../../lib/tracking";
 import gopher from "../gopher.js";
+import stateSheet from "../../../../data/states.sheet.json";
 
 var d3 = require("d3-force/dist/d3-force.min.js");
 
@@ -83,7 +84,7 @@ class ElectoralBubbles extends ElementBase {
     
           // Initialize the component after data is loaded
           this.render();
-          this.svg = this.querySelector('.bubble-svg');
+          //this.svg = this.querySelector('.bubble-svg');
           this.tooltip = this.querySelector('.tooltip');
           this.resize();
           this.observer.observe(this);

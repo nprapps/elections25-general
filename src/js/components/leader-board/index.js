@@ -41,8 +41,7 @@ class Leaderboard extends ElementBase {
         const called = JSON.parse(this.called || '{}');
         
         const sumElectoral = party => {
-            console.log(party)
-            console.log(called[party])
+           
             return (called[party] || []).reduce((sum, state) => {
                 // Assuming each state object has an 'ev' property for electoral votes
                 return sum + (state.electoral || 0);
@@ -53,12 +52,6 @@ class Leaderboard extends ElementBase {
         const gopSum = sumElectoral('GOP');
         const otherSum = sumElectoral('Other');
         const uncalledSum = sumElectoral('uncalled');
-
-        console.log('Democratic Sum:', called);
-        console.log('Democratic Sum:', demSum);
-        console.log('GOP Sum:', gopSum);
-        console.log('Uncalled Sum:', uncalledSum);
-        console.log('Other Sum:', otherSum);
 
         this.innerHTML = `
             <ul class="electoral-leaderboard">

@@ -9,6 +9,7 @@ function Tab(props) {
       role="tab"
       aria-controls="tab-${props.tab}"
       aria-selected="${props.selected}"
+      data-tab="${props.tab}"
       onclick="this.getRootNode().host.choose(${props.tab})">
       ${props.icon ? `<inline-svg alt="" src="${props.icon}" class="icon"></inline-svg>` : ''}
       ${props.label}

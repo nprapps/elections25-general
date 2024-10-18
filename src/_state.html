@@ -35,6 +35,15 @@
   if (stateData.results.filter(d => d.office === "I" && d.keyRace === "yes").length > 0) {
     keyRaceSections.push("ballot-measures");
   }
+
+  const listOfCountyRaces = stateData.results
+  .filter(race => race.office === "S" || race.office === "G")
+  .map(race => ({
+    id: race.id,
+    office: race.office,
+    seatNumber: race.seatNumber,
+    keyRace: race.keyRace
+  }));
 %>
 
 <!doctype html>
@@ -42,6 +51,8 @@
   <head>
     <%= t.include("partials/_head.html", grunt.data.json) %>
     <link rel="stylesheet" type="text/css" href="state.css">
+    <link rel="stylesheet" type="text/css" href="states.css">
+    <link rel="stylesheet" type="text/css" href="county.css">
   </head>
   <body>
     <%= t.include("partials/_statePageHeader.html", {state: key, sections: sections}) %>
@@ -53,10 +64,30 @@
             <% keyRaceSections.forEach(office => { %>
               <results-collection state="<%= key %>" office="<%= offices[office] %>" key-races-only></results-collection>
             <% }); %>
-    			<% } else { %>
-	    			<results-collection state="<%= key %>" office="<%= offices[section] %>"></results-collection>
-    			<% } %>
-    		</section>
+          <% } else { %>
+            <results-collection state="<%= key %>" office="<%= offices[section] %>"></results-collection>
+            <% if (section === "president") { %>
+              <county-map state="<%= key %>"></county-map>
+              <county-dataviz state="<%= key %>"></county-dataviz>
+              <results-table-county
+              state="<%= key %>"
+              race-id="0"
+              order="1"></results-table-county>
+            <% } %>
+            
+            <% if (section === "senate" || section === "governor") { %>
+              <% listOfCountyRaces.filter(race => race.office === offices[section]).forEach((race, index) => { %>
+                <%= race.office %>: <%= race.id %>
+                <county-map state="<%= key %>" race-id="<%= key %>-<%= race.id %>"></county-map>
+                <county-dataviz state="<%= key %>" race="<%= key %>-<%= race.id %>"></county-dataviz>
+                <results-table-county
+              state="<%= key %>"
+              race-id="<%= race.id %>"
+              order="1"></results-table-county>
+              <% }); %>
+            <% } %>
+          <% } %>
+        </section>
     	<% }); %>
     </main>
     <script>
