@@ -365,12 +365,25 @@ var toggleAttribute = function(element, attribute, force) {
 
 var formatComma = s => s.toLocaleString().replace(/\.0+$/, "");
 
+var formatEEVP = number => {
+  let string = "";
+  if (number > 0 && number < 0.01) {
+    string = "<1% of votes in";
+  } else if (number > 0.99 && number < 1) {
+    string = ">99% of votes in";
+  } else {
+    string = (number * 100).toFixed(0).toString() + "% of votes in";
+  }
+  return string;
+}
+
 module.exports = {
   apMonths,
   classify,
   daysOfWeek,
   formatAPDate,
   formatComma,
+  formatEEVP,
   formatters,
   formatTime,
   getAvailableMetrics,

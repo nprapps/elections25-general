@@ -3,7 +3,7 @@ import gopher from "../gopher.js";
 const ElementBase = require("../elementBase");
 const dot = require("../../lib/dot");
 const template = dot.compile(require("./_results-table.html"));
-const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIcon } = require("../util");
+const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIcon, formatEEVP } = require("../util");
 
 const headshots = {
   Harris:
@@ -32,16 +32,7 @@ class ResultsTable extends ElementBase {
     this.removeAttribute("result");
 
     elements.updated.innerHTML = `${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}`;
-
-    let reportingString;
-    if (result.eevp > 0 && result.eevp < 1) {
-      reportingString = "<1";
-    } else if (result.eevp > 99 && result.eevp < 100) {
-      reportingString = ">99";
-    } else {
-      reportingString = result.eevp.toFixed(0).toString();
-    }
-    elements.eevp.innerHTML = reportingString;
+    elements.eevp.innerHTML = formatEEVP(result.eevp);
 
     if (result.office === "P") {
       elements.wrapper.classList.add("president");
