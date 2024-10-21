@@ -25,6 +25,7 @@ const translation = {
     rankedChoice: "rankedChoice",
     raceCallStatus: "raceCallStatus",
     rcvResult: "rcvResult",
+    name_override: "name_override",
   },
   unit: {
     level: "level",
@@ -202,6 +203,7 @@ module.exports = function (resultArray, overrides = {}) {
           Object.assign(unitMeta, meta);
           // For now, always override description with ours even if empty.
           unitMeta.description = sheetMetadata.description;
+          unitMeta.name_override = sheetMetadata.name_override;
         }
 
         unitMeta.updated = Date.parse(unitMeta.updated);
