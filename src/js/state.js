@@ -5,7 +5,6 @@ require("./components/county-dataviz")
 require("./components/county-map")
 require("./components/results-table-county")
 
-
 let section = document.querySelector('input[name="nav"]:checked').value;
 
 let nav = document.querySelector("form");
