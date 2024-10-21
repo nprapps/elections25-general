@@ -38,7 +38,9 @@ class ResultsTable extends ElementBase {
       elements.wrapper.classList.add("president");
     }
 
-    if (result.office === "H" || result.flags) {
+    if (result.name_override) {
+      elements.resultsTableHed.innerHTML = result.name_override;
+    } else if (result.office === "H") {
       elements.resultsTableHed.innerHTML = result.seat;
     } else if (result.office === "I") {
       elements.resultsTableHed.innerHTML = result.description;
