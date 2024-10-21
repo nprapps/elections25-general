@@ -18,6 +18,7 @@
   },
   "scripts": {
     "src/js/main.js": "build/app.js",
+    "src/js/loadHeaderBidding.js": "build/loadHeaderBidding.js",
     "src/js/state.js": "build/state.js"
   },
   "scriptsOnce": {

@@ -6,18 +6,31 @@
     <link rel="stylesheet" type="text/css" href="house.css">
   </head>
   <body>
-    <div >
-    </div>
-
-    <main class="app constrained">
+    <%= t.include("partials/_navbar.html") %>
+    <%= t.include("partials/_ad.html", {id: "ad-centerstage"}) %>
+   <main class="app constrained">
      <div style="border: 1px solid #333; margin-bottom: 10px; padding: 20px;">
       <board-house></board-house>
     </div>
     </main>
+    <%= t.include("partials/_ad.html", {id: "ad-secondary"}) %> 
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
     </script>
     <script src="app.js" async></script>
     <%= t.include("partials/_analytics.html") %>
+    <%= t.include("partials/_sponsorship.html", { "production": grunt.data.json.project.production }) %>
+    <script class="remove-embedded" src="loadHeaderBidding.js" async></script>
+    <script>
+      var here = new URL(window.location);
+    
+      if (here.searchParams.has("embedded")) {
+        ads = document.querySelectorAll('.remove-embedded')
+        console.log(ads)
+        ads.forEach(element => {
+          element.remove()
+        });
+      }
+    </script>
   </body>
 </html>

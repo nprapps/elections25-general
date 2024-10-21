@@ -1,0 +1,42 @@
+#ad-centerstage-wrap,
+#ad-secondary-wrap {
+    // max-width: 970px;
+    margin: 0 auto;
+    text-align: center;
+    background: #F9F9F9;
+    height: 320px;
+
+    iframe {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+  }
+    
+  &.has-sponsorship {
+    &:before {
+      .sans();
+      font-size: 12px;
+      content: "Sponsor message";
+      display: block;
+      text-align: center;
+      line-height: 1.3;
+      font-weight: 500;
+      -webkit-font-smoothing: antialiased;
+      color: #555;
+      padding: 15px;
+    }
+  
+    &:after {
+        padding-top: 25px;
+        content: "";
+        display: block;
+    }
+  }
+}
+
+#ad-centerstage-wrap.has-sponsorship {
+  border-bottom: 2px solid #eee;
+}
+#ad-secondary-wrap.has-sponsorship {
+  border-top: 2px solid #eee;
+}
