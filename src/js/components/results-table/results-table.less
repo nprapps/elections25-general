@@ -34,14 +34,18 @@ results-table {
 	}
 
 	.winner {
+		background-color: @graybackground;
 		&.dem {
 			background-color: @lightblue;
 		}
 		&.gop {
 			background-color: @lightred;
 		}
-		&.ind {
-			background-color: @lightyellow;
+		&.yes {
+			background-color: @lightgreen;
+		}
+		&.no {
+			background-color: @graybackground;
 		}
 		.name {
 			font-weight: bold;
@@ -102,6 +106,7 @@ results-table {
 	}
 
 	.bar {
+		background-color: @graybar;
 		position: absolute;
 		height: 0.5em;
 		bottom: 0;
@@ -116,8 +121,16 @@ results-table {
 		background-color: @red;
 	}
 
-	.ind .bar {
-		background-color: @yellow;
+	.green .bar {
+		background-color: @green;
+	}
+
+	.yes .bar {
+		background-color: @green;
+	}
+
+	.no .bar {
+		background-color: @graybar;
 	}
 
 	.tbody .name, .tbody .percentage, .tbody .votes {
