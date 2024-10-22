@@ -86,51 +86,17 @@
 @updateHighlight: fade(@yellow, 80%);
 
 // Fonts
-@gotham: "Gotham SSm", Helvetica, Arial, sans-serif;
-@knockout: "Knockout 31 4r", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-@sans: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 @sans: 'NPRSans', @sans-base;
+// serif and condensed are not loaded by default. uncomment in src/partials/_webfonts.html if you want to use them
 @serif: 'NPRSerif', @serif-base;
-// not loaded by default. uncomment in src/partials/_webfonts.html if you want to use this
 @condensed: 'Source Sans Pro', @sans-base;
 
 @sans-base: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 @serif-base: Georgia, "Times New Roman", Times, serif;
 
-.gotham() {
-  font-family: @gotham;
-  font-weight: normal;
-  font-weight: 400;
-}
+@gotham: @sans;
+@knockout: @sans;
 
-// Normal Knockout
-.knockout() {
-  font-family: @knockout;
-  font-weight: normal;
-}
-
-// Knockout, uppercased
-.knockout-upper() {
-  .knockout();
-  text-transform: uppercase;
-}
-
-// Knockout for headings
-.knockout-header() {
-  .knockout-upper();
-  letter-spacing: 0.05em;
-  -webkit-font-smoothing: antialiased;
-}
-
-
-// Export values to CSS custom properties
-:root {
-  --accent-dark: @accent-dark;
-  --accent-light: @accent-light;
-  --sans: @sans;
-  --serif: @serif;
-  --vh: 1vh;
-}
 
 // Font mixins
 .sans() {
@@ -165,6 +131,30 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   -webkit-font-smoothing: antialiased;
+}
+
+// fallbacks for old mixins
+.gotham() {
+  .sans();
+}
+.knockout() {
+  .sans();
+}
+.knockout-upper() {
+  .sans();
+  text-transform: uppercase;
+}
+.knockout-header() {
+  .sans-header();
+}
+
+// Export values to CSS custom properties
+:root {
+  --accent-dark: @accent-dark;
+  --accent-light: @accent-light;
+  --sans: @sans;
+  --serif: @serif;
+  --vh: 1vh;
 }
 
 // a11y
