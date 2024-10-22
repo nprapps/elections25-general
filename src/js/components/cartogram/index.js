@@ -51,6 +51,7 @@ class Cartogram extends ElementBase {
         this.paint();
       }
     
+
     
       disconnectedCallback() {
         if (this.svg) {

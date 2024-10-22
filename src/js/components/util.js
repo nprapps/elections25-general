@@ -190,11 +190,17 @@ function groupCalled(results) {
     Other: [],
     uncalled: [],
   };
-
   if (results) {
-    results.forEach(r => called[r.called ? r.winnerParty : "uncalled"].push(r));
+    results.forEach(r => {
+      const category = r.called ? (r.winnerParty || 'Other') : 'uncalled';
+      if (called[category]) {
+        called[category].push(r);
+      } else {
+        console.warn(`Unexpected category: ${category}`);
+        called.Other.push(r);
+      }
+    });
   }
-
   return called;
 }
 

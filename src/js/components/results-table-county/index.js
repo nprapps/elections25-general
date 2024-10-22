@@ -35,42 +35,35 @@ class ResultsTableCounty extends ElementBase {
 
     async connectedCallback() {
 
-    this.availableMetrics = getAvailableMetrics(this.state);
-    this.state.sortMetric = this.availableMetrics.population;
-    this.state.displayedMetric = this.availableMetrics.population;
+        this.availableMetrics = getAvailableMetrics(this.state);
+        this.state.sortMetric = this.availableMetrics.population;
+        this.state.displayedMetric = this.availableMetrics.population;
 
-    this.currentState = this.getAttribute('state');
-    this.race = this.getAttribute('race-id');
-    console.log(this.race)
+        this.currentState = this.getAttribute('state');
+        this.race = this.getAttribute('race-id');
+        console.log(this.race)
 
-    try {
-        let url;
-        if (this.race !== null) {
-            url = `./data/counties/${this.currentState}-${this.race}.json`;
-        } else {
-            url = `./data/counties/${this.currentState}-0.json`;
+        try {
+            let url;
+            if (this.race !== null) {
+                url = `./data/counties/${this.currentState}-${this.race}.json`;
+            } else {
+                url = `./data/counties/${this.currentState}-0.json`;
+            }
+
+
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            this.data = data.results || [];
+            this.render();
+            this.attachEventListeners();
+        } catch (error) {
+            console.error("Could not load JSON data:", error);
+            //this.render(); // Render to show error state
         }
-
-        console.log('//////')
-        console.log(url)
-        console.log('//////')
-
-
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        this.data = data.results || [];
-        console.log('////////')
-        console.log(this.data)
-        console.log('////////')
-        this.render();
-        this.attachEventListeners();
-    } catch (error) {
-        console.error("Could not load JSON data:", error);
-        //this.render(); // Render to show error state
-    }
     }
 
     attachEventListeners() {
@@ -221,7 +214,7 @@ class ResultsTableCounty extends ElementBase {
         const metric = this.state.displayedMetric;
 
         const topCands = orderedCandidates.map(c => c.last);
-        
+
         const candidates = orderedCandidates.map(header => {
             if (header.last == "Other") {
                 return this.mergeOthers(row.candidates, header.id, topCands);
@@ -267,6 +260,10 @@ class ResultsTableCounty extends ElementBase {
         const sortOrder = JSON.parse(this.getAttribute('sort-order') || '[]');
 
         const allCandidates = sortedData[0].candidates;
+        console.log('/////')
+        console.log(sortedData)
+        console.log(allCandidates)
+        console.log('/////')
 
         // Sort candidates by EEVP and get top 3
         const orderedCandidates = allCandidates
@@ -323,9 +320,31 @@ class ResultsTableCounty extends ElementBase {
                         </th>
                     </tr>
                 </thead>
-                <tbody class="${this.state.collapsed ? "collapsed" : ""}">
-                    ${sortedData.map(c => this.renderCountyRow(c, orderedCandidates)).join('')}
-                </tbody>
+<tbody class="${this.state.collapsed ? "collapsed" : ""}">
+                ${sortedData.map(county => {
+            // Sort candidates by percent and get top 2
+            const topTwo = county.candidates
+                .sort((a, b) => b.percent - a.percent)
+                .slice(0, 2)
+                .map(candidate => ({
+                    last: candidate.last,
+                    party: candidate.party,
+                    percent: candidate.percent
+                }));
+
+            // Add "Other" if there are more than 2 candidates
+            let orderedCandidates = topTwo;
+            if (county.candidates.length > 2) {
+                const otherPercent = county.candidates
+                    .slice(2)
+                    .reduce((sum, candidate) => sum + candidate.percent, 0);
+
+                orderedCandidates.push({ last: "Other", party: "Other", percent: otherPercent });
+            }
+
+            return this.renderCountyRow(county, orderedCandidates);
+        }).join('')}
+            </tbody>
             </table>
             <button
                 class="toggle-table ${sortedData.length > 10 ? "" : "hidden"}"

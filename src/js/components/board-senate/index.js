@@ -29,16 +29,15 @@ class BoardSenate extends ElementBase {
 
 
     async loadData() {
-        let presidentDataFile = './data/senate.json';
-    
         try {
-          const presidentResponse = await fetch(presidentDataFile);
-          const presidentData = await presidentResponse.json();
-          this.results = presidentData.results || {};
-          this.render();
-        } catch (error) {
-          console.error('Error fetching president data:', error);
-        }
+            const response = await fetch('./data/senate.json');
+            const { results = {} } = await response.json();
+            this.results = results;
+            console.log(this.results)
+            this.render();
+          } catch (error) {
+            console.error('Error fetching senate data:', error);
+          }
     }
 
     render() {

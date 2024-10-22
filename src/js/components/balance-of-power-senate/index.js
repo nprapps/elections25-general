@@ -1,5 +1,6 @@
 var ElementBase = require("../elementBase");
 import gopher from "../gopher.js";
+import {winnerIcon} from "../util.js";
 
 
 class BalanceOfPowerSenate extends ElementBase {
@@ -43,9 +44,9 @@ class BalanceOfPowerSenate extends ElementBase {
         if (!this.data) return;
 
         var InactiveSenateRaces = {
-            "GOP": 29,
-            "Dem": 34,
-            "Other": 2,
+            "GOP": 38,
+            "Dem": 28,
+            "Other": 0,
             "house_GOP": 0,
             "house_Dem": 0,
             "house_Other": 0

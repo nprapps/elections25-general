@@ -173,7 +173,6 @@ class CountyDataViz extends ElementBase {
     }
 
     toggleCollapsed() {
-        console.log('toggle collapse is happening')
         this.state.collapsed = !this.state.collapsed;
         this.render();
         setTimeout(() => {
@@ -233,8 +232,10 @@ function pearsonCorrelation(prefs, p1, p2) {
         (sum2Sq - Math.pow(sum2, 2) / n));
 
     if (den == 0) return 0;
+    
 
     return num / den;
+    
 }
 
 customElements.define('county-dataviz', CountyDataViz);

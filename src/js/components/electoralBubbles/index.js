@@ -84,8 +84,9 @@ class ElectoralBubbles extends ElementBase {
     
           // Initialize the component after data is loaded
           this.render();
-          //this.svg = this.querySelector('.bubble-svg');
-          this.tooltip = this.querySelector('.tooltip');
+          this.svg = this.querySelector('.bubble-svg');
+
+          this.tooltip = this.querySelector('.bubble-tooltip');
           this.resize();
           this.observer.observe(this);
           
@@ -102,6 +103,9 @@ class ElectoralBubbles extends ElementBase {
     
       connectedCallback() {
         this.loadData()
+        window.addEventListener("resize", this.resize);
+        this.simulation.restart();
+
       }
     
       disconnectedCallback() {
@@ -135,11 +139,13 @@ class ElectoralBubbles extends ElementBase {
       resize() {
         if (!this.svg) return;
         const bounds = this.svg.getBoundingClientRect();
-        const { width } = bounds;
+        const { width, height} = bounds;
+
         if (width != this.state.width) {
-          this.simulation.alpha(1);
+          this.simulation.alpha(1).restart();
+
         }
-        this.state.width = width;
+        this.state.width = window.innerWidth;
         this.render();
       }
     
@@ -230,6 +236,9 @@ class ElectoralBubbles extends ElementBase {
         this.simulation.alpha(1);
         this.state.nodes = nodes;
         this.state.lookup = lookup;
+        console.log('=======')
+        console.log(this.state.width)
+        console.log('=======')
         this.render();
       }
     
@@ -239,12 +248,16 @@ class ElectoralBubbles extends ElementBase {
       }
     
       onMove(e) {
+
         const bounds = this.getBoundingClientRect();
         const offsetX = e.clientX - bounds.left;
         const offsetY = e.clientY - bounds.top;
+        
     
         const key = e.target.dataset.key;
         const data = this.state.lookup[key];
+
+
         if (!key || !data) {
           return this.tooltip.classList.remove("show");
         }
@@ -283,7 +296,7 @@ class ElectoralBubbles extends ElementBase {
       }
     
       render() {
-        const { nodes, width } = this.state;
+        let { nodes, width } = this.state;
         let distance = 0;
         nodes.forEach(n => {
           n.r = this.nodeRadius(n);
@@ -292,6 +305,9 @@ class ElectoralBubbles extends ElementBase {
             distance = outerBounds;
           }
         });
+
+        this.simulation.nodes(nodes);
+
     
         var yBounds = Math.ceil(distance / HEIGHT_STEP) * HEIGHT_STEP;
         if (yBounds - distance < 30) yBounds += 30;
@@ -331,6 +347,7 @@ class ElectoralBubbles extends ElementBase {
           tossup: "Competitive states",
           likelyR: "Likely Republican"
         };
+        
 
     
         this.innerHTML = `
@@ -439,7 +456,7 @@ class ElectoralBubbles extends ElementBase {
             </div>
           </div>
         ` : ''}
-        <div class="tooltip"></div>
+        <div class="bubble-tooltip tooltip"></div>
       </div>
     `;
     

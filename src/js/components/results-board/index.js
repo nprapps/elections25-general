@@ -80,13 +80,15 @@ class ResultsBoard extends ElementBase {
             if (c.winner == "X") className.push("winner");
             if (winner && !c.winner) className.push("loser");
             if (race.runoff) className.push("runoff");
-        
+ 
             return `
                 <td role="cell" class="${className.join(" ")}">
-                  <div class="name">
-                    <div class="last">${c.last}</div>
-                    <div class="incumbent">${c.incumbent ? "●" : ""}</div>
-                  </div>
+                   ${race.office !== 'P' ? `
+                    <div class="name">
+                        <div class="last">${c.last}</div>
+                        <div class="incumbent">${c.incumbent ? "●" : ""}</div>
+                    </div>
+                ` : ''}
                   <div class="perc">${Math.round(c.percent * 1000) / 10}%</div> 
                 </td>
             `;
@@ -134,78 +136,94 @@ class ResultsBoard extends ElementBase {
 
         this.innerHTML = `
     <div class="${classNames.filter(c => c).join(" ")}">
-      ${this.hed ? `<h3 class="board-hed">${this.hed}</h3>` : ""}
-      <div class="board-inner">
-        ${tables.map(races => `
-          <table class="named results table" role="table">
-                <tr>
-                  <th class="state-hed">State</th>
-                  <th colspan="2" class="name-hed">Top candidates</th>
-                  <th class="reporting-hed">% in</th>
-                  <th></th>
-                </tr>
-            ${races.map((r, i) => {
-            var goingToRCV = goingToRCVRunOff(r.id);
-            //if (goingToRCV) {
-            //console.log("Found RCV race...");
-            //console.log(r);
-            //}
-            var hasResult = r.eevp || r.reporting || r.called || r.runoff;
+        ${this.hed ? `<h3 class="board-hed">${this.hed}</h3>` : ""}
+        <div class="board-inner">
+            ${tables.map(races => `
+                <table class="${this.office === 'President' ? 'president' : 'named'} results table" role="table">
+                    <tr>
+                      ${this.office === 'President' ? 
+                        `<th class="state-hed">State</th>
+                        <th class="electoral-hed">E.V.</th>
+                        <th class="party-hed">Harris</th>
+                        <th class="party-hed">Trump</th>
+                        <th class="reporting-hed">% in</th>` : 
+                        ''
+                      }
+                      <th></th>
+                    </tr>
+                    ${races.map((r, i) => {
+                        var hasResult = r.eevp || r.reporting || r.called || r.runoff;
+                        var reporting = r.eevp;
+                        var percentIn = reporting || reporting == 0
+                            ? `<span>${reportingPercentage(reporting)}%<span class="in"> in</span></span>`
+                            : "";
+                        var [winner] = r.candidates.filter(c => c.winner == "X");
+                        var flipped = winner && (r.previousParty !== winner.party);
+                        var stateDetail = this.states[r.state] || {};
 
-            var reporting = r.eevp;
-            var percentIn = reporting || reporting == 0
-                ? `<span>${reportingPercentage(reporting)}%<span class="in"> in</span></span>`
-                : "";
-            var [winner] = r.candidates.filter(c => c.winner == "X");
-            var [incumbent] = r.candidates.filter(c => c.incumbent);
-            var flipped = winner && (r.previousParty !== winner.party);
-            var seatLabel = "";
-            var ballotLabel = "";
-            switch (r.office) {
-                case "H": seatLabel = ` ${r.seatNumber}`;
-                case "S":
-                    if (r.seatNumber) {
-                        seatLabel = ` ${r.seatNumber}`;
-                    }
-                    break;
-                case "I":
-                    ballotLabel = ` ${r.seat}`;
-                    break;
-            }
+                        if (this.office === 'President') {
+                            // Presidential race case
+                            return `
+                                <tr key="${r.state}${r.district}" role="row" class="${hasResult ? "closed" : "open"} index-${i}">
+                                    <td role="cell" class="state">
+                                        <a href="?#/states/${r.state}/${r.office}" target="_top">
+                                            ${stateDetail.ap} ${r.district && r.district !== "AL" ? r.district : ""}
+                                        </a>
+                                    </td>
+                                    <td role="cell" class="electoral">${r.electoral}</td>
+                                    <td role="cell" class="open-label" colspan="3">Last polls close at ${stateDetail.closingTime} ET</td>
+                                    ${this.CandidateCells(r, winner)}
+                                    <td role="cell" class="reporting">${percentIn}</td>
+                                    <td role="cell" class="little-label ${flipped ? winner.party : ''}">
+                                        <span class="${r.runoff ? "runoff-label" : ""}">${r.runoff ? "R.O." : ""}</span>
+                                        <span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>
+                                    </td>
+                                </tr>
+                            `;
+                        } else {
+                            // Existing case for other race types
+                            var seatLabel = "";
+                            var ballotLabel = "";
+                            switch (r.office) {
+                                case "H": seatLabel = ` ${r.seatNumber}`;
+                                case "S":
+                                    if (r.seatNumber) {
+                                        seatLabel = ` ${r.seatNumber}`;
+                                    }
+                                    break;
+                                case "I":
+                                    ballotLabel = ` ${r.seat}`;
+                                    break;
+                            }
 
-           return `
-                <tr key="${r.id}" class="tr ${hasResult ? "closed" : "open"} index-${i}" role="row">
-                  <td class="state" role="cell">
-                    <a target="_top" href="?#/states/${r.state}/${r.office}">
-                      <span class="not-small">
-                        ${this.states[r.state].ap + seatLabel + ballotLabel}
-                      </span>
-                      <span class="x-small">
-                        ${r.state + seatLabel + ballotLabel}
-                      </span>
-                    </a>
-                  </td>
-                  <td class="open-label" colspan="3" role="cell">Last polls close at ${this.states[r.state].closingTime} ET</td>
-                  ${this.CandidateCells(r, winner)}
-                  <td class="reporting" role="cell">${percentIn}</td>
-                  ${this.office === "Senate" || this.office === "House" || this.office === "governor" ? `
-                    <td class="little-label ${flipped ? winner.party : ''}" role="cell">
-                      <span class="${goingToRCV ? "rcv-label" : ""}">${goingToRCV ? "RCV" : ""}</span>
-                      <span class="${r.runoff ? "runoff-label" : ""}">${r.runoff ? "R.O." : ""}</span>
-                      ${this.office !== "House" ? `<span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>` : ''}
-                    </td>
-                  ` : ''}
-                  ${this.office === "president" ? `
-                    <td class="little-label ${flipped ? winner.party : ''}" role="cell">
-                      <span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>
-                    </td>
-                  ` : ''}
-                </tr>
-              `;
-        }).join('')}
-          </table>
-        `).join('')}
-      </div>
+                            return `
+                                <tr key="${r.id}" class="tr ${hasResult ? "closed" : "open"} index-${i}" role="row">
+                                    <td class="state" role="cell">
+                                        <a target="_top" href="?#/states/${r.state}/${r.office}">
+                                            <span class="not-small">
+                                                ${this.states[r.state].ap + seatLabel + ballotLabel}
+                                            </span>
+                                            <span class="x-small">
+                                                ${r.state + seatLabel + ballotLabel}
+                                            </span>
+                                        </a>
+                                    </td>
+                                    <td class="open-label" colspan="3" role="cell">Last polls close at ${this.states[r.state].closingTime} ET</td>
+                                    ${this.CandidateCells(r, winner)}
+                                    <td class="reporting" role="cell">${percentIn}</td>
+                                    ${this.office === "Senate" || this.office === "House" || this.office === "governor" ? `
+                                        <td class="little-label ${flipped ? winner.party : ''}" role="cell">
+                                            <span class="${r.runoff ? "runoff-label" : ""}">${r.runoff ? "R.O." : ""}</span>
+                                            ${this.office !== "House" ? `<span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>` : ''}
+                                        </td>
+                                    ` : ''}
+                                </tr>
+                            `;
+                        }
+                    }).join('')}
+                </table>
+            `).join('')}
+        </div>
     </div>
   `;
     }
