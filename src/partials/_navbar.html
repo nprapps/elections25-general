@@ -68,7 +68,7 @@
           <% if (states[state]["district"]=='x') continue; %>
 
           <li>
-            <a href="<%= classify(state) + ".html" %>"><%= states[state].name == "District of Columbia" ? "D.C." : states[state].name %></a>
+            <a href="<%= classify(states[state].name) + ".html" %>"><%= states[state].name == "District of Columbia" ? "D.C." : states[state].name %></a>
           </li>
           <%}%>
         </ul>

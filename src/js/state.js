@@ -1,3 +1,5 @@
+import './nav.js';
+
 require("./components/results-collection");
 require("./components/results-table");
 require("./components/county-map")
