@@ -10,7 +10,7 @@
     
     // .key-above {
     //   text-align: center;
-    //   .knockout();
+    //   .sans();
     //   color: @gray-darker;
     //   text-transform: uppercase;
     //   font-size: 16px;
@@ -62,7 +62,7 @@
         text {
           text-anchor: middle;
           fill: white;
-          .knockout-header();
+          .sans-header();
           pointer-events: none;
           line-height: 1;
           text-transform: uppercase;
@@ -73,7 +73,7 @@
   
           &.tied {
             fill: @gray;
-            .gotham();
+            .sans();
             text-transform: none;
             font-style: italic;
             line-spacing: 0.05em;
@@ -123,7 +123,7 @@
     .disclaimer {
       max-width: 600px;
       margin: 10px auto;
-      .gotham();
+      .sans();
       text-align: center;
       font-style: italic;
       font-size: 12px;
@@ -133,11 +133,11 @@
     .uncalled {
       flex: 1;
       text-align: center;
-      .knockout-header();
+      .sans-header();
       text-transform: uppercase;
   
       text {
-        .knockout-header();
+        .sans-header();
         fill: #666;
       }
   
@@ -207,7 +207,7 @@
       text {
         text-anchor: middle;
         pointer-events: none;
-        .knockout();
+        .sans();
         fill: @gray;
       }
     }
@@ -227,7 +227,7 @@
       h3 {
         font-size: 11px;
         margin: 0 0 3px 0;
-        font-family: "Knockout 31 4r","Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-family: @sans;
         font-weight: normal;
         text-transform: uppercase;
         line-height: 1.2;
@@ -241,7 +241,7 @@
       }
   
       .candidates {
-        .gotham();
+        .sans();
         min-width: 120px;
         font-size: 10px;
         color: #666;
@@ -280,7 +280,7 @@
       }
   
       .reporting {
-        .gotham();
+        .sans();
         margin: 0;
         padding-top: 3px;
         font-size: 10px;
