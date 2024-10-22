@@ -2,6 +2,7 @@ const ElementBase = require("../elementBase");
 import { reportingPercentage, winnerIcon } from "../util.js";
 import track from "../../lib/tracking";
 import gopher from "../gopher.js";
+import TestBanner from "../test-banner";
 
 const northeastStates = ["VT", "NH", "MA", "CT", "RI", "NJ", "DE", "MD", "DC"];
 
@@ -54,10 +55,9 @@ class NationalMap extends ElementBase {
     }
 
     this.illuminate();
-    this.render()
+    this.render();
     this.initLabels();
     this.paint();
-
 
     gopher.watch(`./data/president.json`, this.loadData);
   }
@@ -98,8 +98,12 @@ class NationalMap extends ElementBase {
 
   render() {
     // Create the basic structure
-    this.innerHTML = `
+
+    const bannerHtml = `${this.races?.[1] ? '<test-banner></test-banner>' : ''}`;
+    
+    this.innerHTML = ` 
       <div class="map">
+        ${bannerHtml}
         <div class="svg-container" role="img" aria-label="National map of results"></div>
         <div class="tooltip"></div>
       </div>
@@ -226,7 +230,7 @@ class NationalMap extends ElementBase {
 
     // Filter candidates with a percent value; old way is commented out
     //const candidates = result.candidates.filter(c => c.percent);
-    const candidates = result.candidates
+    const candidates = result.candidates;
 
     // Generate tooltip content
     const candidateRows = candidates.map(candidate => `
@@ -331,8 +335,6 @@ class NationalMap extends ElementBase {
       console.error("SVG not available for painting");
       return;
     }
-
-
     const mapData = this.races;
 
     mapData.forEach((r) => {
