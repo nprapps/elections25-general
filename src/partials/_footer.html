@@ -20,11 +20,11 @@
       <li><a href="./">President</a></li>
       <li><a href="./house.html">House</a></li>
       <li><a href="./senate.html">Senate</a></li>
-      <li class="divider"><a href="./governors.html">Governors</a></li>
+      <li class="divider"><a href="./governors.html">Governor</a></li>
 
     <% states.forEach(function(s) { %>
       <li>
-        <a href= <%= classify(data[s].name) + ".html" %> >
+        <a href="<%= classify(data[s].name) + ".html" %>">
           <%= data[s].name %>
         </a>
       </li>

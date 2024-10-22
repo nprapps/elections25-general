@@ -1,9 +1,15 @@
 <!-- Hide the navbar by default, for station sites -->
-<!-- See information in the `navbar.js` file on why this is done -->
+<!-- See information in the `nav.js` file on why this is done -->
 <%
+  var classify = function(str) {
+    return str
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/\-\-+/g, "-")
+      .replace(/^-+|[^\w\-]|-+$/g, "");
+  };
 
-var { nav, states, footer } = grunt.data.json;
-
+  var { nav, states, footer } = grunt.data.json;
 %>
 
 <nav class="results-nav">
@@ -13,13 +19,12 @@ var { nav, states, footer } = grunt.data.json;
       <a href="https://npr.org"><img src="./assets/logo.svg" alt="NPR" /></a>
       <hr aria-hidden="true" />
       <a href="https://www.npr.org/sections/elections/">
-        <img src="./assets/logo-2022-election-new.svg" class="full" alt="2022 Elections" />
-        <img src="./assets/logo-2022-e-new.svg" class="short" alt="2022 Elections" />
+        <img src="assets/elections-2024-logo-color-horizontal.svg" alt="2024 Elections" />
       </a>
     </div>
 
     <button class="menu-toggle" aria-controls="main-menu">
-      More live results
+      More <span class="abbrev label">results</span>
       <svg viewBox="0 0 5 5" preserveAspectRatio="none" aria-hidden="true">
         <path fill="currentColor" d="M1,1.5 L4,1.5 L2.5,4 Z" />
       </svg>
@@ -31,14 +36,14 @@ var { nav, states, footer } = grunt.data.json;
         <span class="full label">Live Coverage</span>
         <span class="abbrev label">Live</span>
       </a> </li>
-      <li> <a href="#/president">
+      <li> <a href="./">
         <span class="full label">President</span>
         <span class="abbrev label">Pres.</span>
       </a> </li>
    
-      <li> <a href="#/">House</a> </li>
-      <li> <a href="#/senate">Senate</a> </li>
-      <li> <a href="#/governor">
+      <li> <a href="./house.html">House</a> </li>
+      <li> <a href="./senate.html">Senate</a> </li>
+      <li> <a href="./governors.html">
         <span class="full label">Governor</span>
         <span class="abbrev label">Gov.</span>
       </a> </li>
@@ -52,23 +57,18 @@ var { nav, states, footer } = grunt.data.json;
         </button>
 
         <ul class="states menu-contents" id="states-menu">
-          <li>
-            <a href="https://www.npr.org/1133361718">
-              Secretary of State
-            </a>
-          </li>
-          <li class="ag-link">
+          <!-- <li class="ag-link">
             <a href="https://www.npr.org/1133362263">
               Attorney General
             </a>
-          </li>
+          </li> -->
 
           <% for (var state of Object.keys(states)) {%>
           <% if (states[state].district) continue; %>
-          <% if (states[state]["district-unused22"]=='x') continue; %>
+          <% if (states[state]["district"]=='x') continue; %>
 
           <li>
-            <a href="#/states/<%= state %>"><%= states[state].name == "District of Columbia" ? "D.C." : states[state].name %></a>
+            <a href="<%= classify(state) + ".html" %>"><%= states[state].name == "District of Columbia" ? "D.C." : states[state].name %></a>
           </li>
           <%}%>
         </ul>

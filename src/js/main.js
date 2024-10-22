@@ -1,5 +1,7 @@
 // require("./lib/pym");
 
+import './nav.js';
+
 require("./analytics");
 require("./components/results-table");
 require("./components/balance-of-power-combined");
