@@ -1,14 +1,62 @@
-<footer role="contentinfo">
-  <div class="constrained">
-    <%= typeof content != "undefined" ? content : "" %>
-    <div class="npr">
-      <ul>
-        <li><a href="https://www.npr.org/about-npr/179876898/terms-of-use" target="_blank">Terms of Use</a></li>
-        <li><a href="https://www.npr.org/about-npr/179878450/privacy-policy" target="_blank">Privacy</a></li>
-        <li><a href="https://www.npr.org/about-npr/179878450/privacy-policy#yourchoices" target="_blank">Your Privacy Choices</a></li>
-        <li><a href="https://text.npr.org/" target="_blank">Text Only</a></li>
-        <li>&copy; 2024 NPR</li>
-      </ul>
-    </div>
+<% 
+  var classify = function(str) {
+    return str
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/\-\-+/g, "-")
+      .replace(/^-+|[^\w\-]|-+$/g, "");
+  };
+
+  var states = Object.keys(data).filter(d => !d.includes("-"));
+%>
+
+<footer class="mega-nav" role="contentinfo">
+<div class="constrained">
+
+  <h3 class="state-hed">2024 General Election Results</h3>
+
+  <div class="state-nav link-block">
+
+    <% states.forEach(function(s) { %>
+      <div>
+        <a href= <%= classify(data[s].name) + ".html" %> >
+          <%= data[s].name %>
+        </a>
+      </div>
+    <% }); %>
   </div>
+
+  <h3 class="more-hed">2024 Election Resources</h3>
+
+  <div class="more-2024 link-block">
+    <ul>
+      <li><a href="https://www.npr.org/sections/elections/">Latest election news</a></li>
+      <li><a href="https://apps.npr.org/voter-registration-2024-mail/">Voter registration</a></li>
+      <li><a href="https://apps.npr.org/primary-election-results-2024/">2024 election calendar</a></li>
+      <li><a href="https://www.npr.org/2023/07/20/1185762259/trump-criminal-civil-cases-lawsuits">Trump's trials</a></li>
+      <li><a href="https://www.npr.org/podcasts/510310/npr-politics-podcast">NPR Politics Podcast</a></li>
+      <li><a href="https://www.npr.org/newsletter/politics">Politics newsletter</a></li>
+    </ul>
+  </div>
+
+</footer>
+
+<footer class="more" role="contentinfo">
+<div class="constrained">
+  <div class="credits">
+    <h3>Credits</h3>
+    <p><%= grunt.data.json.strings["credits"] %></p>
+
+  </div>
+
+  <div class="npr">
+    <ul>
+      <li><a href="https://www.npr.org/about-npr/179876898/terms-of-use" target="_blank">Terms of Use</a></li>
+      <li><a href="https://www.npr.org/about-npr/179878450/privacy-policy" target="_blank">Privacy</a></li>
+      <li><a href="https://www.npr.org/about-npr/179878450/privacy-policy#yourchoices" target="_blank">Your Privacy Choices</a></li>
+      <li><a href="https://text.npr.org/" target="_blank">Text Only</a></li>
+      <li>&copy; 2024 NPR</li>
+    </ul>
+  </div>
+</div>
 </footer>
