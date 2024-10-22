@@ -60,7 +60,6 @@ class BoardPresident extends ElementBase {
   }
 
   updateTabSelection(clickedTab) {
-    console.log(clickedTab)
     // Deselect all tabs and hide all elements
     this.tabButtons.forEach(tab => {
       tab.setAttribute('aria-selected', 'false');
@@ -73,8 +72,6 @@ class BoardPresident extends ElementBase {
     // Select clicked tab and show corresponding element
     clickedTab.setAttribute('aria-selected', 'true');
     const selectedTabIndex = clickedTab.getAttribute('data-tab');
-    console.log(selectedTabIndex)
-    console.log(this.tabElementMap[selectedTabIndex])
     this.tabElementMap[selectedTabIndex]
     if (this.tabElementMap[selectedTabIndex]) {
       this.tabElementMap[selectedTabIndex].style.display = 'block';

@@ -113,8 +113,6 @@ class ResultsBoard extends ElementBase {
             }
         });
 
-        //console.log("hasflips: " + hasFlips);
-
         hasFlips = true;
 
         let tables = [this.races];

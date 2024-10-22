@@ -18,9 +18,7 @@ var setAdSlots = function() {
     
     adIds.forEach(id => {
       const ad = document.getElementById(id)
-
-      console.log(ad)
-
+      
       if (mobile) {
         var slotID = adAttribs[id]["mobileSlotID"]
         var slotSizes = "[[320,50],[300, 250]]"

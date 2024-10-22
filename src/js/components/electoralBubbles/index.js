@@ -236,9 +236,6 @@ class ElectoralBubbles extends ElementBase {
         this.simulation.alpha(1);
         this.state.nodes = nodes;
         this.state.lookup = lookup;
-        console.log('=======')
-        console.log(this.state.width)
-        console.log('=======')
         this.render();
       }
     

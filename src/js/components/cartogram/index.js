@@ -196,7 +196,6 @@ class Cartogram extends ElementBase {
       }
     
       initLabels() {
-        console.log('calling initLabels')
         const groups = this.svg.querySelectorAll("svg > g[data-postal]");
     
         groups.forEach((g) => {

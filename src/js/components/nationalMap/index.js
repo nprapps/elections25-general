@@ -228,8 +228,6 @@ class NationalMap extends ElementBase {
     //const candidates = result.candidates.filter(c => c.percent);
     const candidates = result.candidates
 
-    console.log(result.candidates)
-
     // Generate tooltip content
     const candidateRows = candidates.map(candidate => `
       <div class="row">
@@ -336,8 +334,6 @@ class NationalMap extends ElementBase {
 
 
     const mapData = this.races;
-
-    console.log(this.races)
 
     mapData.forEach((r) => {
       if (!r || !r.state) {

@@ -27,9 +27,6 @@ class ElectoralBars extends ElementBase {
         const dWidth = sumElectoral('Dem') / 538 * 100;
         const rWidth = sumElectoral('GOP') / 538 * 100;
 
-        console.log(sumElectoral('Dem'))
-        console.log(rWidth)
-
         this.innerHTML = `
         <hr class="victory">
                 <span class="label">270 to win</span>
