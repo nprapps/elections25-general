@@ -2,6 +2,7 @@ var ElementBase = require("../elementBase");
 import gopher from "../gopher.js";
 import { getBucket } from "../util.js";
 import ResultsBoard from "../results-board";
+import TestBanner from "../test-banner";
 
 class ResultsBoardDisplay extends ElementBase {
     constructor() {
@@ -134,7 +135,7 @@ class ResultsBoardDisplay extends ElementBase {
             });
         }
 
-        let content = '';
+        let content = `${this.results[0].test ? '<test-banner></test-banner>' : ''} `;
 
         if (this.office.includes('Senate')) {
             content += `

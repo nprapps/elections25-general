@@ -2,6 +2,7 @@ const ElementBase = require("../elementBase");
 import { reportingPercentage, winnerIcon } from "../util.js";
 import track from "../../lib/tracking";
 import gopher from "../gopher.js";
+import TestBanner from "../test-banner";
 
 class Cartogram extends ElementBase {
     constructor() {
@@ -63,12 +64,12 @@ class Cartogram extends ElementBase {
       render() {
         this.innerHTML = `
           <div class="cartogram" role="img" aria-label="Cartogram of state results">
+              <div class="banner-placeholder"></div>
             <div class="svg-container"></div>
             <div class="tooltip"></div>
           </div>
         `;
       }
-    
      
 
   async loadData() {
@@ -88,6 +89,10 @@ class Cartogram extends ElementBase {
 
       this.states = statesData || {};
       this.races = presidentData.results || {};
+      if (this.races?.[1]) {
+        const bannerPlaceholder = this.querySelector('.banner-placeholder');
+        bannerPlaceholder.innerHTML = '<test-banner></test-banner>';
+      }
     } catch (error) {
       console.error("Could not load JSON data:", error);
     } finally {
@@ -196,8 +201,7 @@ class Cartogram extends ElementBase {
       }
     
       initLabels() {
-        const groups = this.svg.querySelectorAll("svg > g[data-postal]");
-    
+        const groups = this.svg.querySelectorAll("svg > g[data-postal]");    
         groups.forEach((g) => {
           const stateName = g.dataset.postal;
           const square = g.querySelector("rect");

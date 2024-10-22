@@ -345,10 +345,11 @@ class ElectoralBubbles extends ElementBase {
           likelyR: "Likely Republican"
         };
         
-
-    
+        const bannerHtml = `${this.races?.[1] ? '<test-banner></test-banner>' : ''}`;
+        
         this.innerHTML = `
       <div class="electoral-bubbles">
+        ${bannerHtml}
         <div class="aspect-ratio">
           <svg class="bubble-svg" 
             role="img"

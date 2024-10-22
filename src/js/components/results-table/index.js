@@ -1,4 +1,5 @@
 import gopher from "../gopher.js";
+import TestBanner from "../test-banner"
 
 const ElementBase = require("../elementBase");
 const dot = require("../../lib/dot");
@@ -30,6 +31,10 @@ class ResultsTable extends ElementBase {
     const elements = this.illuminate();
 
     this.removeAttribute("result");
+
+    if (!result.test) {
+      elements.testBanner.remove();
+    }
 
     elements.updated.innerHTML = `${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}`;
     elements.eevp.innerHTML = formatEEVP(result.eevp);
