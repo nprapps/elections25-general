@@ -72,6 +72,7 @@ footer {
     column-count: 5;
     margin: 20px 0 0 0;
     margin: 20px 0 33px 0;
+    column-gap: 33px;
 
     @media @desktop {
       column-count: 3;
@@ -86,11 +87,18 @@ footer {
     }
 
     a { line-height: 1.8; }
+
+    .divider {
+      border-bottom: 1px solid #ccc;
+      margin-bottom: .5rem;
+      padding-bottom: .5rem;
+    }
   }
 
   .more-2024 {
     column-count: 3;
     margin: 20px 0 0 0;
+    column-gap: 33px;
 
     @media @mobile {
       column-count: 1;

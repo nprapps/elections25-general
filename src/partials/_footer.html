@@ -16,14 +16,20 @@
   <h3 class="state-hed">2024 General Election Results</h3>
 
   <div class="state-nav link-block">
+    <ul>
+      <li><a href="./">President</a></li>
+      <li><a href="./house.html">House</a></li>
+      <li><a href="./senate.html">Senate</a></li>
+      <li class="divider"><a href="./governors.html">Governors</a></li>
 
     <% states.forEach(function(s) { %>
-      <div>
+      <li>
         <a href= <%= classify(data[s].name) + ".html" %> >
           <%= data[s].name %>
         </a>
-      </div>
+      </li>
     <% }); %>
+    </ul>
   </div>
 
   <h3 class="more-hed">2024 Election Resources</h3>
