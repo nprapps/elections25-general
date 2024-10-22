@@ -1,18 +1,17 @@
 <% const states = grunt.data.json.states; %> 
 
 <header>
-	<img src="https://apps.npr.org/primary-election-results-2024/assets/states/<%= state %>.svg" alt="" class="state-icon">
-
-	<div>
+	<div class="headline">
+		<img src="https://apps.npr.org/primary-election-results-2024/assets/states/<%= state %>.svg" alt="" class="state-icon">
 		<h1><%= states[state].name %> election results</h1>
-		<form>
-			<% 
-				sections.forEach((section, i) => {
-					const sectionName = (section.charAt(0).toUpperCase() + section.slice(1)).replace("-", " ") 
-			%>
-				<input type="radio" name="nav" id="<%= section %>" value="<%= section %>" <%= i === 0 ? "checked" : "" %>>
-				<label for="<%= section %>"><%= sectionName %></label>
-			<% }); %>
-		</form>
 	</div>
+	<form>
+		<% 
+			sections.forEach((section, i) => {
+				const sectionName = (section.charAt(0).toUpperCase() + section.slice(1)).replace("-", " ") 
+		%>
+			<input type="radio" name="nav" id="<%= section %>" value="<%= section %>" <%= i === 0 ? "checked" : "" %>>
+			<label for="<%= section %>"><%= sectionName %></label>
+		<% }); %>
+	</form>
 </header>
