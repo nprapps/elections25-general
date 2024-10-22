@@ -51,7 +51,7 @@ class ResultsCollection extends ElementBase {
     });
 
     if (this.hasAttribute("key-races-only")) {
-      template += `<h3>${headers[this.getAttribute('office')]}</h3>`;
+      template += `<h3 class="section-hed">${headers[this.getAttribute('office')]}</h3>`;
     }
 
     races.forEach(race => {
