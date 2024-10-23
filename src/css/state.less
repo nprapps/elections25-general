@@ -6,6 +6,9 @@
 @import "../js/components/results-table/results-table";
 @import "../js/components/test-banner/test-banner";
 
+@breakpoint1: 650px;
+@breakpoint2: 900px;
+
 .about-box {
 	margin-top: 20px;
 }
@@ -26,15 +29,21 @@ header, main {
 	}
 }
 
+main {
+	margin-bottom: 80px;
+}
+
 .state-icon {
-	height: 2.5em;
+	height: 4.5em;
 	filter: invert(15%) sepia(4%) saturate(18%) hue-rotate(321deg) brightness(94%) contrast(84%);
-	margin-right: 0.5em;
+	margin-right: 1em;
 }
 
 h1 {
-	font-size: 3.2em;
 	text-transform: none;
+	@media (min-width: @breakpoint2) {
+		font-size: 3.2em;
+	}
 }
 
 input {
@@ -66,8 +75,12 @@ section {
 	}
 }
 
+#president-section .results-table-wrapper {
+	margin: 20px 0;
+}
+
 .section-hed {
-	color: #666;
+	color: #333;
 	font-size: 1.4em;
 }
 

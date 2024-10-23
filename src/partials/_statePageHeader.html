@@ -1,17 +1,23 @@
 <% const states = grunt.data.json.states; %> 
+<% 
+	const intro = grunt.data.archieml.longform.statePages[state.toLowerCase()];
+%>
 
 <header>
 	<div class="headline">
 		<img src="https://apps.npr.org/primary-election-results-2024/assets/states/<%= state %>.svg" alt="" class="state-icon">
-		<h1><%= states[state].name %> election results</h1>
+		<div>
+			<h1><%= states[state].name %><span class=""> election results</span></h1>
+			<form>
+			<% 
+				sections.forEach((section, i) => {
+					const sectionName = (section.charAt(0).toUpperCase() + section.slice(1)).replace("-", " ") 
+			%>
+				<input type="radio" name="nav" id="<%= section %>" value="<%= section %>" <%= i === 0 ? "checked" : "" %>>
+				<label for="<%= section %>"><%= sectionName %></label>
+			<% }); %>
+			</form>
+		</div>
 	</div>
-	<form>
-		<% 
-			sections.forEach((section, i) => {
-				const sectionName = (section.charAt(0).toUpperCase() + section.slice(1)).replace("-", " ") 
-		%>
-			<input type="radio" name="nav" id="<%= section %>" value="<%= section %>" <%= i === 0 ? "checked" : "" %>>
-			<label for="<%= section %>"><%= sectionName %></label>
-		<% }); %>
-	</form>
+	<p class="intro"><%= intro %></p>
 </header>
