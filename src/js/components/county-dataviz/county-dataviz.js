@@ -9,6 +9,8 @@ class CountyChart extends ElementBase {
       this.onMove = this.onMove.bind(this);
       this.onLeave = this.onLeave.bind(this);
       this.handleResize = this.handleResize.bind(this);
+      this.resizeFrame = null;
+
       this.data = null
   
       this.margins = {
@@ -17,11 +19,15 @@ class CountyChart extends ElementBase {
         bottom: 25,
         left: 30,
       };
+
+      this.defaultWidth = 230;
+      this.minWidth = 200;
+      this.maxWidth = 400;
   
       this.state = {
         dimensions: {
-          width: 230,
-          height: 230
+          width: this.defaultWidth,
+          height: this.defaultWidth
         }
       };
     }
@@ -120,8 +126,8 @@ class CountyChart extends ElementBase {
     }
   
     onMove(e) {
-
       const tooltip = this.querySelector('.tooltip');
+
       tooltip.classList.remove("shown");
       const data = JSON.parse(this.getAttribute('data') || '[]');
       const fips = e.target.dataset.fips;
@@ -208,7 +214,13 @@ class CountyChart extends ElementBase {
       }
   
       handleResize() {
-        const newWidth = this.offsetWidth;
+        const containerWidth = this.parentElement.offsetWidth;
+        const chartsPerRow = 3
+
+        let newWidth = Math.floor((containerWidth / 3) - 20);
+
+        newWidth = Math.max(this.minWidth, Math.min(newWidth, this.maxWidth));
+        const newHeight = newWidth * this.aspectRatio;
     
         const chartWidth = newWidth - this.margins.left - this.margins.right;
         const chartHeight = newWidth - this.margins.top - this.margins.bottom;

@@ -220,13 +220,13 @@ class NationalMap extends ElementBase {
     let result;
 
 
-    if (district) {
-      result = results.filter((r) => (r.seatNumber == district))[0];
-    } if (district === "AL") {
+    if (district === "AL") {
       result = results[0];
-    } else {
+  } else if (district) {
+      result = results.find(r => r.seatNumber === district);
+  } else {
       result = results[0];
-    }
+  }
 
     // Filter candidates with a percent value; old way is commented out
     //const candidates = result.candidates.filter(c => c.percent);
@@ -270,7 +270,7 @@ class NationalMap extends ElementBase {
       if (!stateOutline.hasAttribute("data-postal")) {
         const thisBlock = g.querySelector("rect");
         const positionX = parseInt(thisBlock.getAttribute("x")) - 12 + "px";
-        const positionY = parseInt(thisBlock.getAttribute("y")) + 11 + "px";
+        const positionY = parseInt(thisBlock.getAttribute("y")) + "px";
         stateLabel.setAttribute("x", positionX);
         stateLabel.setAttribute("y", positionY);
         return;

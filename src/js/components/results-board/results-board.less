@@ -582,11 +582,15 @@ table.results {
 }
 
 results-board {
-  flex: 1 0 30%; /* This makes each child take up roughly 1/3 of the container */
-  margin-bottom: 10px; /* Add some vertical spacing between rows if they wrap */
+  flex: 1 0 28%;
+  margin: 20px 30px;
 }
 
 table.results {
   width: 100%;
-  table-layout: fixed; /* This ensures more predictable column widths */
+  table-layout: fixed; 
+
+  tbody {
+    display: block;
+  }
 }
