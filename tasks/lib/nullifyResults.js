@@ -1,3 +1,8 @@
+/**
+ * This function zero outs all the values
+ * @param {array of objects} response - AP Results
+ *
+ */
 module.exports = function (response) {
   for (var race of response.races) {
     race.eevp = 0;

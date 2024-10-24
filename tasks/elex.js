@@ -3,25 +3,22 @@
 --offline - Use cached data if it exists
 */
 
-const { redeemTicket, apDate } = require("./lib/apResults");
+const { redeemTicket } = require("./lib/apResults");
 const normalize = require("./lib/normalizeResults");
 const nullify = require("./lib/nullifyResults");
 const augment = require("./lib/augmentResults");
 const fs = require("fs").promises;
 
 module.exports = function (grunt) {
-  var elex = {};
-
   // Grunt doesn't like top-level async, so define this here and call it immediately
   var task = async function () {
-    // ranked choice voting for 22.
-
-    const RCV_linkages = grunt.data.json.rcv;
+    // These are the options we can give while running grunt (i.e grunt --offline)
     const test = grunt.option("APtest");
-
     const offline = grunt.option("offline");
     const zero = grunt.option("zero");
 
+    // For 24-general, we are getting county level-data for G,S,P for all non-england states
+    // We are getting township level data for G,S,P for all the england states and state level data for H,I.
     const tickets = [
       {
         date: "2024-11-05",
@@ -41,8 +38,8 @@ module.exports = function (grunt) {
 
     // get results from AP
     const rawResults = [];
-    for (let t of tickets) {
-      const response = await redeemTicket(t, { test, offline });
+    for (let ticket of tickets) {
+      const response = await redeemTicket(ticket, { test, offline });
       if (!response) continue;
 
       //This is a 2024 special CA senate election that we don't want so we are filtering it out
@@ -57,33 +54,12 @@ module.exports = function (grunt) {
     // turn AP into normalized race objects
     const results = normalize(rawResults, grunt.data.json);
 
-    // Ignore contest for end of 2016 CA term held during 2022
-    // https://www.capradio.org/articles/2022/10/17/us-sen-alex-padilla-will-appear-on-californias-june-primary-ballot-twice-heres-why/
-    // And ignore contest for unexpired term in Indiana, House seat 2
-    //! results = results.filter((race) => race.id != 8964 && race.id != 15766);
-
-    //! We don't need this anymore because electoral data for ME/NE aren't district level
-    // filter generator for ME/NE states as they split their electoral college votes as of 2024.
-    var stateOrDistrictFilter = function (level) {
-      return function (result) {
-        if (result.id != "0") return true;
-        if (result.state == "ME" || result.state == "NE") {
-          return result.level == level;
-        }
-        return true;
-      };
-    };
-
     grunt.log.writeln("Merging in external data...");
-
-    //grunt.data is json + csv + markdown + archieml
     augment(results, grunt.data);
-    console.log('this is calling')
 
     const { longform } = grunt.data.archieml;
 
     grunt.log.writeln("Generating data files ");
-
     // ensure the data folder exists
     await fs.mkdir("build/data", { recursive: true });
 

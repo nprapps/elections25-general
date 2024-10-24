@@ -1,3 +1,35 @@
+/**
+ * This function merges in per-county/township census/historical data and flags.
+ * You can see the data in `build/data/states` and `build/data/counties` file.
+ * 
+ * @param
+      {[{
+        test: boolean,
+        id: string,
+        office: string,
+        type: string,
+        winThreshold: number,
+        raceCallStatus: string,
+        level: string,
+        state: string,
+        electoral: number,
+        updated: number,
+        reporting: number,
+        precincts: number,
+        reportingPercent: number,
+        candidates: [{
+            first: string,
+            last: string,
+            party: string,
+            id: string,
+            votes: number,
+            percent: NaN //!LOOK INTO THIS!!
+          }]
+      } 
+ * ]} results - normalized AP data (can be different based on township/county)
+ * @param {Object} data  -  json + csv + markdown + archieml
+ * @returns
+ */
 module.exports = function (results, data) {
   // build DB of external flags
   const flagged = {};
@@ -30,12 +62,6 @@ module.exports = function (results, data) {
         .filter((s) => s.votes * 1 && s.state == result.state)
         .sort((a, b) => b.votes - a.votes);
 
-      // if (result.level == "district") {
-      //   state20 = state20.filter((s) => s.district == result.district);
-      // } else {
-      //   state20 = state20.filter((s) => !s.district);
-      // }
-
       const candidates = state20.map(function (c) {
         return {
           last: c.last,
@@ -49,7 +75,7 @@ module.exports = function (results, data) {
         result.previousParty = candidates[0].party;
       }
     } else {
-      // remaining steps are county-specific
+      // remaining steps are county/township-specific
       if (!result.fips) return;
 
       // get the winner margin from the previous presidential election

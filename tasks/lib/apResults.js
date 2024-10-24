@@ -82,6 +82,15 @@ var issueTickets = function (races) {
   return tickets;
 };
 
+/**
+ * Depending on the options argument, it either gets the data from AP's API and save it in the `temp/` folder
+ * Or gets the data from the `temp/` if offline option is true
+ * If the test option is true, it adds the resultsType=t (test) or resultsType=l (live) to the endpoint parameter
+ *
+ * @param {Object} ticket - date and params of the AP endpoint
+ * @param {Object} options - to check if it is a test run or it should use the data from `temp/`
+ * @returns AP Data
+ */
 var redeemTicket = async function (ticket, options) {
   var tag =
     ticket.date +

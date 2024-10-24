@@ -1,6 +1,4 @@
 var axios = require("axios");
-var fs = require("fs").promises;
-
 var reportCache = {};
 
 var endpoint = "https://api.ap.org/v3/reports";
