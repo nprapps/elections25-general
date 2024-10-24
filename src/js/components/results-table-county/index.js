@@ -279,7 +279,7 @@ class ResultsTableCounty extends ElementBase {
 
         this.innerHTML = `
         <div class="results-counties ${this.state.sortMetric.key.split("_").join("-")}">
-            <h3>County Results Table</h3>
+            <h3>Demographics by county</h3>
             ${this.getSorter()}
             <table class="results-table candidates-${orderedCandidates.length}">
                 <thead>

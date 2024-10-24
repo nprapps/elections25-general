@@ -61,7 +61,6 @@
 
     <%= t.include("partials/_statePageHeader.html", {state: key, sections: sections}) %>
     <main class="app constrained">
-      <%= t.include("partials/_stationguides.html", { "state": key, "data": grunt.data.json.gfx_guide }) %>
     	<% sections.forEach(section => { %>
     		<section id="<%= section %>-section" <%= section === "key-races" ? "class='shown'" : "" %>>
     			<% if (section === "key-races") { %>
@@ -71,6 +70,7 @@
           <% } else { %>
             <results-collection state="<%= key %>" office="<%= offices[section] %>"></results-collection>
             <% if (section === "president") { %>
+              <h3 class="section-hed">Presidential results by county</h3>
               <county-map state="<%= key %>"></county-map>
               <county-dataviz state="<%= key %>"></county-dataviz>
               <results-table-county
@@ -80,6 +80,7 @@
             <% } %>
             
             <% if (section === "senate" || section === "governor") { %>
+              <h3 class="section-hed">Senate results by county</h3>
               <% listOfCountyRaces.filter(race => race.office === offices[section]).forEach((race, index) => { %>
                 <%= race.office %>: <%= race.id %>
                 <county-map state="<%= key %>" race-id="<%= key %>-<%= race.id %>"></county-map>

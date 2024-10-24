@@ -8,7 +8,7 @@
 		<img src="https://apps.npr.org/primary-election-results-2024/assets/states/<%= state %>.svg" alt="" class="state-icon">
 		<div>
 			<h1><%= states[state].name %><span class=""> election results</span></h1>
-			<form>
+			<form class="section-nav">
 			<% 
 				sections.forEach((section, i) => {
 					const sectionName = (section.charAt(0).toUpperCase() + section.slice(1)).replace("-", " ") 
@@ -19,5 +19,8 @@
 			</form>
 		</div>
 	</div>
-	<p class="intro"><%= intro %></p>
+	<div class="intro-container">
+		<p class="intro"><%= intro %></p>
+		<%= t.include("partials/_stationguides.html", { "state": state, "data": grunt.data.json.gfx_guide }) %>
+	</div>
 </header>
