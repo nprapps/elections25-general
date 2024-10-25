@@ -51,7 +51,6 @@
   var thisPage = grunt.data.json.states[key].name;
 
   var { seo, strings } = grunt.data.json;
-  console.log(seo);
   var metadata = {
     project: Object.assign({}, grunt.data.json.project, {
       title: seo[key + "Title"] ? seo[key + "Title"] : seo.stateTitle.replace(/%state%/g, thisPage),
