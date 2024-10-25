@@ -232,9 +232,7 @@ class Cartogram extends ElementBase {
             electoralLabel.textContent = votes;
             g.appendChild(electoralLabel);
     
-            console.log(x)
-            console.log(y)
-            console.log('++++++++')
+            
             electoralLabel.setAttribute("x", x);
             electoralLabel.setAttribute("y", y + 10);
             electoralLabel.setAttribute("class", "votes");

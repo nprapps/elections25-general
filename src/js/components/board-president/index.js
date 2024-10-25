@@ -27,10 +27,12 @@ class BoardPresident extends ElementBase {
   connectedCallback() {
     this.loadData();
     this.illuminate();
+    gopher.watch(this.getAttribute("./data/president.json"), this.loadData);
   }
 
+
   disconnectedCallback() {
-    gopher.unwatch(this.getAttribute("data-file"), this.onData);
+    gopher.unwatch(this.getAttribute("./data/president.json"), this.loadData);
   }
 
   setupTabs() {
@@ -95,12 +97,6 @@ class BoardPresident extends ElementBase {
 
   render() {
     const { results = [], test, latest } = this.state;
-
-    console.log('////')
-    console.log(this.state)
-    console.log(this.results[0].test)
-    console.log('////')
-
 
     var buckets = {
       likelyD: [],

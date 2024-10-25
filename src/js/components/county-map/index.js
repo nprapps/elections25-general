@@ -36,11 +36,8 @@ class CountyMap extends ElementBase {
 
     if (race !== null) {
       url = `./data/counties/${race}.json`;
-      console.log('this is the county race')
   } else {
       url = `./data/counties/${state}-0.json`;
-      console.log('this is the presid race')
-
   }
 
     try {

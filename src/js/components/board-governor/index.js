@@ -70,6 +70,7 @@ class BoardGovernor extends ElementBase {
 
         this.innerHTML = `
         <div class="president board">
+          ${test ? '<test-banner></test-banner>' : ''}
         <div class="header">
           <div class="title-wrapper">
             <h1 tabindex="-1">Governor Results</h1>

@@ -164,8 +164,7 @@ class NationalMap extends ElementBase {
     this.initLabels();
     this.paint();
 
-    // Clear the SVG container and insert the new SVG
-    //this.svgContainerRef.current.innerHTML = '';
+    this.svgContainerRef.current.innerHTML = '';
     this.svgContainerRef.current.appendChild(this.svg);
 
     // Dispatch an event to signal that the SVG has been loaded and incorporated

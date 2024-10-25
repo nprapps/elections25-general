@@ -131,6 +131,10 @@ class ResultsBoard extends ElementBase {
             hasFlips ? "has-flips" : "no-flips"
         ];
 
+        const anyHasResult = this.races.some(r => r.eevp || r.reporting || r.called || r.runoff);
+        console.log('this is the race')
+        console.log(this.races)
+
 
         this.innerHTML = `
     <div class="${classNames.filter(c => c).join(" ")}">
@@ -142,9 +146,9 @@ class ResultsBoard extends ElementBase {
                       ${this.office === 'President' ? 
                         `<th class="state-hed">State</th>
                         <th class="electoral-hed">E.V.</th>
-                        <th class="party-hed">Harris</th>
-                        <th class="party-hed">Trump</th>
-                        <th class="reporting-hed">% in</th>` : 
+                        <th class="party-hed">${anyHasResult ? 'Harris' : ''}</th>
+                        <th class="party-hed">${anyHasResult ? 'Trump' : ''}</th>
+                        <th class="reporting-hed">${anyHasResult ? '% in' : ''}</th>` : 
                         ''
                       }
                       <th></th>
