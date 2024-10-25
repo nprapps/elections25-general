@@ -18,3 +18,7 @@ nav.addEventListener("change", e => {
 	});
 	selectedSection.classList.add("shown");
 })
+
+document.querySelector("#close-disclaimer").addEventListener("click", () => {
+	document.querySelector("#about-box").classList.add("closed");
+})
