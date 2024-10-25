@@ -56,10 +56,23 @@ module.exports = function (results, data) {
     }
 
     // Add electoral college winners to states
-    // race.id == 0 is usually presidential election
-    if (result.id == 0 && result.level == "state") {
-      const state20 = data.csv.prior_states
-        .filter((s) => s.votes * 1 && s.state == result.state)
+    if (
+      (result.state === "ME" || result.state === "NE") &&
+      result.office == "P" &&
+      result.level == "state"
+    ) {
+      let state20 = data.csv.prior_states
+        .filter((s) => {
+          if (result.seat) {
+            return (
+              s.votes * 1 &&
+              s.statePostal.split("-")[1] == result.seat &&
+              s.statePostal.split("-")[0] === result.state
+            );
+          } else {
+            return s.votes * 1 && s.statePostal == result.state;
+          }
+        })
         .sort((a, b) => b.votes - a.votes);
 
       const candidates = state20.map(function (c) {
@@ -67,6 +80,31 @@ module.exports = function (results, data) {
           last: c.last,
           party: c.party,
           electoral: c.votes,
+          state: c.statePostal,
+        };
+      });
+
+      result.president20 = candidates;
+      if (candidates.length) {
+        result.previousParty = candidates[0].party;
+      }
+    }
+
+    // race.id == 0 is usually presidential election
+    if (
+      (result.id == 0 && result.level == "state") ||
+      result.level == "district"
+    ) {
+      let state20 = data.csv.prior_states
+        .filter((s) => s.votes * 1 && s.statePostal == result.state)
+        .sort((a, b) => b.votes - a.votes);
+
+      const candidates = state20.map(function (c) {
+        return {
+          last: c.last,
+          party: c.party,
+          electoral: c.votes,
+          state: c.statePostal,
         };
       });
 
