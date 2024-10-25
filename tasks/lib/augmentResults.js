@@ -1,3 +1,35 @@
+/**
+ * This function merges in per-county/township census/historical data and flags.
+ * You can see the data in `build/data/states` and `build/data/counties` file.
+ * 
+ * @param
+      {[{
+        test: boolean,
+        id: string,
+        office: string,
+        type: string,
+        winThreshold: number,
+        raceCallStatus: string,
+        level: string,
+        state: string,
+        electoral: number,
+        updated: number,
+        reporting: number,
+        precincts: number,
+        reportingPercent: number,
+        candidates: [{
+            first: string,
+            last: string,
+            party: string,
+            id: string,
+            votes: number,
+            percent: NaN //!LOOK INTO THIS!!
+          }]
+      } 
+ * ]} results - normalized AP data (can be different based on township/county)
+ * @param {Object} data  -  json + csv + markdown + archieml
+ * @returns
+ */
 module.exports = function (results, data) {
   // build DB of external flags
   const flagged = {};
@@ -24,23 +56,55 @@ module.exports = function (results, data) {
     }
 
     // Add electoral college winners to states
-    // race.id == 0 is usually presidential election
-    if (result.id == 0 && result.level == "state") {
-      const state20 = data.csv.prior_states
-        .filter((s) => s.votes * 1 && s.state == result.state)
+    if (
+      (result.state === "ME" || result.state === "NE") &&
+      result.office == "P" &&
+      result.level == "state"
+    ) {
+      let state20 = data.csv.prior_states
+        .filter((s) => {
+          if (result.seat) {
+            return (
+              s.votes * 1 &&
+              s.statePostal.split("-")[1] == result.seat &&
+              s.statePostal.split("-")[0] === result.state
+            );
+          } else {
+            return s.votes * 1 && s.statePostal == result.state;
+          }
+        })
         .sort((a, b) => b.votes - a.votes);
-
-      // if (result.level == "district") {
-      //   state20 = state20.filter((s) => s.district == result.district);
-      // } else {
-      //   state20 = state20.filter((s) => !s.district);
-      // }
 
       const candidates = state20.map(function (c) {
         return {
           last: c.last,
           party: c.party,
           electoral: c.votes,
+          state: c.statePostal,
+        };
+      });
+
+      result.president20 = candidates;
+      if (candidates.length) {
+        result.previousParty = candidates[0].party;
+      }
+    }
+
+    // race.id == 0 is usually presidential election
+    if (
+      (result.id == 0 && result.level == "state") ||
+      result.level == "district"
+    ) {
+      let state20 = data.csv.prior_states
+        .filter((s) => s.votes * 1 && s.statePostal == result.state)
+        .sort((a, b) => b.votes - a.votes);
+
+      const candidates = state20.map(function (c) {
+        return {
+          last: c.last,
+          party: c.party,
+          electoral: c.votes,
+          state: c.statePostal,
         };
       });
 
@@ -49,7 +113,7 @@ module.exports = function (results, data) {
         result.previousParty = candidates[0].party;
       }
     } else {
-      // remaining steps are county-specific
+      // remaining steps are county/township-specific
       if (!result.fips) return;
 
       // get the winner margin from the previous presidential election
