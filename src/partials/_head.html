@@ -1,7 +1,16 @@
+<%
+  var pageURL = project.url;
+  if (project.statePath != undefined) {
+    pageURL = pageURL + project.statePath;
+  }
+%>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title><%= project.title %> : NPR</title>
+<meta name="description" content="<%= project.description %>">
+<link rel="canonical" href="<%= pageURL %>" />
 
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="180x180" href="https://media.npr.org/templates/favicon/favicon-180x180.png" />
@@ -20,16 +29,16 @@
 <!-- BEGIN TWITTER SUMMARY CARD -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="<%= project.title %>">
-<meta name="twitter:site" content="@nprviz">
-<meta name="twitter:url" content="<%= project.url %>">
+<meta name="twitter:site" content="@nprpolitics">
+<meta name="twitter:url" content="<%= pageURL %>">
 <meta name="twitter:image" content="<%= project.url + project.image %>">
 <meta name="twitter:description" content="<%= project.description %>">
 
 <!-- Social sharing meta -->
 <meta property="og:type" content="article">
 <meta property="og:title" content="<%= project.title %>">
-<meta property="og:site_name" content="NPR Visuals">
-<meta property="og:url" content="<%= project.url %>">
+<meta property="og:site_name" content="NPR">
+<meta property="og:url" content="<%= pageURL %>">
 <meta property="og:image" content="<%= project.url + project.image %>">
 <meta property="og:description" content="<%= project.description %>">
 
@@ -46,7 +55,7 @@
   "@type": "NewsArticle",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "<%= project.url %>"
+    "@id": "<%= pageURL %>"
   },
   "headline": "<%= project.title %>",
   "image": {
@@ -62,7 +71,7 @@
     "name": "NPR",
     "logo": {
       "@type": "ImageObject",
-      "url": "<%= project.url %>assets/logo.png",
+      "url": "<%= pageURL %>assets/logo.png",
       "width": 2176,
       "height": 725
     }

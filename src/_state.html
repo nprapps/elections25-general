@@ -1,4 +1,6 @@
 <%
+  var classify = require("./lib/classify");
+
   const senateData = require("../data/senate.json");
   const stateData = require("../build/data/states/" + key + ".json");
 
@@ -44,12 +46,26 @@
     seatNumber: race.seatNumber,
     keyRace: race.keyRace
   }));
+
+  // header metadata
+  var thisPage = grunt.data.json.states[key].name;
+
+  var { seo, strings } = grunt.data.json;
+  console.log(seo);
+  var metadata = {
+    project: Object.assign({}, grunt.data.json.project, {
+      title: seo[key + "Title"] ? seo[key + "Title"] : seo.stateTitle.replace(/%state%/g, thisPage),
+      description: seo["description" + key.toUpperCase()] ? seo["description" + key.toUpperCase()] : seo.stateDescription.replace(/%state%/g, thisPage),
+      statePath: classify(thisPage) + ".html",
+      image: "assets/synced/promos/state-" + key.toLowerCase() + ".png"
+    })
+  };
 %>
 
 <!doctype html>
 <html lang="en-US">
   <head>
-    <%= t.include("partials/_head.html", grunt.data.json) %>
+    <%= t.include("partials/_head.html", metadata) %>
     <link rel="stylesheet" type="text/css" href="state.css">
     <link rel="stylesheet" type="text/css" href="states.css">
     <link rel="stylesheet" type="text/css" href="county.css">

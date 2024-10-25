@@ -1,7 +1,19 @@
+<%
+var thisPage = "president";
+var { seo, strings } = grunt.data.json;
+var metadata = {
+  project: Object.assign({}, grunt.data.json.project, {
+    title: seo[thisPage + "Title"] ? seo[thisPage + "Title"] : seo["defaultTitle"],
+    description: seo[thisPage + "Description"],
+    image: "assets/synced/" + thisPage + "-results.jpg"
+  })
+};
+%>
+
 <!doctype html>
 <html lang="en-US">
   <head>
-    <%= t.include("partials/_head.html", grunt.data.json) %>
+    <%= t.include("partials/_head.html", metadata) %>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>

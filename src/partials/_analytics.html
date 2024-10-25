@@ -1,19 +1,25 @@
 <% if (!json.project.embedded) { %>
-<!-- Chartbeat bottom -->
-<script>
-var _sf_async_config={
-  uid:18888,
-  domain:"npr.org"
-};
-(function(){
-  function loadChartbeat() {
-    window._sf_endpt=(new Date()).getTime();
-    var e = document.createElement('script');
-    e.setAttribute('src', "https://static.chartbeat.com/js/chartbeat.js");
-    document.body.appendChild(e);
+  <!-- Chartbeat bottom -->
+  <script>
+    const queryString = window.location.search;
+  var urlParams = new URLSearchParams(queryString);
+  
+  if (!urlParams.get("embedded")) {
+  var _sf_async_config={
+    uid:33583,
+    domain:"npr.org",
+    useCanonical: true
+  };
+  (function(){
+    function loadChartbeat() {
+      window._sf_endpt=(new Date()).getTime();
+      var e = document.createElement('script');
+      e.setAttribute('src', "https://static.chartbeat.com/js/chartbeat.js");
+      document.body.appendChild(e);
+    }
+    var oldonload = window.onload;
+    window.onload = (typeof window.onload != 'function') ? loadChartbeat : function() { oldonload(); loadChartbeat(); };
+  })();
   }
-  var oldonload = window.onload;
-  window.onload = (typeof window.onload != 'function') ? loadChartbeat : function() { oldonload(); loadChartbeat(); };
-})();
-</script>
-<% } %>
+  </script>
+  <% } %>

@@ -26,9 +26,9 @@
     "src/js/customizer.js": "build/customizer.js",
     "src/js/sidechain.js": "build/sidechain.js"
   },
-  "title": "",
-  "description": "",
-  "url": "",
+  "title": "2024 Election Results: Live",
+  "description": "View interactive maps and live results for the 2024 U.S. election.",
+  "url": "https://apps.npr.org/2024-election-results/",
   "image": "assets/logo.png",
   "analytics": {
     "topicIDs": [],
