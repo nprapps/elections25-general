@@ -107,13 +107,27 @@ function getPartyPrefix(party) {
   return prefix;
 }
 
-function getBucket(rating) {
-  if (rating == "solid-d" || rating == "likely-d") {
-    return "likelyD";
-  } else if (rating == "lean-d" || rating == "toss-up" || rating == "lean-r") {
-    return "tossup";
-  } else if (rating == "solid-r" || rating == "likely-r") {
-    return "likelyR";
+function getBucket(rating, chamber = null) {
+  if (chamber == "house") {
+    if (rating == "lean-d" || rating == "solid-d" || rating == "likely-d") {
+      return "likelyD";
+    } else if (rating == "toss-up") {
+      return "tossup";
+    } else if (rating == "solid-r" || rating == "likely-r" || rating == "lean-r") {
+      return "likelyR";
+    } else {
+      console.log("bucket error", rating);
+    }
+  } else {
+    if (rating == "solid-d" || rating == "likely-d") {
+      return "likelyD";
+    } else if (rating == "lean-d" || rating == "toss-up" || rating == "lean-r") {
+      return "tossup";
+    } else if (rating == "solid-r" || rating == "likely-r") {
+      return "likelyR";
+    } else {
+      console.log("bucket error", rating);
+    }
   }
 }
 
