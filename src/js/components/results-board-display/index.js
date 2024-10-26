@@ -98,6 +98,11 @@ class ResultsBoardDisplay extends ElementBase {
             this.results = raceData.results || [];
             this.states = statesData || {};
 
+            // filter results shown to just key races (as designated in the config)
+            if (this.office.toLowerCase() == "house") {
+              this.results = this.results.filter(d => d.keyRace == "yes");
+            }
+
             this.isLoading = false;
             this.render();
         } catch (error) {
