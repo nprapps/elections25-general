@@ -120,7 +120,7 @@ class ResultsBoard extends ElementBase {
         if (this.split) {
             let half = Math.ceil(this.races.length / 2);
             let firstHalf = this.races.slice(0, half);
-            let secondHalf = this.races.slice(-half);
+            let secondHalf = this.races.slice(half);
             tables = [firstHalf, secondHalf];
         }
 
@@ -131,9 +131,7 @@ class ResultsBoard extends ElementBase {
             hasFlips ? "has-flips" : "no-flips"
         ];
 
-        const anyHasResult = this.races.some(r => r.eevp || r.reporting || r.called || r.runoff);
-        console.log('this is the race')
-        console.log(this.races)
+        const anyHasResult = this.races.some(r => r.eevp || r.reporting || r.called || r.runoff || r.rcvResult);
 
 
         this.innerHTML = `
@@ -177,6 +175,7 @@ class ResultsBoard extends ElementBase {
                                     ${this.CandidateCells(r, winner)}
                                     <td role="cell" class="reporting">${percentIn}</td>
                                     <td role="cell" class="little-label ${flipped ? winner.party : ''}">
+                                        <span class="${r.rcvResult ? "rcv-label" : ""}">${r.rcvResult ? "RCV" : ""}</span>
                                         <span class="${r.runoff ? "runoff-label" : ""}">${r.runoff ? "R.O." : ""}</span>
                                         <span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>
                                     </td>
@@ -215,6 +214,7 @@ class ResultsBoard extends ElementBase {
                                     <td class="reporting" role="cell">${percentIn}</td>
                                     ${this.office === "Senate" || this.office === "House" || this.office === "governor" ? `
                                         <td class="little-label ${flipped ? winner.party : ''}" role="cell">
+                                            <span class="${r.rcvResult ? "rcv-label" : ""}">${r.rcvResult ? "RCV" : ""}</span>
                                             <span class="${r.runoff ? "runoff-label" : ""}">${r.runoff ? "R.O." : ""}</span>
                                             ${this.office !== "House" ? `<span class="${flipped ? "flip-label" : ""}">${flipped ? "Flip" : ""}</span>` : ''}
                                         </td>
