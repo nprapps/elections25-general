@@ -6,7 +6,6 @@ const dot = require("../../lib/dot");
 const template = dot.compile(require("./_results-table.html"));
 const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIcon, formatEEVP } = require("../util");
 import stringsSheet from "../../../../data/strings.sheet.json";
-console.log(stringsSheet);
 
 const headshots = {
   Harris:
