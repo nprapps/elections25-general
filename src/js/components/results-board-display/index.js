@@ -170,31 +170,31 @@ class ResultsBoardDisplay extends ElementBase {
                 </div>
             `;
         } else if (this.office.includes('House')) {
-
             content += `
-        <div class="board-container House">
-            ${this.results ? `
-                <results-board 
-                    office="House"
-                    hed="Lean Democratic"
-                    class="first"
-                    races='${JSON.stringify(buckets.likelyD || []).replace(/'/g, "&#39;")}'>
-                </results-board>
-                <results-board 
-                    office="House"
-                    hed="Toss-Up Seats"
-                    class="middle"
-                    races='${JSON.stringify(buckets.tossup || []).replace(/'/g, "&#39;")}'>
-                </results-board>
-                <results-board 
-                    office="House"
-                    hed="Lean Republican"
-                    class="last"
-                    races='${JSON.stringify(buckets.likelyR || []).replace(/'/g, "&#39;")}'>
-                </results-board>
-            ` : ''}
-        </div>
-    `;
+                <div class="board-container House">
+                    ${this.results ? `
+                        <results-board 
+                            office="House"
+                            hed="Lean Democratic"
+                            class="first"
+                            races='${JSON.stringify(buckets.likelyD || []).replace(/'/g, "&#39;")}'>
+                        </results-board>
+                        <results-board 
+                            office="House"
+                            hed="Toss-Up Seats"
+                            split="true"
+                            class="middle"
+                            races='${JSON.stringify(buckets.tossup || []).replace(/'/g, "&#39;")}'>
+                        </results-board>
+                        <results-board 
+                            office="House"
+                            hed="Lean Republican"
+                            class="last"
+                            races='${JSON.stringify(buckets.likelyR || []).replace(/'/g, "&#39;")}'>
+                        </results-board>
+                    ` : ''}
+                </div>
+            `;
         } else if (this.office.includes('governor')) {
             content += `
                 <div class="board-container Gov">

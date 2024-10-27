@@ -70,16 +70,16 @@ class BoardHouse extends ElementBase {
 
         this.innerHTML = `
         <div class="president board">
-        <div class="header">
-          <div class="title-wrapper">
-            <h1 tabindex="-1">House Results</h1>
-          </div>
+          <div class="header">
+            <div class="title-wrapper">
+              <h1 tabindex="-1">Key House Results</h1>
+            </div>
             <div class="bop-wrapper">
-           <balance-of-power-combined race="house"></balance-of-power-combined>
-           </div>
-        </div>
-            <results-board-display office="House" split="true" hed="Competitive"></results-board-display>
-            <results-board-key race="house"></results-board-key>
+             <balance-of-power-combined race="house"></balance-of-power-combined>
+            </div>
+          </div>
+          <results-board-display office="House" split="true" hed="Competitive"></results-board-display>
+          <results-board-key race="house"></results-board-key>
           <hr class="divider" />
         </div>
       `;
