@@ -43,11 +43,16 @@ class BalanceOfPowerHouse extends ElementBase {
 
     var results = (this.data.results);
 
+    var showUnaffiliated = false;
+
     var house = {
-      Dem: { total: (0) },
-      GOP: { total: (0) },
-      Ind: { total: (0) },
-      Other: { total: (0) },
+      Dem: { total: (0), gains: 0 },
+      GOP: { total: (0), gains: 0 },
+      Ind: { total: (0), gains: 0 },
+      IndCaucusDem: { total: 0, gains: 0 },
+      IndCaucusGOP: { total: 0, gains: 0 },
+      IndUnaffiliated: { total: 0, gains: 0 },
+      Other: { total: (0), gains: 0 },
       Con: { total: (0) },
       Lib: { total: (0) }
     }
@@ -56,7 +61,10 @@ class BalanceOfPowerHouse extends ElementBase {
       if (r.hasOwnProperty('called') && r.called == true) {
         var winnerParty = r.winnerParty;
         var previousParty = r.previousParty;
-  
+        if (winnerParty != "Dem" && winnerParty != "GOP") {
+          winnerParty = "Ind";
+        }
+
         if (!house[winnerParty]) {
           house[winnerParty] = { total: 0, gains: 0 };
         }
@@ -70,9 +78,30 @@ class BalanceOfPowerHouse extends ElementBase {
           house[winnerParty].gains += 1;
           house[previousParty].gains -= 1;
         }
+        
+        // account for how an independent candidate may caucus
+        if (winnerParty == "Ind") {
+          if (r.caucusWith && r.caucusWith == "GOP") {
+            house.IndCaucusGOP.total += 1;
+          }
+          if (r.caucusWith && r.caucusWith == "Dem") {
+            house.IndCaucusDem.total += 1;
+          }
+          if (!r.caucusWith) {
+            house.IndUnaffiliated.total += 1;
+            showUnaffiliated = true;
+            console.log("unaffiliated!");
+          }
+        }
       }
     });
   
+    var footnote = "";
+    if (showUnaffiliated) {
+      console.log(showUnaffiliated);
+      footnote = `<div class="footnote">* Independents who caucus with Democrats (${ house.IndCaucusDem.total }) or Republicans (${ house.IndCaucusGOP.total }) are shown in the bar chart. Unaffiliated independents (${ house.IndUnaffiliated.total }) are not shown in the chart but are included in the overall count.</div>`
+    }
+
     house.netGainParty = "none";
     var [topHouse] = Object.keys(house)
       .filter(k => k !== 'netGainParty' && k !== 'netGain')
@@ -88,6 +117,7 @@ class BalanceOfPowerHouse extends ElementBase {
     </span>`
     
 
+    //! UPDATE OR REMOVE LINK (LINK IS ONLY NEEDED FOR EMBED)
     this.innerHTML = `
     <div id="embed-bop-on-page">
       <a class="link-container house" href="http://apps.npr.org/election-results-live-2022/#/house" target="_top">
@@ -99,7 +129,7 @@ class BalanceOfPowerHouse extends ElementBase {
           ${house.Ind.total ? `
             <div class="candidate other">
               <div class="name">Ind. ${house.Ind.total >= 218 ? winnerIcon : ""}</div>
-              <div class="votes">${house.Ind.total}</div>
+              <div class="votes">${house.Ind.total}${showUnaffiliated ? "*" : ""}</div>
             </div>
           ` : ''}
           ${435 - house.Dem.total - house.GOP.total - house.Ind.total > 0 ? `
@@ -116,13 +146,17 @@ class BalanceOfPowerHouse extends ElementBase {
 
         <div class="bar-container">
           <div class="bar dem" style="width: ${(house.Dem.total / 435 * 100)}%"></div>
-          <div class="bar other" style="width: ${(house.Ind.total / 435 * 100)}%"></div>
+          <div class="bar other dem" style="width: ${(house.IndCaucusDem.total / 435 * 100)}%"></div>
           <div class="bar gop" style="width: ${(house.GOP.total / 435 * 100)}%"></div>
+          <div class="bar other gop" style="width: ${(house.IndCaucusGOP.total / 435 * 100)}%"></div>
           <div class="middle"></div>
         </div>
+        <div class="bop-footer">
+          <div class="chatter"><strong>218</strong> seats for majority</div>
+        </div>
 
-        <div class="chatter"><strong>218</strong> seats for majority</div>
-    </div>
+      ${ footnote }
+      </div>
       </a>
     </div>
   `;

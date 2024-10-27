@@ -43,6 +43,9 @@ class BalanceOfPowerSenate extends ElementBase {
     render() {
         if (!this.data) return;
 
+        console.log('balance-of-power-senate', this.data);
+
+        //! UPDATE THIS — WE SHOULD NOT BE HARD-CODING THIS
         var InactiveSenateRaces = {
             "GOP": 38,
             "Dem": 28,
@@ -54,12 +57,15 @@ class BalanceOfPowerSenate extends ElementBase {
 
         var results = (this.data.results);
 
-        var mcmullinWon = false;
+        var showUnaffiliated = false;
 
         var senate = {
             Dem: { total: InactiveSenateRaces.Dem, gains: 0 },
             GOP: { total: InactiveSenateRaces.GOP, gains: 0 },
             Ind: { total: InactiveSenateRaces.Other, gains: 0 },
+            IndCaucusDem: { total: 0, gains: 0 },
+            IndCaucusGOP: { total: 0, gains: 0 },
+            IndUnaffiliated: { total: 0, gains: 0 },
             Other: { total: (0), gains: 0  },
             Con: { total: (0), gains: 0  },
             Lib: { total: (0), gains: 0  }
@@ -67,31 +73,47 @@ class BalanceOfPowerSenate extends ElementBase {
 
         results.forEach(function (r) {
           if (r.hasOwnProperty('called') && r.called == true) {
-            if (r.id == '46329' && r.winnerParty == 'Ind') {
-              mcmullinWon = true;
-            }
-        
             var winnerParty = r.winnerParty;
+            if (winnerParty != "Dem" && winnerParty != "GOP") {
+              winnerParty = "Ind";
+            }
+
             var previousWinner = r.previousParty;
-        
+            var caucusWith = r.caucusWith;
+
             if (!senate[winnerParty]) {
               senate[winnerParty] = { total: 0, gains: 0 };
             }
             if (!senate[previousWinner]) {
               senate[previousWinner] = { total: 0, gains: 0 };
             }
-        
+
             senate[winnerParty].total += 1;
             if (winnerParty != previousWinner) {
               senate[winnerParty].gains += 1;
               senate[previousWinner].gains -= 1;
             }
+
+            // account for how an independent candidate may caucus
+            if (winnerParty == "Ind") {
+              if (r.caucusWith && r.caucusWith == "GOP") {
+                senate.IndCaucusGOP.total += 1;
+              }
+              if (r.caucusWith && r.caucusWith == "Dem") {
+                senate.IndCaucusDem.total += 1;
+              }
+              if (!r.caucusWith) {
+                senate.IndUnaffiliated.total += 1;
+                showUnaffiliated = true;
+              }
+            }
+        
           }
         });
-
-        senate.Ind.width = senate.Ind.total;
-        if (mcmullinWon) {
-            senate.Ind.width = (senate.Ind.total) - 1;
+        
+        var footnote = "";
+        if (showUnaffiliated) {
+          footnote = `<div class="footnote">* Independents who caucus with Democrats (${ senate.IndCaucusDem.total }) or Republicans (${ senate.IndCaucusGOP.total }) are shown in the bar chart. Unaffiliated independents (${ senate.IndUnaffiliated.total }) are not shown in the chart but are included in the overall count.</div>`
         }
 
         senate.netGainParty = "none";
@@ -104,6 +126,8 @@ class BalanceOfPowerSenate extends ElementBase {
             senate.netGain = topSenate.gains;
         }
 
+
+        //! UPDATE OR REMOVE LINK (LINK IS ONLY NEEDED FOR EMBED)
         this.innerHTML = `
       <main class="embed-bop">
     <div id="embed-bop-on-page" class="embed-bop">
@@ -116,10 +140,10 @@ class BalanceOfPowerSenate extends ElementBase {
         ${senate.Ind.total ?
                 `<div class="candidate other">
             <div class="name">Ind. ${senate.Ind.total >= 51 ? winnerIcon : ""}</div>
-            <div class="votes">${senate.Ind.total}${mcmullinWon ? "*" : ""}</div>
+            <div class="votes">${senate.Ind.total}${showUnaffiliated ? "*" : ""}</div>
           </div>`
                 : ""}
-        ${100 - senate.Dem.total - senate.GOP.total - senate.Ind.width ?
+        ${100 - senate.Dem.total - senate.GOP.total - senate.Ind.total ?
                 `<div class="candidate uncalled">
             <div class="name">Not yet called</div>
             <div class="votes">${100 - senate.Dem.total - senate.GOP.total - senate.Ind.total}</div>
@@ -134,21 +158,27 @@ class BalanceOfPowerSenate extends ElementBase {
  <div class="bar-container">
   <div class="bar dem" style="width: ${senate.Dem.total}%">
   </div>
-  <div class="bar other" style="width: ${senate.Ind.width}%">
+  <div class="bar other dem" style="width: ${senate.IndCaucusDem.total}%">
   </div>
   <div class="bar gop" style="width: ${senate.GOP.total}%">
+  </div>
+  <div class="bar other gop" style="width: ${senate.IndCaucusGOP.total}%">
   </div>
   <div class="middle"></div>
 </div>
       </div>
 
-      <div class="chatter"><strong>51</strong> seats for majority</div>
+      <div class="bop-footer">
+        <div class="chatter"><strong>51</strong> seats for majority</div>
 
-      <div class="net-gain-container">
-        <div class="net-gain ${senate.netGainParty}">${senate.netGainParty != "none"
-                ? `${senate.netGainParty} +${senate.netGain}`
-                : "No change"}</div>
+        <div class="net-gain-container">
+          <div class="net-gain ${senate.netGainParty}">${senate.netGainParty != "none"
+                  ? `${senate.netGainParty} +${senate.netGain}`
+                  : "No change"}</div>
+        </div>
       </div>
+
+      ${ footnote }
     </a>
   </div>
   `;

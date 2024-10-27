@@ -14,12 +14,14 @@
     "src/css/senate.less": "build/senate.css",
     "src/css/state.less": "build/state.css",
     "src/css/house.less": "build/house.css",
-    "src/css/county.less": "build/county.css"
+    "src/css/county.less": "build/county.css",
+    "src/css/embeds.less": "build/embeds.css"
   },
   "scripts": {
     "src/js/main.js": "build/app.js",
     "src/js/loadHeaderBidding.js": "build/loadHeaderBidding.js",
-    "src/js/state.js": "build/state.js"
+    "src/js/state.js": "build/state.js",
+    "src/js/embedBOP.js": "build/embedBOP.js"
   },
   "scriptsOnce": {
     "src/js/embed.js": "build/embed.js",
@@ -31,9 +33,9 @@
   "url": "https://apps.npr.org/2024-election-results/",
   "image": "assets/logo.png",
   "analytics": {
-    "topicIDs": [],
-    "primaryTopic": "",
-    "secondaryTopics": []
+    "topicIDs": [1014,139482413,1088064557,1197733670],
+    "primaryTopic": "elections",
+    "secondaryTopics": ["p139482413",1014]
   },
   "sheets": [ 
     "1zlv0MndWsdLnp15NI1tFjD7eJuvcYgpmhutASiOqcgk",

@@ -39,6 +39,7 @@ class BalanceOfPowerCombined extends ElementBase {
 
             this.senate = this.data.senate;
             this.house = this.data.house;
+
             this.render();
         } catch (error) {
             console.error("Could not load JSON data:", error);
