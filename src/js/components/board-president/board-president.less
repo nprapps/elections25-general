@@ -68,6 +68,10 @@
     }
   }
 
+  // .electoral-wrappper {
+  //   position: relative;
+  // }
+
   .electoral-bars {
     height: 10px;
     max-width: 600px;
@@ -98,15 +102,15 @@
       border: 0;
       border-left: 1px solid fade(black, 60%);
       overflow: visible;
-
-      .label {
-        position: absolute;
-        bottom: calc(~"100% + 4px");
-        color: @gray;
-        transform: translateX(-50%);
-        .sans();
-        white-space: nowrap;
-      }
+    }
+    .label {
+      position: absolute;
+      left: 50%;
+      bottom: calc(~"100% + 4px");
+      color: @gray;
+      transform: translateX(-50%);
+      .sans();
+      white-space: nowrap;
     }
   }
 
