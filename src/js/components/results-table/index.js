@@ -5,6 +5,8 @@ const ElementBase = require("../elementBase");
 const dot = require("../../lib/dot");
 const template = dot.compile(require("./_results-table.html"));
 const { classify, mapToElements, formatAPDate, formatTime, formatComma, winnerIcon, formatEEVP } = require("../util");
+import stringsSheet from "../../../../data/strings.sheet.json";
+console.log(stringsSheet);
 
 const headshots = {
   Harris:
@@ -65,6 +67,19 @@ class ResultsTable extends ElementBase {
       elements.specialElectionFootnote.innerHTML = result.flags[0];
     } else {
       elements.specialElectionFootnote.remove();
+    }
+
+    if (result.rcvResult) {
+      switch (result.rcvResult) {
+        case "pending":
+          elements.rcvFootnote.innerHTML = stringsSheet.rcv_pending_footnote;
+          break;
+        case "final":
+          elements.rcvFootnote.innerHTML = stringsSheet.rcv_final_footnote;
+          break;
+      }
+    } else {
+      elements.rcvFootnote.remove();
     }
 
     if (candidates.some(d => d[0].incumbent) === true) {
