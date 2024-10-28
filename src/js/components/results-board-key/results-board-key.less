@@ -3,25 +3,24 @@
 .board-key {
 	color: #666;
 	font-size: 12px;
-
-	h3 {
-		//.sans-header();
-		margin-bottom: 4px;
-		color: #444;
-	}
+  padding: 10px 20px 40px 20px;
 
 	ul {
 		list-style-type: none;
+    margin: 0 auto;
 		padding-left: 0;
 		display: flex;
 		flex-flow: row wrap;
-		margin-top: 0;
+    justify-content: center;
+    gap: 5px 20px;
+    max-width: 1000px;
 
 		li {
-			line-height: 20px;
+      // width: calc(25% - 20px);
+			line-height: 16px;
+      white-space: nowrap;
 			display: block;
-			white-space: nowrap;
-			width: 250px;
+      max-width: 250px;
 		}
 	}
 
@@ -70,17 +69,12 @@
 	}
 
 	.pickup,
-	.runoff {
+	.runoff,
+  .rcv {
 		span {
 			.sans();
 			font-size: 8px;
 			font-weight: bold;
-		}
-	}
-
-	.pickup {
-		span {
-			color: @dem;
 		}
 	}
 
@@ -102,11 +96,17 @@
 	}
 }
 
-.president .board-key ul {
-	justify-content: center;
+hr.divider {
+  max-width: 300px;
+  margin: 20px auto;
+  border: 1px solid @gray-lighter;
 }
 
-.president .board-key li {
-	width: 180px;
-	text-align: center;
-}
+// .president .board-key ul {
+// 	justify-content: center;
+// }
+
+// .president .board-key li {
+// 	width: 180px;
+// 	text-align: center;
+// }

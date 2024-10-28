@@ -78,7 +78,6 @@ class BoardGovernor extends ElementBase {
         </div>
             <results-board-display office="governor"  hed="Competitive"></results-board-display>
             <results-board-key race="gov"></results-board-key>
-          <hr class="divider" />
         </div>
       `;
     }

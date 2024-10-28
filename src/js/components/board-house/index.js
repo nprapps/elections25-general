@@ -80,7 +80,6 @@ class BoardHouse extends ElementBase {
           </div>
           <results-board-display office="House" split="true" hed="Competitive"></results-board-display>
           <results-board-key race="house"></results-board-key>
-          <hr class="divider" />
         </div>
       `;
     }

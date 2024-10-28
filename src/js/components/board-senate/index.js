@@ -82,8 +82,6 @@ class BoardSenate extends ElementBase {
         </div>
             <results-board-display office="Senate" split="true" hed="Competitive"></results-board-display>
             <results-board-key race="senate"></results-board-key>
-
-          <hr class="divider" />
         </div>
       `;
     }
