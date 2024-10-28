@@ -412,7 +412,7 @@ module.exports = {
   getCountyVariable,
   getParty,
   getPartyPrefix,
-  goingToRCVRunOff,
+  // goingToRCVRunOff,
   groupBy,
   groupCalled,
   inDays,

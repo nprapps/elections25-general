@@ -109,6 +109,15 @@
           <% } %>
         </section>
     	<% }); %>
+
+      <p class="source-footnote">
+        <strong>Notes:</strong>
+        <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
+        <%= t.smarty(grunt.data.json.strings.sources) %>
+        <%= t.smarty(grunt.data.json.strings.trends_footnote) %>
+        <%= t.smarty(grunt.data.json.strings.unemployment_footnote) %>
+        <%= t.smarty(grunt.data.json.strings.margins_footnote) %>
+      </p>
     </main>
     <%= t.include("partials/_ad.html", {id: "ad-secondary"}) %> 
     <%= t.include("partials/_footer.html", {"data": grunt.data.json.states}) %>
