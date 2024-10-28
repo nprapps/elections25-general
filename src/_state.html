@@ -1,43 +1,33 @@
 <%
   var classify = require("./lib/classify");
 
-  const senateData = require("../data/senate.json");
   const stateData = require("../build/data/states/" + key + ".json");
 
-  const offices = {
-    "key-races": "key-races",
-    "president": "P",
-  	"governor": "G",
-  	"senate": "S",
-  	"house": "H",
-  	"ballot-measures": "I"
-  }
-
   let sections = ["key-races", "president"];
-  let keyRaceSections = ["president"];
+  let keyRaceCollections = ["president"];
 
   if (stateData.results.filter(d => d.office === "G").length > 0) {
-  	sections.push("governor");
-    keyRaceSections.push("governor");
+    sections.push("governor");
+    keyRaceCollections.push("governor");
   }
   if (stateData.results.filter(d => d.office === "S").length > 0) {
-  	sections.push("senate");
-  	keyRaceSections.push("senate");
+    sections.push("senate");
+    keyRaceCollections.push("senate");
   }
   if (key != "DC") {
-  	sections.push("house");
+    sections.push("house");
   }
   if (stateData.results.filter(d => d.office === "I").length > 0) {
-  	sections.push("ballot-measures");
+    sections.push("ballot-measures");
   }
 
   if (stateData.results.filter(d => d.office === "H" && d.keyRace === "yes").length > 0) {
-    keyRaceSections.push("house");
+    keyRaceCollections.push("house");
   }
   if (stateData.results.filter(d => d.office === "I" && d.keyRace === "yes").length > 0) {
-    keyRaceSections.push("ballot-measures");
+    keyRaceCollections.push("ballot-measures");
   }
-
+  
   const listOfCountyRaces = stateData.results
   .filter(race => race.office === "S" || race.office === "G")
   .map(race => ({
@@ -76,39 +66,7 @@
 
     <%= t.include("partials/_statePageHeader.html", {state: key, sections: sections}) %>
     <main class="app constrained">
-    	<% sections.forEach(section => { %>
-    		<section id="<%= section %>-section" <%= section === "key-races" ? "class='shown'" : "" %>>
-    			<% if (section === "key-races") { %>
-            <% keyRaceSections.forEach(office => { %>
-              <results-collection state="<%= key %>" office="<%= offices[office] %>" key-races-only></results-collection>
-            <% }); %>
-          <% } else { %>
-            <results-collection state="<%= key %>" office="<%= offices[section] %>"></results-collection>
-            <% if (section === "president") { %>
-              <h3 class="section-hed">Presidential results by county</h3>
-              <county-map state="<%= key %>"></county-map>
-              <county-dataviz state="<%= key %>"></county-dataviz>
-              <results-table-county
-              state="<%= key %>"
-              race-id="0"
-              order="1"></results-table-county>
-            <% } %>
-            
-            <% if (section === "senate" || section === "governor") { %>
-              <h3 class="section-hed">Senate results by county</h3>
-              <% listOfCountyRaces.filter(race => race.office === offices[section]).forEach((race, index) => { %>
-                <%= race.office %>: <%= race.id %>
-                <county-map state="<%= key %>" race-id="<%= key %>-<%= race.id %>"></county-map>
-                <county-dataviz state="<%= key %>" race="<%= key %>-<%= race.id %>"></county-dataviz>
-                <results-table-county
-              state="<%= key %>"
-              race-id="<%= race.id %>"
-              order="1"></results-table-county>
-              <% }); %>
-            <% } %>
-          <% } %>
-        </section>
-    	<% }); %>
+      <state-page-results state="<%= key %>" key-race-collections='<%= JSON.stringify(keyRaceCollections).replace(/'/g, "&#39;") %>' sections='<%= JSON.stringify(sections).replace(/'/g, "&#39;") %>' county-races='<%= JSON.stringify(listOfCountyRaces).replace(/'/g, "&#39;") %>'></state-page-results>
 
       <p class="source-footnote">
         <strong>Notes:</strong>

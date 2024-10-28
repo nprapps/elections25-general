@@ -1,7 +1,7 @@
 import './nav.js';
 
-require("./components/results-collection");
-require("./components/results-table");
+require("./components/state-page-results")
+require("./components/results-table")
 require("./components/county-map")
 require("./components/county-dataviz")
 require("./components/county-map")

@@ -180,8 +180,6 @@ class CountyChart extends ElementBase {
 
 
         const [orderLess, orderMore] = order;
-
-        console.log(order)
     
         let yLabel;
         if (this.getAttribute('variable') == "past_margin") {
