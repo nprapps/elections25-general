@@ -101,9 +101,9 @@ class ResultsBoard extends ElementBase {
 
         this.races.some(function (r) {
             let [winner] = r.candidates.filter(c => c.winner);
-            if (goingToRCVRunOff(r.id)) {
-                hasFlips = true;
-            }
+            // if (goingToRCVRunOff(r.id)) {
+            //     hasFlips = true;
+            // }
 
             if (winner && (
                 r.previousParty !== winner.party ||

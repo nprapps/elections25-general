@@ -28,16 +28,16 @@ function reportingPercentage(pct) {
 One off to deal with new alaska stuff, 2022. 
 raceID's should be listed as string, e.g. "2933"
 */
-function goingToRCVRunOff(raceID) {
-  // 20645  is ME-02, tabulation on 11/15
-  // 2933  AK race, RCV on 11/23
-  // 2015 AK race, RCV on 11/23
-  var RCV_race_list = ["20645", "2933", "2015"];
-  if (RCV_race_list.includes(raceID) ) {
-      return true;
-    }
-  return false;
-}
+// function goingToRCVRunOff(raceID) {
+//   // 20645  is ME-02, tabulation on 11/15
+//   // 2933  AK race, RCV on 11/23
+//   // 2015 AK race, RCV on 11/23
+//   var RCV_race_list = ["20645", "2933", "2015"];
+//   if (RCV_race_list.includes(raceID) ) {
+//       return true;
+//     }
+//   return false;
+// }
 
 /*
   Sort a list of candidates by party, with Dems always first and GOP always last
@@ -144,7 +144,7 @@ const availableMetrics = {
     format: formatters.comma,
   },
   past_margin: {
-    name: "2020 Presidential Margin",
+    name: "2020 presidential margin",
     format: formatters.voteMargin,
   },
   unemployment: {
@@ -164,11 +164,11 @@ const availableMetrics = {
     format: formatters.percentDecimal,
   },
   median_income: {
-    name: "Median Income",
+    name: "Median income",
     format: formatters.chain([formatters.comma, formatters.dollars]),
   },
   percent_bachelors: {
-    name: "% College-Educated",
+    name: "% College-educated",
     format: formatters.percent,
   },
   countyName: {
@@ -295,7 +295,7 @@ var formatAPDate = date => `${apMonths[date.getMonth()]} ${date.getDate()}, ${da
 var formatTime = function(date) {
   var h = date.getHours()
   var m = date.getMinutes().toString().padStart(2, "0");
-  var suffix = h > 12 ? "p.m." : "a.m.";
+  var suffix = h >= 12 ? "p.m." : "a.m.";
   var offset = date.getTimezoneOffset() / 60;
   var zone = "";
   if (offset >= 4 && offset < 9) {
