@@ -1,3 +1,91 @@
+@import "base";
+@import "navbar";
+@import "../js/components/balance-of-power-bar/balance-of-power-bar.less";
+
+
+nav.results-nav {
+  button.menu-toggle,
+  ul#main-menu, 
+  .donate {
+    display: none;
+  }
+
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+}
+
+main {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+
+  h2 { 
+    text-align: center;
+    margin-bottom: 10px;
+    .sans-header();
+    font-size: 14px;
+
+    &:nth-child(1) {
+      font-size: 18px;
+    }
+  }
+}
+
+#formContainer {
+  #embedType { 
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eee;
+
+    label {
+      white-space: nowrap;
+    }
+  }
+
+  #stateConfig,
+  #checkboxSection,
+  #presidentOptions {
+    padding: 20px 20px 0 20px;
+  }
+
+  #checkboxSection,
+  #presidentOptions {
+    label {
+      white-space: nowrap;
+      display: inline-block;
+      padding: 0 5px;
+    }
+  }
+}
+
+.embeds {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eee;
+
+  > div {
+    width: 48%;
+
+    label { 
+      display: block;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+    }
+  }
+}
+
+side-chain {
+  border: 2px dashed #ccc;
+}
+
 .hidden {
     display: none;
 }

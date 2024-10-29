@@ -7,11 +7,22 @@ class BalanceOfPowerBar extends ElementBase {
   constructor() {
     super();
     this.loadData = this.loadData.bind(this);
+    this.embedClass = '';
   }
 
   connectedCallback() {
     this.loadData();
-    gopher.watch("./data/bop.json", this.loadData);
+    gopher.watch(`./data/bop.json`, this.loadData);
+
+    const raceAttr = this.getAttribute('race');
+    if (raceAttr) {
+      this.races = raceAttr.toLowerCase().split(' ');
+      
+      this.embedClass = this.races.length === 2 ? 'twoEmbeds' :
+        this.races.length === 1 ? 'oneEmbed' : '';
+    } else {
+      this.races = ['president', 'house', 'senate'];
+    }
   }
 
   disconnectedCallback() {
@@ -41,7 +52,7 @@ class BalanceOfPowerBar extends ElementBase {
       "house_GOP": 0,
       "house_Dem": 0,
       "house_Other": 0
-  }
+    }
 
     this.president = {
       Dem: 0,
@@ -50,14 +61,14 @@ class BalanceOfPowerBar extends ElementBase {
       winner: ""
     };
     this.house = {
-      Dem: {total: parseInt(InactiveSenateRaces["house_Dem"]), gains: 0},
-      GOP: {total: parseInt(InactiveSenateRaces["house_GOP"]), gains: 0},
-      Ind: {total: parseInt(InactiveSenateRaces["house_Other"]), gains: 0},
+      Dem: { total: parseInt(InactiveSenateRaces["house_Dem"]), gains: 0 },
+      GOP: { total: parseInt(InactiveSenateRaces["house_GOP"]), gains: 0 },
+      Ind: { total: parseInt(InactiveSenateRaces["house_Other"]), gains: 0 },
     };
     this.senate = {
-      Dem: {total: InactiveSenateRaces.Dem, gains: 0},
-      GOP: {total: InactiveSenateRaces.GOP, gains: 0},
-      Ind: {total: InactiveSenateRaces.Other, gains: 0},
+      Dem: { total: InactiveSenateRaces.Dem, gains: 0 },
+      GOP: { total: InactiveSenateRaces.GOP, gains: 0 },
+      Ind: { total: InactiveSenateRaces.Other, gains: 0 },
     };
 
     results.president.forEach(r => this.president[r.winner] += r.electoral);
@@ -67,16 +78,16 @@ class BalanceOfPowerBar extends ElementBase {
     results.house.forEach(r => {
       const winnerParty = getParty(r.winner);
       const priorWinner = getParty(r.previous);
-      
+
       if (!this.house[winnerParty]) {
         this.house[winnerParty] = { total: 0, gains: 0 };
       }
       if (!this.house[priorWinner]) {
         this.house[priorWinner] = { total: 0, gains: 0 };
       }
-      
+
       this.house[winnerParty].total += 1;
-    
+
       if (r.winner !== r.previous) {
         this.house[winnerParty].gains += 1;
         this.house[priorWinner].gains -= 1;
@@ -86,22 +97,22 @@ class BalanceOfPowerBar extends ElementBase {
     results.senate.forEach(r => {
       const winnerParty = getParty(r.winner);
       const previousParty = getParty(r.previous);
-    
+
       if (!this.senate[winnerParty]) {
         this.senate[winnerParty] = { total: 0, gains: 0 };
       }
       if (!this.senate[previousParty]) {
         this.senate[previousParty] = { total: 0, gains: 0 };
       }
-    
+
       if (r.hasOwnProperty('winner')) {
         if (r.id == '46329' && r.winner == 'Ind') {
           this.mcmullinWon = true;
         }
       }
-    
+
       this.senate[winnerParty].total += 1;
-    
+
       if (r.winner !== r.previous) {
         this.senate[winnerParty].gains += 1;
         this.senate[previousParty].gains -= 1;
@@ -142,23 +153,20 @@ class BalanceOfPowerBar extends ElementBase {
 
     this.innerHTML = `
           <main class="embed-bop">
- <div class="inline">
-      <div class="container">
-        ${this.renderPresident(winnerIcon)}
-        ${this.renderHouse(winnerIcon)}
-        ${this.renderSenate(winnerIcon)}
+    <div class="inline">
+      <div class="container ${this.embedClass}">
+      ${!this.races || this.races.includes('president') ? this.renderPresident(winnerIcon) : ''}
+      ${!this.races || this.races.includes('house') ? this.renderHouse(winnerIcon) : ''}
+      ${!this.races || this.races.includes('senate') ? this.renderSenate(winnerIcon) : ''}
       </div>
-      <div class="source">Source: AP (as of <date-formatter value="${this.results?.latest}"></date-formatter>)</div>
-      ${this.mcmullinWon ? `<div id="mcmullin_note" class="source"><span style="color:#15b16e; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-weight: 400; font-size: 20px; font-weight: bold;">*</span><span id="mcmullin_text" style="font-style:italic;">In the Senate, Bernie Sanders (I-VT) and Angus King (I-ME) caucus with Democrats. The bar chart does not include newly-elected Evan McMullin (I-UT), who has said he will not caucus with either party.</span></div>
     </div>
         </main>
-` : ''}
     `;
   }
 
   renderPresident(winnerIcon) {
     return `
-      <a class="link-container president" href="https://apps.npr.org/elections20-interactive/#/president" target="_blank">
+      <a class="link-container president ${this.embedClass}" href="/" target="_blank">
         <h3>President</h3>
         <div class="number-container">
           <div class="candidate dem">
@@ -191,8 +199,7 @@ class BalanceOfPowerBar extends ElementBase {
 
   renderHouse(winnerIcon) {
     return `
-      <h2 class="bop">Balance of Power</h2>
-      <a class="link-container house" href="https://apps.npr.org/election-results-live-2022/#/house" target="_blank">
+      <a class="link-container house ${this.embedClass}" href="/house.html" target="_blank">
         <h3>House</h3>
         <div class="number-container">
           <div class="candidate dem">
@@ -225,7 +232,7 @@ class BalanceOfPowerBar extends ElementBase {
 
   renderSenate(winnerIcon) {
     return `
-      <a class="link-container senate" href="https://apps.npr.org/election-results-live-2022/#/senate" target="_blank">
+      <a class="link-container senate ${this.embedClass}" href="/senate.html" target="_blank">
         <h3>Senate</h3>
         <div class="number-container">
           <div class="candidate dem">
@@ -254,12 +261,13 @@ class BalanceOfPowerBar extends ElementBase {
           <div class="gain-label">Net gain</div>
           <div class="net-gain ${this.senate.netGainParty}">
             ${this.senate.netGainParty != "none"
-              ? this.senate.netGainParty + " +" + this.senate.netGain
-              : "No change"}
+        ? this.senate.netGainParty + " +" + this.senate.netGain
+        : "No change"}
           </div>
         </div>
         <div class="full-link"><span>See full results ›</span></div>
       </a>
+     <div class="second divider"></div>
     `;
   }
 }

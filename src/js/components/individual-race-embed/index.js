@@ -36,7 +36,7 @@ class IndividualRaceEmbed extends ElementBase {
   render() {
   	let result = this.data.results.find(d => d.id === this.race);
     let table = `
-      <results-table state="${this.getAttribute("state")}" result='${JSON.stringify(result).replace(/'/g, "&#39;")}'></results-table>
+      <results-table state="${this.getAttribute("state")}" result='${JSON.stringify(result).replace(/'/g, "&#39;")}' is-individual-embed></results-table>
     `
 		this.innerHTML = table;
   }

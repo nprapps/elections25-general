@@ -99,7 +99,7 @@ main.embed-bop {
 		}
 
 		.bar-container {
-			height: @height;
+			height: 20px;
 		}
 
 		.net-gain-container {
@@ -128,7 +128,7 @@ main.embed-bop {
 
 		.house {
 			.full-link {
-				text-align: left;
+				text-align: center;
 
 				@media @tiny {
 					text-align: center;
@@ -219,7 +219,8 @@ main.embed-bop {
 			}
 
 			h3 {
-				margin: 10px 0;
+				margin: 0px 0;
+				margin-bottom: 10px;
 			}
 
 			.label {
@@ -246,12 +247,12 @@ main.embed-bop {
 
 				&.president {
 					.bar-container {
-						height: @thin-height;
+						height: @height;
 					}
 
 					.middle {
-						top: @thin-height / -5;
-						height: @thin-height * 1.2;
+						top: @height / -5;
+						height: @height * 1.4;
 					}
 
 					h3 {
@@ -282,6 +283,8 @@ main.embed-bop {
 		.source {
 			margin-top: 10px;
 			text-align: center;
+			display: inline-block;
+
 
 			@media @tiny {
 				padding-top: 5px;
@@ -292,5 +295,39 @@ main.embed-bop {
 			}
 		}
 	}
+	//TODO: come up with more elefant solutoin than !important
+	.twoEmbeds.president, 
+	.twoEmbeds.house,
+	.twoEmbeds.senate {
+		width: 46% !important;
+		display: inline-block;
+		margin: 10px;
 
+		h3 {
+			margin: 0px;
+		}
+
+		.full-link {
+			margin-top: 23px;
+		}
+	}
+
+	.house.oneEmbed, 
+	.senate.oneEmbed{
+		width: 100% !important;
+		display: inline-block;
+	  }
+
+	  .container.twoEmbeds {
+		display: flex;
+		margin: 10px;
+	  }
+}
+#bop-embed-wrapper .source {
+	display: block;
+	color: #9a9a9a;
+    font-style: italic;
+    font-size: 11px;
+    margin: 30px 0 10px;
+	text-align: center;
 }

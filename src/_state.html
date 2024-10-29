@@ -76,9 +76,10 @@
         <%= t.smarty(grunt.data.json.strings.margins_footnote) %>
       </p>
     </main>
+    <div class="remove-embedded">
     <%= t.include("partials/_ad.html", {id: "ad-secondary"}) %> 
     <%= t.include("partials/_footer.html", {"data": grunt.data.json.states}) %>
-
+  </div>
     <script>
       window.PROJECT_ANALYTICS = <%= JSON.stringify(grunt.data.json.project.analytics || {}) %>;
     </script>

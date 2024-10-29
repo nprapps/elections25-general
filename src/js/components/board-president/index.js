@@ -22,6 +22,20 @@ class BoardPresident extends ElementBase {
     this.customElements = null;
     this.tabElementMap = null;
 
+
+    let initialSelectedTab = 0; 
+    if (this.hasAttribute("data-national")) {
+      initialSelectedTab = 0;
+  }
+  else if (this.hasAttribute("data-cartogram")) {
+      initialSelectedTab = 1;
+  } 
+  else if (this.hasAttribute("data-bubbles")) {
+      initialSelectedTab = 2;
+  }
+
+    this.initialSelectedTab = initialSelectedTab;
+
     this.cartogramButton = `
 <button role="tab" aria-controls="tab-1" aria-selected="false" data-tab="1">
   <inline-svg alt="" src="./assets/icons/ico-cartogram.svg" class="icon"><div class="inline-svg icon" role="img" alt=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500">
@@ -233,7 +247,6 @@ Geography
     // Select all tab buttons and custom elements
     setTimeout(() => {
       this.tabButtons = this.querySelectorAll('.tabs [role="tab"]');
-      this.customElements = this.querySelectorAll('national-map, cartogram-map, electoral-bubbles');
 
       // Create an object to map tab indices to custom elements
       this.tabElementMap = {
@@ -242,20 +255,21 @@ Geography
         2: this.querySelector('electoral-bubbles')
       };
 
-
       // Attach click event listeners to all tab buttons
       this.tabButtons.forEach((tab, index) => {
         tab.addEventListener('click', () => this.updateTabSelection(tab));
       });
 
-      // Initialize the first tab as selected
+      // Initialize the selected tab as selected
       if (this.tabButtons.length > 0) {
-        this.updateTabSelection(this.tabButtons[0]);
+        this.updateTabSelection(this.tabButtons[this.initialSelectedTab]);
       }
-    }, 500);
+    }, 150);
   }
 
   updateTabSelection(clickedTab) {
+
+
     // Deselect all tabs and hide all elements
     this.tabButtons.forEach(tab => {
       tab.setAttribute('aria-selected', 'false');
@@ -273,7 +287,6 @@ Geography
       this.tabElementMap[selectedTabIndex].style.display = 'block';
     }
   }
-
 
 
   async loadData() {
@@ -321,18 +334,6 @@ Geography
       this.getAttribute("data-national") !== null ||
       this.getAttribute("data-bubbles") !== null;
 
-    let isCartogram = hasAnyDataAttribute ?
-      this.getAttribute("data-cartogram") !== null :
-      true;
-
-    let isNational = hasAnyDataAttribute ?
-      this.getAttribute("data-national") !== null :
-      true;
-
-    let isBubbles = hasAnyDataAttribute ?
-      this.getAttribute("data-bubbles") !== null :
-      true;
-
     let hideResultsBoard = hasAnyDataAttribute ?
       this.getAttribute("data-hide-results") !== null :
       false;
@@ -344,18 +345,17 @@ Geography
         <h1 tabindex="-1">Presidential Results</h1>       
         <leader-board called='${JSON.stringify(called)}'></leader-board>
         <div role="tablist" class="tabs">
-          ${isNational ? this.nationalButton : ''}
-          ${isCartogram ? this.cartogramButton : ''}
-          ${isBubbles ? this.bubblesButton : ''}
+          ${this.nationalButton}
+          ${this.cartogramButton}
+          ${this.bubblesButton}
         </div>
         <results-board-key race="president" simple="true"></results-board-key>
-        ${isNational ? '<national-map races="{results}"></national-map>' : ''}
-        ${isCartogram ? '<cartogram-map races="{results}"></cartogram-map>' : ''}
-        ${isBubbles ? '<electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>' : ''}
-        ${hideResultsBoard ? '' : '<results-board-display office="president" split="true" hed="Competitive"></results-board-display>'}
-        <hr class="divider" />
+        <national-map races="{results}"></national-map>
+        <cartogram-map races="{results}"></cartogram-map>
+        <electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>
+        ${!hideResultsBoard ? `<results-board-display office="president" split="true" hed="Competitive"></results-board-display>` : ''}
       </div>
-      <results-board-key race="president"></results-board-key> `;
+        ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''};`;
     this.setupTabs();
   }
 }

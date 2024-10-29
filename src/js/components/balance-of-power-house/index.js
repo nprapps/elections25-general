@@ -90,7 +90,6 @@ class BalanceOfPowerHouse extends ElementBase {
           if (!r.caucusWith) {
             house.IndUnaffiliated.total += 1;
             showUnaffiliated = true;
-            console.log("unaffiliated!");
           }
         }
       }
@@ -98,7 +97,6 @@ class BalanceOfPowerHouse extends ElementBase {
   
     var footnote = "";
     if (showUnaffiliated) {
-      console.log(showUnaffiliated);
       footnote = `<div class="footnote">* Independents who caucus with Democrats (${ house.IndCaucusDem.total }) or Republicans (${ house.IndCaucusGOP.total }) are shown in the bar chart. Unaffiliated independents (${ house.IndUnaffiliated.total }) are not shown in the chart but are included in the overall count.</div>`
     }
 

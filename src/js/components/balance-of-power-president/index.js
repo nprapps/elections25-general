@@ -24,7 +24,6 @@ class BalanceOfPowerPresident extends ElementBase {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           this.data = await response.json();
-          console.log(this.data)
           this.render();
         } catch (error) {
           console.error("Could not load JSON data:", error);
@@ -57,7 +56,7 @@ class BalanceOfPowerPresident extends ElementBase {
     
         this.innerHTML = `
           <div id="embed-bop-on-page">
-            <a class="link-container president" href="https://apps.npr.org/elections20-interactive/#/president" target="_blank">
+            <a class="link-container president" href="/" target="_blank">
               <div class="number-container">
                 <div class="candidate dem">
                   <div class="name">Harris ${president.Dem.total >= 270 ? winnerIcon : ""}</div>
