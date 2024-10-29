@@ -16,8 +16,8 @@ let customizerState = {
   page: "index",
   params: {
     embedded: true,
-    stateName: "Missouri",
-    stateAbbrev: "MO",
+    stateName: "Alabama",
+    stateAbbrev: "AL",
     section: "key-races",
     showHeader: true,
   },
