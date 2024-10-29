@@ -72,7 +72,9 @@ window.onload = function () {
       const headerElement = document.querySelector("header");
       headerElement.style.display = "none";
     }
-  } else {
+  }
+
+  if (document.querySelector("#close-disclaimer")) {
     document
       .querySelector("#close-disclaimer")
       .addEventListener("click", () => {

@@ -30,3 +30,11 @@ if (urlParams.has('embedded')) {
         Sidechain.registerGuest();
     }
 }
+
+if (document.querySelector("#close-disclaimer")) {
+  document
+    .querySelector("#close-disclaimer")
+    .addEventListener("click", () => {
+      document.querySelector("#about-box").classList.add("closed");
+    });
+}
