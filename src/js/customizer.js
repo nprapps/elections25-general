@@ -44,7 +44,7 @@ let embedType,
   };
 
 const createURL = function (config) {
-  var prefix = "localhost:8000/";
+  var prefix = PROJECT_URL;
   var page = config["page"];
 
   if (page === 'bop' || page === 'presidentMaps') {
