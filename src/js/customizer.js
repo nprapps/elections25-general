@@ -1,459 +1,354 @@
-import { h, Fragment, render, Component } from "preact";
-import $ from "./lib/qsa";
-import stateSheet from "states.sheet.json";
-import strings from "strings.sheet.json";
-import Sidechain from "@nprapps/sidechain";
+require("async");
+var $ = require("./lib/qsa");
+require("@nprapps/sidechain");
 
-var axios = require("axios");
+const classify = function (str) {
+  return (str + "")
+    .toLowerCase()
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[^\w\-]+/g, "") // Remove all non-word chars
+    .replace(/\-\-+/g, "-") // Replace multiple - with single -
+    .replace(/^-+/, "") // Trim - from start of text
+    .replace(/-+$/, ""); // Trim - from end of text
+};
 
-var lambdaUrl = strings.lambda_url;
-var lambdaCssUrl = strings.lambda_css_url;
+let customizerState = {
+  page: "index",
+  params: {
+    embedded: true,
+    stateName: "Missouri",
+    stateAbbrev: "MO",
+    section: "key-races",
+    showHeader: true,
+  },
+};
 
-class Customizer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      mode: "governor",
-      selectedState: "AK",
-      selectedOffice: "",
-      races: [],
-      raceID: null,
-      dark: false,
-      showPresident: false,
-      onlyPresident: false,
-      inline: false,
-      image: null,
-      loadingImage: false,
-      imageError: false,
-    };
+let embedType,
+  stateConfigOptions,
+  stateSelectDropdown,
+  stateSectionDropdown,
+  stateRaceDropdown,
+  stateHeaderCheckbox;
 
-    this.selectStatePage = this.selectStatePage.bind(this);
-    this.selectStateOffice = this.selectStateOffice.bind(this);
-    this.loadStateRaces = this.loadStateRaces.bind(this);
-    this.selectRace = this.selectRace.bind(this);
-  }
-
-  componentDidMount() {
-    this.loadStateRaces(this.state.selectedState);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.mode !== this.state.mode ||
-      prevState.selectedState !== this.state.selectedState ||
-      prevState.selectedOffice !== this.state.selectedOffice ||
-      prevState.dark !== this.state.dark ||
-      prevState.showPresident !== this.state.showPresident ||
-      prevState.onlyPresident !== this.state.onlyPresident ||
-      prevState.inline !== this.state.inline ||
-      prevState.raceID !== this.state.raceID
-    ) {
-      this.setState({ image: null });
-      this.setState({ loadingImage: false });
-      this.setState({ imageError: false });
-    }
-  }
-
-  selectStatePage(e) {
-    this.setState({
-      selectedState: e.target.value,
-      selectedOffice: null,
-      races: [],
-    });
-    this.loadStateRaces(e.target.value);
-  }
-
-  selectStateOffice(e) {
-    this.setState({ selectedOffice: e.target.value });
-  }
-
-  selectRace(e) {
-    this.setState({ raceID: e.target.value });
-  }
-
-  setFlag(flag, value) {
-    this.setState({ [flag]: value });
-  }
-
-  async loadStateRaces(state) {
-    this.setState({ selectedState: state, races: [], raceID: null });
-    var response = await fetch(`./data/states/${state}.json`);
-    var json = await response.json();
-
-    // Hack for special election
-    json.results.forEach(function (race) {
-      if (race.id == "12597") {
-        race.seat = "(Dec. 6 runoff)";
-        race.seatNumber = -1;
-      }
-      if (race.id == "12588") {
-        race.seat = "(Nov. 8 election)";
-        race.seatNumber = -1;
+  const getSelectedCheckboxValues = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    const checkboxes = section.querySelectorAll('input[type="checkbox"]');
+    const selectedValues = [];
+    
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        selectedValues.push(checkbox.value);
       }
     });
+    
+    return selectedValues;
+  };
+  
 
-    this.setState({ races: json.results });
-  }
+const createURL = function (config) {
+  var prefix = "localhost:8000/";
+  var page = config["page"];
 
-  async getScreenshot(src) {
-    this.setState({ image: null });
-    this.setState({ loadingImage: true });
-    this.setState({ imageError: false });
-
-    try {
-      // TODO: does this need to be axios
-      var response = await axios({
-        url: lambdaUrl,
-        params: {
-          embedUrl: src,
-          cssUrl: lambdaCssUrl,
-        },
-        headers: {
-          Accept: "*/*",
-          "x-npr": {},
-        },
-        validateStatus: (status) => status == 200,
+  if (page === 'bop' || page === 'presidentMaps') {
+    var baseURL = prefix + page + ".html";
+    const url = new URL(baseURL);
+    url.searchParams.append('embedded', 'true');
+    
+    // Add any additional parameters
+    if (config.params) {
+      Object.keys(config.params).forEach(key => {
+        if (key !== 'embedded' && config.params[key] !== undefined) {
+          url.searchParams.append(key, config.params[key]);
+        }
       });
-      let imageStr = `data:image/png;base64, ${response.data}`;
-      this.setState({ image: imageStr });
-    } catch (err) {
-      this.setState({ image: null });
-      this.setState({ imageError: true });
     }
+    
+    return url.toString();
   }
 
-  embeds(src, id) {
-    return (
-      <>
-        <h2>Embeds</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 8px">
-          <div>
-            <h3>Pym</h3>
-            <textarea rows="6" style="width:100%">
-              {`<p
-            data-pym-loader
-            data-child-src="${src}"
-            id="${id}">
-              Loading...
-          </p>
-          <script src="https://pym.nprapps.org/npr-pym-loader.v2.min.js"></script>`.replace(
-                /\s{2,}|\n/g,
-                " "
-              )}
-            </textarea>
-          </div>
-          <div>
-            <h3>Sidechain</h3>
-            <textarea rows="6" style="width:100%">
-              {`<side-chain src="${src}"></side-chain>
-          <script src="https://apps.npr.org/election-results-live-2022/sidechain.js"></script>`.replace(
-                /\s{2,}|\n/g,
-                " "
-              )}
-            </textarea>
-          </div>
-        </div>
-      </>
-    );
+  if (page == "state") {
+    page = classify(config["params"]["stateName"]);
   }
 
-  socialShare(screenshotSrc) {
-    return (
-      <>
-        <h2>Social image</h2>
-        <div>
-          <button
-            onClick={() =>
-              this.getScreenshot(screenshotSrc).then(() => {
-                this.setState({ loadingImage: false });
-              })
-            }
-          >
-            Get social image
-          </button>
+  var baseURL = prefix + page + ".html";
+  const url = new URL(baseURL);
 
-          <div
-            class={`social-image-preview ${
-              this.state.loadingImage ||
-              this.state.image ||
-              this.state.imageError
-                ? ""
-                : "is-hidden"
-            }`}
-          >
-            {this.state.loadingImage ? (
-              <div class="loading">
-                <div class="loader"></div>Loading image...this may take a little
-                while
-              </div>
-            ) : (
-              ""
-            )}
-            {this.state.image ? (
-              <a
-                id="download"
-                download="image.png"
-                href={`${this.state.image}`}
-              >
-                <img
-                  class="preview-image"
-                  src={`${this.state.image}`}
-                  alt="generated social image"
-                />
-              </a>
-            ) : (
-              ""
-            )}
-            {this.state.imageError ? (
-              <div class="error">
-                There was an error loading the image. Try again?
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
-      </>
-    );
+  var neededParams = ["embedded"];
+  if (config["page"] == "state") {
+    moreParams = ["section", "showHeader"];
+    neededParams.push(...moreParams);
+  }
+  if (config["page"] == "race-embed") {
+    moreParams = ["stateAbbrev", "race", "showHeader"];
+    neededParams.push(...moreParams);
+  }
+  neededParams.forEach(key => {
+    url.searchParams.append(key, config["params"][key]);
+  });
+
+  return url.toString();
+};
+
+const createId = function (config) {
+  var id = "";
+  if (config["page"] == "state") {
+    id = config["params"]["stateAbbrev"] + "-" + config["params"]["section"];
+  } else if (config["page"] == "race-embed") {
+    id = config["params"]["stateAbbrev"] + "-" + config["params"]["race"];
+  } else {
+    id = config["page"];
   }
 
-  board(free, props, state) {
-    var { url } = free;
-    var src = url + `#/${state.mode}`;
-    var screenshotSrc =
-      src.indexOf("localhost") > -1
-        ? `https://apps.npr.org/election-results-live-2022/#/${state.mode}`
-        : src;
+  return id;
+};
 
-    return (
-      <>
-        {this.embeds(
-          src,
-          `responsive-embed-election-${state.selectedState}-${state.mode}`
-        )}
-        {this.socialShare(screenshotSrc)}
-        <h2>Preview</h2>
-        <side-chain key={state.raceID} src={src} />
-      </>
-    );
-  }
-
-  statePage(free, props, state) {
-    var { url, offices, postals } = free;
-    var src = `${url}#/states/${state.selectedState}/${
-      state.selectedOffice || ""
-    }`;
-    var screenshotSrc =
-      src.indexOf("localhost") > -1
-        ? `https://apps.npr.org/election-results-live-2022/#/states/${
-            state.selectedState
-          }/${state.selectedOffice || ""}`
-        : src;
-
-    return (
-      <>
-        <div class="state-select">
-          <select value={state.selectedState} onInput={this.selectStatePage}>
-            {postals.map((s) => (
-              <option value={s}>{stateSheet[s].name}</option>
-            ))}
-          </select>
-          <select value={state.selectedOffice} onInput={this.selectStateOffice}>
-            {offices.map(([data, label]) => (
-              <option value={data}>{label}</option>
-            ))}
-          </select>
-        </div>
-        {this.embeds(
-          src,
-          `responsive-embed-election-${state.selectedState}-${
-            state.selectedOffice || "X"
-          }`
-        )}
-        {this.socialShare(screenshotSrc)}
-        <h2>Preview</h2>
-        <side-chain key={state.selectedState} src={src} />
-      </>
-    );
-  }
-
-  race(free, props, state) {
-    var { url, postals } = free;
-    var src = "";
-    if (state.raceID) {
-      var assembly = new URL(url + "./embed.html");
-      assembly.searchParams.set("file", `states/${state.selectedState}`);
-      assembly.searchParams.set("race", state.raceID);
-      src = assembly.toString();
-    }
-    var screenshotSrc = src;
-    if (state.raceID && src.indexOf("localhost") > -1) {
-      var assembly = new URL(
-        "https://apps.npr.org/election-results-live-2022/" + "./embed.html"
-      );
-      assembly.searchParams.set("file", `states/${state.selectedState}`);
-      assembly.searchParams.set("race", state.raceID);
-      screenshotSrc = assembly.toString();
-    }
-    return (
-      <>
-        <div class="state-select">
-          <select
-            value={state.selectedState}
-            onInput={(e) => this.loadStateRaces(e.target.value)}
-          >
-            {postals.map((s) => (
-              <option value={s}>{stateSheet[s].name}</option>
-            ))}
-          </select>
-          <select value={state.selectedRace} onInput={this.selectRace}>
-            <option value="">Select an office</option>
-            {state.races.map((r) => (
-              <option value={r.id}>
-                {`${strings["office-" + r.office]} ${r.seat ? r.seat : ""}`}
-              </option>
-            ))}
-          </select>
-        </div>
-        {state.raceID && (
-          <>
-            {this.embeds(
-              src,
-              `responsive-embed-election-${state.selectedState}-${state.raceID}`
-            )}
-            {this.socialShare(screenshotSrc)}
-            <h2>Preview</h2>
-            <side-chain key={state.raceID} src={src} />
-          </>
-        )}
-      </>
-    );
-  }
-
-  sidebar(free, props, state) {
-    var { url } = free;
-    var src = new URL(url + `embedBOP.html`);
-    if (state.dark) src.searchParams.set("theme", "dark");
-    if (state.showPresident) src.searchParams.set("president", false); // Never show the president in 22
-    if (state.inline) src.searchParams.set("inline", true);
-    if (state.onlyPresident) src.searchParams.set("onlyPresident", true);
-
-    var screenshotSrc = src.toString();
-    if (src.toString().indexOf("localhost") > -1) {
-      var screenshotUrl = new URL(
-        "https://apps.npr.org/election-results-live-2022/" + `embedBOP.html`
-      );
-      if (state.dark) screenshotUrl.searchParams.set("theme", "dark");
-      if (state.showPresident)
-        screenshotUrl.searchParams.set("president", true);
-      if (state.inline) screenshotUrl.searchParams.set("inline", true);
-      if (state.onlyPresident)
-        screenshotUrl.searchParams.set("onlyPresident", true);
-      screenshotSrc = screenshotUrl.toString();
-    }
-
-    return (
-      <>
-        <div class="options">
-          <input
-            id="bop_dark"
-            type="checkbox"
-            value={state.dark}
-            onInput={() => this.setFlag("dark", !state.dark)}
-          />
-          <label for="bop_dark">Dark theme</label>
-
-          <input
-            id="bop_triplet"
-            type="checkbox"
-            value={state.inline}
-            onInput={() => this.setFlag("inline", !state.inline)}
-          />
-          <label for="bop_inline">Row layout</label>
-        </div>
-        {this.embeds(src, "responsive-embed-election-congress")}
-        {this.socialShare(screenshotSrc)}
-        <h2>Preview</h2>
-        <side-chain src={src} />
-      </>
-    );
-  }
-
-  homepage(free, props, state) {
-    var { url } = free;
-    var src = new URL(url + `homepage.html`);
-    var screenshotSrc =
-      src.toString().indexOf("localhost") > -1
-        ? "https://apps.npr.org/election-results-live-2022/homepage.html"
-        : src.toString();
-    return (
-      <>
-        {this.embeds(src, "responsive-embed-electoral-college")}
-        {this.socialShare(screenshotSrc)}
-        <h2>Preview</h2>
-        <side-chain src={src} />
-      </>
-    );
-  }
-
-  render(props, state) {
-    var postals = Object.keys(stateSheet).filter(
-      (s) => !stateSheet[s].district
-    );
-    var modes = [
-      ["governor", "Governor"],
-      ["senate", "Senate"],
-      ["house", "House"],
-      ["state", "State page"],
-      ["race", "Individual race"],
-      ["sidebar", "Balance of power"],
-    ];
-
-    var offices = [
-      ["", "Key Races"],
-      ["S", "Senate"],
-      ["G", "Governor"],
-      ["H", "House"],
-      ["I", "Ballot initiatives"],
-    ];
-
-    var url = new URL(".", window.location.href).toString();
-
-    var { selectedState, mode } = this.state;
-
-    var freeVariables = { url, offices, modes, postals };
-
-    var modePartials = {
-      state: "statePage",
-      race: "race",
-      sidebar: "sidebar",
-      homepage: "homepage",
+// Special embed handlers
+const handleSpecialEmbed = function(page, params = {}) {
+  if (page === 'presidentMaps') {
+    const selectedOptions = getSelectedCheckboxValues('presidentOptions');
+    return {
+      ...params,
+      options: selectedOptions.join(',')
     };
-
-    var route = modePartials[mode] || "board";
-
-    return (
-      <>
-        <div class="mode-select">
-          {modes.map(([data, label]) => (
-            <>
-              <input
-                type="radio"
-                name="mode"
-                onInput={() =>
-                  this.setState({ mode: data, selectedOffice: "" })
-                }
-                id={`mode-${data}`}
-                checked={data == state.mode}
-              />
-              <label for={`mode-${data}`}>{label}</label>
-            </>
-          ))}
-        </div>
-        {this[route](freeVariables, props, state)}
-      </>
-    );
+  } else if (page === 'bop') {
+    const selectedRaces = getSelectedCheckboxValues('checkboxSection');
+    return {
+      ...params,
+      races: selectedRaces.join(',') || 'senate' // Default to senate if nothing selected
+    };
   }
+  return params;
 }
 
-render(<Customizer />, $.one("main"));
+const createEmbed = function (config) {
+  var form = $.one("form");
+  var preview = $.one("side-chain");
+  var embedPym = $.one("textarea#pym");
+  var embedSidechain = $.one("textarea#sidechain");
+  var prefix = "localhost:8000/";
+
+  let params = config.params || {};
+  if (config.page === 'presidentMaps' || config.page === 'bop') {
+    params = handleSpecialEmbed(config.page, params);
+  }
+
+  var url = createURL(config);
+  var id = createId(config);
+
+  var embedPymHTML = `<p
+  data-pym-loader
+  data-child-src="${url.toString()}"
+  id="responsive-embed-${id}">
+    Loading...
+</p>
+<script src="https://pym.nprapps.org/npr-pym-loader.v2.min.js"></script>`;
+  var embedPymHTML = embedPymHTML
+    .replace(/\</g, "&lt;")
+    .replace(/[\n\s]+/g, " ");
+  embedPym.innerHTML = embedPymHTML;
+
+  var embedSidechainHTML = `<side-chain src="${url.toString()}"></side-chain>
+  <script src="${PROJECT_URL}sidechain.js"></script>`;
+  embedSidechainHTML = embedSidechainHTML
+    .replace(/\</g, "&lt;")
+    .replace(/[\n\s]+/g, " ");
+  embedSidechain.innerHTML = embedSidechainHTML;
+
+  preview.setAttribute("src", url.toString().replace(prefix, ""));
+};
+
+const createPresidentEmbed = function() {
+  customizerState.params = handleSpecialEmbed('presidentMaps', customizerState.params);
+  createEmbed(customizerState);
+};
+
+const createBOPEmbed = function() {
+  customizerState.params = handleSpecialEmbed('bop', customizerState.params);
+  createEmbed(customizerState);
+};
+
+
+const buildSections = function () {
+  var state = customizerState["params"]["stateAbbrev"];
+  fetch("data/states/" + state + ".json")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Parse the JSON data
+    })
+    .then(data => {
+      let sections = ["key-races,key-races", "president,P"];
+
+      if (data.results.filter(d => d.office === "G").length > 0) {
+        sections.push("governor,G");
+      }
+      if (data.results.filter(d => d.office === "S").length > 0) {
+        sections.push("senate,S");
+      }
+      if (state != "DC") {
+        sections.push("house,H");
+      }
+      if (data.results.filter(d => d.office === "I").length > 0) {
+        sections.push("ballot-measures,I");
+      }
+
+      stateSectionDropdown.innerHTML = "";
+
+      sections.forEach(section => {
+        var sectionItem = document.createElement("option");
+        sectionItem.value = section.split(",")[1];
+        sectionItem.textContent = section.split(",")[0];
+
+        stateSectionDropdown.appendChild(sectionItem);
+      });
+    });
+};
+
+const buildRaces = function () {
+  var state = customizerState["params"]["stateAbbrev"];
+  fetch("data/states/" + state + ".json")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Parse the JSON data
+    })
+    .then(data => {
+      const listOfStateRaces = data.results.map(race => ({
+        id: race.id,
+        office: race.office,
+        seat: race.seat,
+        keyRace: race.keyRace,
+      }));
+
+      const raceTypeLookup = {
+        P: "President",
+        G: "Governor",
+        S: "Senate",
+        H: "House",
+        I: "Ballot Measure",
+      };
+
+      stateRaceDropdown.innerHTML = "";
+
+      listOfStateRaces.forEach(race => {
+        raceOffice = raceTypeLookup[race.office];
+        raceName = raceOffice;
+        if (race.office == "H" || race.office == "I") {
+          raceName += " " + race.seat;
+        }
+
+        var sectionItem = document.createElement("option");
+        sectionItem.value = race.id;
+        sectionItem.textContent = raceName;
+
+        stateRaceDropdown.appendChild(sectionItem);
+      });
+    });
+};
+
+const updateView = function () {
+  var page = customizerState["page"];
+  var params = customizerState["params"];
+
+  if (page == "state") {
+    stateConfigOptions.classList.remove("hidden");
+    $.one("#stateSectionContain").classList.remove("hidden");
+    $.one("#stateRaceContain").classList.add("hidden");
+    checkboxSection.classList.add("hidden");
+    presidentOptions.classList.add("hidden");
+    buildSections();
+  } else if (page == "race-embed") {
+    stateConfigOptions.classList.remove("hidden");
+    $.one("#stateSectionContain").classList.add("hidden");
+    $.one("#stateRaceContain").classList.remove("hidden");
+    checkboxSection.classList.add("hidden");
+    presidentOptions.classList.add("hidden");
+    buildRaces();
+  } else if (page === "bop") {
+    checkboxSection.classList.remove("hidden");
+    stateConfig.classList.add("hidden");
+    presidentOptions.classList.add("hidden");
+    createBOPEmbed();
+    return;
+  } else if (page === "presidentMaps") {
+    presidentOptions.classList.remove("hidden");
+    stateConfig.classList.add("hidden");
+    checkboxSection.classList.add("hidden");
+    createPresidentEmbed();
+    return;
+  } else {
+    stateConfigOptions.classList.add("hidden");
+    checkboxSection.classList.add("hidden");
+    presidentOptions.classList.add("hidden");
+  }
+
+  createEmbed(customizerState);
+};
+
+
+window.handleSelection = function (option) {
+  // Show the relevant section based on the selected option
+  if (option === "bop") {
+    checkboxSection.classList.remove("hidden");
+    stateConfig.classList.add("hidden");
+    presidentOptions.classList.add("hidden");
+    createBOPEmbed();
+  } else if (option === "presidentMaps") {
+    presidentOptions.classList.remove("hidden");
+    stateConfig.classList.add("hidden");
+    checkboxSection.classList.add("hidden");
+    createPresidentEmbed();
+  }
+};
+
+window.onload = function () {
+  embedType = $("#embedType label input");
+  stateConfigOptions = $.one("#stateConfig");
+  stateSelectDropdown = $.one("#stateSelect");
+  stateSectionDropdown = $.one("#stateSectionSelect");
+  stateRaceDropdown = $.one("#stateRaceSelect");
+  stateHeaderCheckbox = $.one("#stateHeaderTrue");
+
+  embedType.forEach(el => {
+    el.addEventListener("change", () => {
+      if (!el.classList.contains('nestedCheckbox')) {
+        customizerState["page"] = el.value;
+        updateView();
+      } else {
+        console.log(el.value)
+      }
+    });
+  });
+
+  stateSelectDropdown.addEventListener("change", () => {
+    customizerState["params"]["stateName"] =
+      stateSelectDropdown.value.split(",")[1];
+    customizerState["params"]["stateAbbrev"] =
+      stateSelectDropdown.value.split(",")[0];
+    updateView();
+  });
+
+  stateSectionDropdown.addEventListener("change", () => {
+    customizerState["params"]["section"] = stateSectionDropdown.value;
+    createEmbed(customizerState);
+  });
+
+  stateRaceDropdown.addEventListener("change", () => {
+    customizerState["params"]["race"] = stateRaceDropdown.value;
+    createEmbed(customizerState);
+  });
+
+  stateHeaderCheckbox.addEventListener("change", () => {
+    customizerState["params"]["showHeader"] = stateHeaderCheckbox.checked;
+    createEmbed(customizerState);
+  });
+
+  const dropdownSection = document.getElementById("stateConfig");
+  const checkboxSection = document.getElementById("checkboxSection");
+  const stateDropdown = document.getElementById("stateSelect");
+  const raceDropdown = document.getElementById("stateRaceSelect");
+  const presidentOptions = document.getElementById("presidentOptions");
+  //createEmbed("president");
+};

@@ -32,7 +32,6 @@ class ResultsCollection extends ElementBase {
       `
       template += table;
     });
-
     this.innerHTML = template;
   }
 }

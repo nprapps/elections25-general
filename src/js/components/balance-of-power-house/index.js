@@ -144,13 +144,13 @@ class BalanceOfPowerHouse extends ElementBase {
           </div>
         </div>
 
-        <div class="bar-container">
+      <div class="bar-container">
           <div class="bar dem" style="width: ${(house.Dem.total / 435 * 100)}%"></div>
-          <div class="bar other dem" style="width: ${(house.IndCaucusDem.total / 435 * 100)}%"></div>
+          <div class="bar other" style="width: ${(house.Ind.total / 435 * 100)}%"></div>
           <div class="bar gop" style="width: ${(house.GOP.total / 435 * 100)}%"></div>
-          <div class="bar other gop" style="width: ${(house.IndCaucusGOP.total / 435 * 100)}%"></div>
           <div class="middle"></div>
         </div>
+
         <div class="bop-footer">
           <div class="chatter"><strong>218</strong> seats for majority</div>
         </div>

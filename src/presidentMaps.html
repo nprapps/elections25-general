@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+    <%= t.include("partials/_head.html", grunt.data.json) %>
+        <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div>
+    </div>
+
+    <main class="app constrained">
+        <div style="border: 1px solid #333; margin-bottom: 10px; padding: 20px;">
+            <div id="president-wrapper">
+            </div>
+        </div>
+
+
+    </main>
+    <script>
+        window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
+    </script>
+    <script>
+        function buildComponents() {
+            const params = new URLSearchParams(window.location.search);
+            const options = params.get('options')?.split(',') || []; // Get options from URL
+
+            // Build data attributes string
+            const dataAttrs = options.map(opt => `data-${opt}`).join(' ');
+
+            // Create component with data attributes if any are selected
+            const component = `<board-president${dataAttrs ? ' ' + dataAttrs : ''} data-hide-results></board-president>`;
+
+            const container = document.getElementById('president-wrapper');
+            if (container) {
+                container.innerHTML = component;
+            }
+        }
+
+        // Run when page loads
+        window.addEventListener('DOMContentLoaded', buildComponents);
+    </script>
+    <script src="app.js" async></script>
+    <%= t.include("partials/_analytics.html") %>
+</body>
+
+</html>

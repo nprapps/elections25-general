@@ -1,5 +1,5 @@
 const ElementBase = require("../elementBase");
-import { reportingPercentage, winnerIcon } from "../util.js";
+import { classify, reportingPercentage, statePostalToFull, winnerIcon } from "../util.js";
 import track from "../../lib/tracking";
 import gopher from "../gopher.js";
 import TestBanner from "../test-banner";
@@ -64,10 +64,6 @@ class NationalMap extends ElementBase {
 
   disconnectedCallback() {
     const svg = this.svgContainer;
-    if (svg) {
-      svg.removeEventListener("mousemove", this.onMove);
-      svg.removeEventListener("click", this.onClick);
-    }
     gopher.unwatch(`./data/president.json`, this.loadData);
   }
 
@@ -176,7 +172,8 @@ class NationalMap extends ElementBase {
     const state = e.target.getAttribute("data-postal");
     if (state) {
       track("clicked-map", state);
-      window.location.href = `#/states/${state}/P`;
+      var stateFull = statePostalToFull(state);
+      window.location.href = `${ classify(stateFull) }.html?section=P`;
     }
   }
 

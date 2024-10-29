@@ -15,17 +15,19 @@
     "src/css/state.less": "build/state.css",
     "src/css/house.less": "build/house.css",
     "src/css/county.less": "build/county.css",
-    "src/css/embeds.less": "build/embeds.css"
+    "src/css/customizer.less": "build/customizer.css",
+    "src/css/embeds.less": "build/embeds.css",
+    "src/css/race-embed.less": "build/race-embed.css"
   },
   "scripts": {
     "src/js/main.js": "build/app.js",
     "src/js/loadHeaderBidding.js": "build/loadHeaderBidding.js",
     "src/js/state.js": "build/state.js",
+    "src/js/customizer.js": "build/customizer.js",
+    "src/js/raceEmbed.js": "build/raceEmbed.js",
     "src/js/embedBOP.js": "build/embedBOP.js"
   },
   "scriptsOnce": {
-    "src/js/embed.js": "build/embed.js",
-    "src/js/customizer.js": "build/customizer.js",
     "src/js/sidechain.js": "build/sidechain.js"
   },
   "title": "2024 Election Results: Live",

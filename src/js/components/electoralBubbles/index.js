@@ -1,7 +1,7 @@
 
 const ElementBase = require("../elementBase");
 
-import { reportingPercentage, winnerIcon } from "../util.js";
+import { classify, reportingPercentage, statePostalToFull, winnerIcon } from "../util.js";
 import track from "../../lib/tracking";
 import gopher from "../gopher.js";
 import stateSheet from "../../../../data/states.sheet.json";
@@ -253,34 +253,39 @@ class ElectoralBubbles extends ElementBase {
 
   goToState(state) {
     track("clicked-bubble", state);
-    window.location.href = `#/states/${state}/P`;
+    var stateFull = statePostalToFull(state);
+    window.location.href = `${ classify(stateFull) }.html?section=P`;
   }
 
-  onMove(e) {
+      goToState(state) {
+        track("clicked-bubble", state);
+        window.location.href = `#/states/${state}/P`;
+      }
+    
+      onMove(e) {
+
+        const bounds = this.getBoundingClientRect();
+        const offsetX = e.clientX - bounds.left;
+        const offsetY = e.clientY - bounds.top;
+        
+    
+        const key = e.target.dataset.key;
+        const data = this.state.lookup[key];
 
 
-    const bounds = this.getBoundingClientRect();
-    const offsetX = e.clientX - bounds.left;
-    const offsetY = e.clientY - bounds.top;
-
-
-    const key = e.target.dataset.key;
-    const data = this.state.lookup[key];
-
-
-    if (!key || !data) {
-      return this.tooltip.classList.remove("show");
-    }
-
-    this.tooltip.classList.add("show");
-
-    if (this.lastHover != key) {
-      const stateName = stateSheet[data.state].name;
-      const districtDisplay = data.district == "AL" ? "At-Large" : data.district;
-      const h3 = data.district ? `${stateName} ${districtDisplay}` : stateName;
-      const candidates = data.candidates.filter(c => c.percent);
-
-      this.tooltip.innerHTML = `
+        if (!key || !data) {
+          return this.tooltip.classList.remove("show");
+        }
+    
+        this.tooltip.classList.add("show");
+    
+        if (this.lastHover != key) {
+          const stateName = stateSheet[data.state].name;
+          const districtDisplay = data.district == "AL" ? "At-Large" : data.district;
+          const h3 = data.district ? `${stateName} ${districtDisplay}` : stateName;
+          const candidates = data.candidates.filter(c => c.percent);
+    
+          this.tooltip.innerHTML = `
             <h3>${h3} (${data.electoral})</h3>
             <div class="candidates">${candidates.map(c =>
         `<div class="row">
@@ -306,18 +311,23 @@ class ElectoralBubbles extends ElementBase {
     this.tooltip.classList.remove("show");
   }
 
-  render() {
-    let { nodes, width } = this.state;
-    let distance = 0;
-    nodes.forEach(n => {
-      n.r = this.nodeRadius(n);
-      const outerBounds = Math.abs(n.y) + n.r;
-      if (outerBounds > distance) {
-        distance = outerBounds;
+    
+      onExit() {
+        this.tooltip.classList.remove("show");
       }
-    });
+    
+      render() {
+        let { nodes, width } = this.state;
+        let distance = 0;
+        nodes.forEach(n => {
+          n.r = this.nodeRadius(n);
+          const outerBounds = Math.abs(n.y) + n.r;
+          if (outerBounds > distance) {
+            distance = outerBounds;
+          }
+        });
 
-    this.simulation.nodes(nodes);
+        this.simulation.nodes(nodes);
 
     const xForce = d3.forceX().x(this.xAccess).strength(X_FORCE);
     const yForce = d3.forceY().strength(Y_FORCE);
@@ -331,7 +341,7 @@ class ElectoralBubbles extends ElementBase {
       .nodes(nodes)
       .alpha(1)
       .restart();
-
+        
 
     var yBounds = Math.ceil(distance / HEIGHT_STEP) * HEIGHT_STEP;
     if (yBounds - distance < 30) yBounds += 30;

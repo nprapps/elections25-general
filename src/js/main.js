@@ -1,5 +1,6 @@
 // require("./lib/pym");
 
+import { Sidechain } from '@nprapps/sidechain';
 import './nav.js';
 
 require("./analytics");
@@ -19,3 +20,13 @@ require("./components/cartogram");
 require("./components/electoralBubbles");
 require("./components/county-map");
 require("./components/results-collection");
+
+const urlParams = new URLSearchParams(window.location.search);
+
+if (urlParams.has('embedded')) {
+    const isEmbedded = urlParams.get('embedded');
+
+    if (isEmbedded) {
+        Sidechain.registerGuest();
+    }
+}

@@ -35,9 +35,9 @@ class BalanceOfPowerBar extends ElementBase {
   processResults(results) {
 
     var InactiveSenateRaces = {
-      "GOP": 29,
-      "Dem": 34,
-      "Other": 2,
+      "GOP": 38,
+      "Dem": 28,
+      "Other": 0,
       "house_GOP": 0,
       "house_Dem": 0,
       "house_Other": 0
@@ -178,7 +178,7 @@ class BalanceOfPowerBar extends ElementBase {
         </div>
         <div class="bar-container">
           <div class="bar dem" style="width: ${this.president.Dem / 538 * 100}%"></div>
-          <div class="bar other" style="width: ${this.president.Other / 538 * 100}%"></div>
+          <div class="bar other" style="width: ${this.president.Other / 538 * 100}%; ${this.president.Other === 0 ? 'display: none;' : ''}"></div>
           <div class="bar gop" style="width: ${this.president.GOP / 538 * 100}%"></div>
           <div class="middle"></div>
         </div>
@@ -212,19 +212,11 @@ class BalanceOfPowerBar extends ElementBase {
         </div>
         <div class="bar-container">
           <div class="bar dem" style="width: ${this.house.Dem.total / 435 * 100}%"></div>
-          <div class="bar other" style="width: ${this.house.Ind.total / 435 * 100}%"></div>
+          <div class="bar other" style="width: ${this.house.Ind.total / 538 * 100}%; ${this.house.Ind.total === 0 ? 'display: none;' : ''}"></div>
           <div class="bar gop" style="width: ${this.house.GOP.total / 435 * 100}%"></div>
           <div class="middle"></div>
         </div>
         <div class="chatter"><strong>218</strong> seats for majority</div>
-       <div class="net-gain-container">
-          <div class="gain-label">Net gain</div>
-          <div class="net-gain ${this.house.netGainParty}">
-            ${this.house.netGainParty != "none"
-              ? this.house.netGainParty + " +" + this.house.netGain
-              : "No change"}
-          </div>
-        </div>
         <div class="full-link"><span>See full results ›</span></div>
       </a>
       <div class="second divider"></div>

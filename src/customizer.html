@@ -1,0 +1,216 @@
+<%
+var states = grunt.data.json.states;
+var races = grunt.data.json.races;
+
+ %>
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <%= t.include("partials/_head.html", grunt.data.json) %>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="customizer.css"/>
+
+    <script src="customizer.js"></script>
+    <script src="app.js"></script>
+
+  </head>
+  <body>
+    <script>
+      document.body.classList.add(
+        new URL(window.location).searchParams.get("theme")
+      );
+    </script>
+
+    <main class="customizer">
+      <h2>Customize your embed</h2>
+      <div id="formContainer">
+        <form>
+          <div id="embedType">
+          <label>
+            <input
+              type="radio"
+              name="selection"
+              value="index"
+            />
+            President
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="selection"
+              value="governors"
+            />
+            Governor
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="selection"
+              value="senate"
+            />
+            Senate
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="selection"
+              value="house"
+            />
+            House
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="selection"
+              value="state"
+            />
+            State Page
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="selection"
+              value="race-embed"
+            />
+            Individual state-level race
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="selection"
+              value="bop"
+            />
+            Balance of Power
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="selection"
+              value="presidentMaps"
+              onclick="handleSelection('presidentMaps')"
+            />
+            Presidential Maps
+          </label>
+          <div
+            id="stateConfig"
+            class="hidden"
+          >
+            <label
+              >State:
+              <select id="stateSelect">
+              <% Object.keys(states).forEach( state => { 
+
+                if (/^[A-Z]{2}$/.test(state)) {
+
+                %>
+                
+                   
+                <option value="<%= state %>,<%= states[state]["name"] %>"><%= states[state]["name"] %></option>
+                <% }}) %>
+              </select></label
+            ><div id="stateSectionContain"><br /><label
+              >Section:
+              <select id="stateSectionSelect">
+              </select></label
+            ></div><div id="stateRaceContain"><br /><label
+            >Race:
+            <select id="stateRaceSelect">
+            </select></label
+          ></div><br /><label
+            >Show header?
+          <input class="nestedCheckbox" type="checkbox" id="stateHeaderTrue" checked/></label>
+          </div>
+        </form>
+        <form>
+          <div
+            id="checkboxSection"
+            class="hidden"
+          >
+            <label
+              ><input
+               checked 
+                type="checkbox"
+                value="senate"
+                onchange="handleSelection('bop')"
+                class="nestedCheckbox"
+              />Senate</label
+            ><br /><label
+              ><input
+              checked 
+                type="checkbox"
+                value="house"
+                onchange="handleSelection('bop')"
+                class="nestedCheckbox"
+              />House</label
+            ><br /><label
+              ><input
+              checked 
+                type="checkbox"
+                value="president"
+                onchange="handleSelection('bop')"
+                class="nestedCheckbox"
+              />President</label
+            ><br /><label
+              ><input
+                type="checkbox"
+                value="combined"
+                onchange="handleSelection('bop')"
+                class="nestedCheckbox"
+              />
+              Combined</label
+          >
+          </div>
+          <div id="presidentOptions" class="hidden">
+            <label>
+              <input
+              checked 
+                type="checkbox"
+                value="national"
+                onchange="handleSelection('presidentMaps')"
+                class="nestedCheckbox"
+              />National Map</label><br />
+            <label>
+              <input
+              checked 
+                type="checkbox"
+                value="cartogram"
+                onchange="handleSelection('presidentMaps')"
+                class="nestedCheckbox"
+              />Electoral Map</label><br />
+            <label>
+              <input
+              checked 
+                type="checkbox"
+                value="bubbles"
+                onchange="handleSelection('presidentMaps')"
+                class="nestedCheckbox"
+              />Margin Bubbles</label>
+          </div>
+        </form>
+      </div>
+
+      <h2>Embed code</h2>
+      <div class="embeds">
+        <div>
+          <label for="pym">Pym (most common)</label>
+          <textarea id="pym"></textarea>
+        </div>
+
+        <div>
+          <label for="sidechain">Sidechain</label>
+          <textarea id="sidechain"></textarea>
+        </div>
+      </div>
+
+      <h2>Preview</h2>
+
+      <side-chain></side-chain>
+    </main>
+
+      <script>
+        var PROJECT_URL = "<%= grunt.data.json.project.url %>";
+      </script>
+    </p>
+  </body>
+</html>

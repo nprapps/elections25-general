@@ -1,6 +1,8 @@
 var ElementBase = require("../elementBase");
 import { reportingPercentage, sortByParty, goingToRCVRunOff } from "../util";
 import gopher from "../gopher.js";
+const { classify } = require("../util");
+
 //import states from "../data/states.sheet.json";
 
 
@@ -166,7 +168,7 @@ class ResultsBoard extends ElementBase {
                             return `
                                 <tr key="${r.state}${r.district}" role="row" class="${hasResult ? "closed" : "open"} index-${i}">
                                     <td role="cell" class="state">
-                                        <a href="?#/states/${r.state}/${r.office}" target="_top">
+                                        <a href="./${ classify(r.stateName) }.html?section=${r.office}" target="_top">
                                             ${stateDetail.ap} ${r.district && r.district !== "AL" ? r.district : ""}
                                         </a>
                                     </td>
@@ -200,7 +202,7 @@ class ResultsBoard extends ElementBase {
                             return `
                                 <tr key="${r.id}" class="tr ${hasResult ? "closed" : "open"} index-${i}" role="row">
                                     <td class="state" role="cell">
-                                        <a target="_top" href="?#/states/${r.state}/${r.office}">
+                                        <a target="_top" href="./${ classify(r.stateName) }.html?section=${r.office}">
                                             <span class="not-small">
                                                 ${this.states[r.state].ap + seatLabel + ballotLabel}
                                             </span>

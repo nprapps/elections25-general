@@ -1,5 +1,5 @@
 const ElementBase = require("../elementBase");
-import { reportingPercentage, winnerIcon } from "../util.js";
+import { classify, reportingPercentage, statePostalToFull, winnerIcon } from "../util.js";
 import track from "../../lib/tracking";
 import gopher from "../gopher.js";
 import TestBanner from "../test-banner";
@@ -121,14 +121,15 @@ class Cartogram extends ElementBase {
     this.svg.addEventListener("click", this.onClick);
     return this.svg;
   }
-    
+
       onClick(e) {
         const group = e.target.closest("svg > g");
         if (!group) return;
         const state = group.getAttribute("data-postal");
         if (state) {
-          window.location.href = `#/states/${state}/P`;
           track("clicked-cartogram", state);
+          var stateFull = statePostalToFull(state);
+          window.location.href = `${ classify(stateFull) }.html?section=P`;
         }
       }
     
