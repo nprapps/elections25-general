@@ -44,10 +44,6 @@ class ResultsTable extends ElementBase {
       elements.wrapper.classList.add("president");
     }
 
-    if (this.hasAttribute("is-individual-embed")) {
-      elements.resultsTableHed.innerHTML = "hello"
-    }
-
     // individual race embeds - hed includes state name
     if (this.hasAttribute("is-individual-embed")) {
       let hed = ""
@@ -74,6 +70,15 @@ class ResultsTable extends ElementBase {
       } else {
         elements.resultsTableHed.remove();
       }
+    }
+
+    if (this.hasAttribute("is-individual-embed") && 
+        (result.office === "P" || result.office === "G" || result.office === "S")
+      ) {
+      elements.countyResultsLink
+        .setAttribute("href", `${classify(result.stateName)}.html?section=${result.office}`);
+    } else {
+      elements.countyResultsLink.remove();
     }
 
     const candidates = mapToElements(elements.tbody, result.candidates).filter(d => {
