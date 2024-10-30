@@ -57,6 +57,7 @@ class ResultsTableCounty extends ElementBase {
             }
             const data = await response.json();
             this.data = data.results || [];
+            this.initialCandidates = this.data[0].candidates.slice(0, 2);
             this.render();
             this.attachEventListeners();
         } catch (error) {
@@ -119,7 +120,6 @@ class ResultsTableCounty extends ElementBase {
     sortCountyResults() {
         const { sortMetric, order } = this.state;
 
-
         return this.data.sort((a, b) => {
             let sorterA = a.county[sortMetric.key];
             let sorterB = b.county[sortMetric.key];
@@ -127,7 +127,14 @@ class ResultsTableCounty extends ElementBase {
             if (sortMetric.alpha) {
                 return sorterA == sorterB ? 0 : sorterA < sorterB ? order : order * -1;
             } else if (sortMetric.key == "past_margin") {
-                // Implement past_margin sorting logic here
+                if (sorterA.party !== sorterB.party) {
+                    return sorterA.party === 'Dem' ? -1 * order : 1 * order;
+                }
+                if (sorterA.party === 'Dem') {
+                    return (sorterB.margin - sorterA.margin) * order; 
+                } else {
+                    return (sorterA.margin - sorterB.margin) * order; 
+                }
             }
             return (sorterA - sorterB) * order;
         });
@@ -196,13 +203,11 @@ class ResultsTableCounty extends ElementBase {
     }
 
     marginCell(candidates, leadingCand, topCands) {
-        let party = "";
         let voteMargin = "-";
+        const party = getParty(candidates[0]?.party || "");
+        
         if (topCands.includes(candidates[0].last)) {
             voteMargin = this.calculateVoteMargin(candidates);
-            if (leadingCand) {
-                party = getParty(leadingCand.party);
-            }
         }
 
         return `<td class="vote margin ${party}">${voteMargin}</td>`;
@@ -226,7 +231,7 @@ class ResultsTableCounty extends ElementBase {
             metricValue = metric.format(metricValue);
         }
 
-        const leadingCand = row.reportingPercent > 0.5 ? row.candidates[0] : "";
+        const leadingCand = row.reportingPercent > 0 ? row.candidates[0] : "";
         const reportingPercent = reportingPercentage(row.reportingPercent) + "% in";
         const candidateCells = candidates.map(c =>
             this.candidatePercentCell(
@@ -237,17 +242,19 @@ class ResultsTableCounty extends ElementBase {
         ).join('');
 
         const marginCell = this.marginCell(row.candidates, leadingCand, topCands);
+        const comparisonClass = metricValue.includes('D') ? 'Dem' : metricValue.includes('R') ? 'GOP' : '';
 
         return `
             <tr>
                 <td class="county">
-                    <span>${row.county.countyName}</span>
+                    <span>${row.county.countyName.replace(/\s[a-z]/g, match =>
+                    match.toUpperCase())}</span>
                     <span class="precincts mobile">${reportingPercent}</span>
                 </td>
                 <td class="precincts amt">${reportingPercent}</td>
                 ${candidateCells}
                 ${marginCell}
-                <td class="comparison">${metricValue}</td>
+                <td class="comparison ${comparisonClass}">${metricValue}</td>
             </tr>
         `;
     }
@@ -257,20 +264,15 @@ class ResultsTableCounty extends ElementBase {
         const sortOrder = JSON.parse(this.getAttribute('sort-order') || '[]');
 
         const allCandidates = sortedData[0].candidates;
-        console.log('/////')
-        console.log(sortedData)
-        console.log(allCandidates)
-        console.log('/////')
 
         // Sort candidates by EEVP and get top 3
-        const orderedCandidates = allCandidates
-            .sort((a, b) => b.percent - a.percent)
-            .slice(0, 2)
-            .map(candidate => ({
-                last: candidate.last,
-                party: candidate.party,
-                percent: candidate.percent
-            }));
+        const orderedCandidates = this.initialCandidates
+        .map(candidate => ({
+            last: candidate.last,
+            party: candidate.party,
+            percent: candidate.percent
+        }))
+        .sort((a, b) => a.last.localeCompare(b.last));
 
 
         // Add "Other" if there are more than 3 candidates
@@ -282,9 +284,11 @@ class ResultsTableCounty extends ElementBase {
             orderedCandidates.push({ last: "Other", party: "Other", percent: otherEEVP });
         }
 
+        const townshipStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
+
         this.innerHTML = `
         <div class="results-counties ${this.state.sortMetric.key.split("_").join("-")}">
-            <h3>Demographics by county</h3>
+            <h3>Demographics by ${townshipStates.includes(this.currentState) ? 'township' : 'county'}</h3>
             ${this.getSorter()}
             <table class="results-table candidates-${orderedCandidates.length}">
                 <thead>

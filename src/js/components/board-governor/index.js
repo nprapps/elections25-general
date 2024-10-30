@@ -34,6 +34,7 @@ class BoardGovernor extends ElementBase {
           const presidentResponse = await fetch(presidentDataFile);
           const presidentData = await presidentResponse.json();
           this.results = presidentData.results || {};
+          console.log(this.resuu)
           this.render();
         } catch (error) {
           console.error('Error fetching president data:', error);

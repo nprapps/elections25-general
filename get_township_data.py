@@ -18,7 +18,7 @@ def main():
   print("processing data")
   processed_data = processData(data)
 
-  processed_data.to_csv('data/township_data.csv', index=False)
+  processed_data.to_csv('data/census_township_data.csv', index=False)
 
 
 def getTownship():

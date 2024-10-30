@@ -135,7 +135,6 @@ class ResultsBoard extends ElementBase {
 
         const anyHasResult = this.races.some(r => r.eevp || r.reporting || r.called || r.runoff || r.rcvResult);
 
-
         this.innerHTML = `
     <div class="${classNames.filter(c => c).join(" ")}">
         ${this.hed ? `<h3 class="board-hed">${this.hed}</h3>` : ""}
@@ -187,12 +186,15 @@ class ResultsBoard extends ElementBase {
                             // Existing case for other race types
                             var seatLabel = "";
                             var ballotLabel = "";
+
+                            console.log(r.office)
+                  
                             switch (r.office) {
-                                case "H": seatLabel = ` ${r.seatNumber}`;
+                                case "H": 
+                                    seatLabel = ` ${r.seatNumber}`;
+                                    break;
                                 case "S":
-                                    if (r.seatNumber) {
-                                        seatLabel = ` ${r.seatNumber}`;
-                                    }
+                                    seatLabel = ` `;
                                     break;
                                 case "I":
                                     ballotLabel = ` ${r.seat}`;

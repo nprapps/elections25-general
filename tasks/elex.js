@@ -17,6 +17,10 @@ module.exports = function (grunt) {
     const offline = grunt.option("offline");
     const zero = grunt.option("zero");
 
+    const countyLevelDataForStates =
+      "AL,AK,AZ,AR,CA,CO,DC,DE, FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,MD,MI,MN,MS,MO,MT,NE,NV,NJ,NM,NY,NC,ND,OH,OK,OR,PA,SC,SD,TN,TX,UT,VA,WA,WV,WI,WY";
+
+    const townshipLevelDataForStates = "CT,ME,MA,NH,RI,VT";
     // For 24-general, we are getting county level-data for G,S,P for all non-england states
     // We are getting township level data for G,S,P for all the england states and state level data for H,I.
     const tickets = [
@@ -25,6 +29,15 @@ module.exports = function (grunt) {
         params: {
           officeID: "G,S,P",
           level: "FIPSCode",
+          statePostal: countyLevelDataForStates,
+        },
+      },
+      {
+        date: "2024-11-05",
+        params: {
+          officeID: "G,S,P",
+          level: "ru",
+          statePostal: townshipLevelDataForStates,
         },
       },
       {
@@ -52,7 +65,16 @@ module.exports = function (grunt) {
     }
 
     // turn AP into normalized race objects
-    const results = normalize(rawResults, grunt.data.json);
+    const normalizedResults = normalize(rawResults, grunt.data.json);
+    //AP returns county level data for both AK/DC when they both don't have counties (😕 I know)
+    //Here we are filtering out the data if it's not state level for both these states
+    let results = normalizedResults.filter(
+      (result) =>
+        !(
+          (result.state == "DC" || result.state == "AK") &&
+          result.level == "county"
+        )
+    );
 
     grunt.log.writeln("Merging in external data...");
     augment(results, grunt.data);
@@ -68,7 +90,9 @@ module.exports = function (grunt) {
     const geo = {
       national: results.filter((r) => r.level == "national"),
       state: results.filter((r) => r.level == "state"),
-      county: results.filter((r) => r.level == "county"),
+      county: results.filter(
+        (r) => r.level == "county" || r.level == "subunit"
+      ),
     };
 
     grunt.log.writeln("Geo.national: ");
@@ -154,7 +178,7 @@ module.exports = function (grunt) {
         winner: r.winnerParty,
         electoral: r.electoral,
         previous: r.previousParty,
-        caucusWith: r.caucusWith
+        caucusWith: r.caucusWith,
       };
     };
 

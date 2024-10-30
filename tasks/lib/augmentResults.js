@@ -54,6 +54,16 @@ module.exports = function (results, data) {
         result.flags = matchingFlags.map((f) => f.flag);
       }
     }
+    const townshipStates = ["CT", "ME", "MA", "NH", "RI", "VT"];
+
+    //merge in the identifier to access unemployment data in the frontend
+    if (townshipStates.includes(result.state)) {
+      const apReportingUnit = data.csv.identifiers[result.reportingunitID];
+      if (apReportingUnit) {
+        result.censusID = apReportingUnit["combined"];
+        result.townshipName = apReportingUnit["NAME"];
+      }
+    }
 
     // Add electoral college winners to states
     if (
@@ -117,21 +127,45 @@ module.exports = function (results, data) {
       if (!result.fips) return;
 
       // get the winner margin from the previous presidential election
+
       const past_margin = {};
-      const [top, second] = data.csv.prior_fips
-        .filter((p) => p.fipscode == result.fips)
-        .sort((a, b) => b.votepct - a.votepct)
-        .slice(0, 2);
+      let [top, second] = [];
+      if (townshipStates.includes(result.state)) {
+        [top, second] = data.csv.townshipAPResults
+          .filter((p) => p.reportingunitID == result.reportingunitID)
+          .sort((a, b) => b.votepct - a.votepct)
+          .slice(0, 2);
+      } else {
+        [top, second] = data.csv.prior_fips
+          .filter((p) => p.fipscode == result.fips)
+          .sort((a, b) => b.votepct - a.votepct)
+          .slice(0, 2);
+      }
       past_margin.party = top ? top.party : "";
       past_margin.margin = top ? top.votepct - second.votepct : "";
-
-      const census = data.csv.census_data[result.fips];
-      const bls = data.csv.unemployment_data[result.fips] || {};
+      let census;
+      let bls;
+      let countyName;
+      if (townshipStates.includes(result.state)) {
+        bls = data.csv.unemployment_township[result.censusID] || {};
+        countyName = data.csv.unemployment_township[result.censusID]
+          ? data.csv.unemployment_township[result.censusID]["township"]
+          : "At large";
+        census = data.csv.census_township_data[result.censusID];
+      } else {
+        const fips = `${result.fips.slice(0, 2)}-${result.fips.slice(2)}`;
+        bls = data.csv.unemployment_data[fips] || {};
+        countyName = data.csv.county_names[result.fips] || "At large";
+        census = data.csv.census_data[result.fips];
+      }
       const { unemployment } = bls;
 
-      const countyName = data.csv.county_names[result.fips] || "At large";
-
-      result.county = { past_margin, ...census, unemployment, countyName };
+      result.county = {
+        past_margin,
+        ...census,
+        unemployment,
+        countyName,
+      };
     }
   });
 

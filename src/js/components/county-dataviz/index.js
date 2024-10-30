@@ -100,7 +100,7 @@ class CountyDataViz extends ElementBase {
             : "";
 
         this.innerHTML = `
-        <div class="trends">
+        <div class="trends" role="region" aria-labelledby="trends-heading">
           <h3>Demographic trends</h3>
           <div class="${this.state.collapsed ? 'collapsed' : ''}" id="trendsRef">
             ${this.state.charts.map(c => `
@@ -114,10 +114,11 @@ class CountyDataViz extends ElementBase {
                 ></county-chart>
             `).join('')}
           </div>
-          <div class="footnote">Trends subject to change as results come in. ${footnote}</div>
+          <div class="footnote" role="note">Trends subject to change as results come in. ${footnote}</div>
           <button
             class="toggle-table ${this.state.cleanedData.length > 4 ? '' : 'hidden'}"
             data-more="Show all"
+            tabindex="0"
             data-less="Show less">
             ${this.state.collapsed ? 'Show all ▼' : 'Show less ▲'}
           </button>

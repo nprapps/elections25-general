@@ -37,6 +37,8 @@ const translation = {
     reporting: "precinctsReporting",
     precincts: "precinctsTotal",
     eevp: "eevp",
+    reportingunitID: "reportingunitID",
+    reportingunitName: "reportingunitName",
   },
   candidate: {
     first: "first",

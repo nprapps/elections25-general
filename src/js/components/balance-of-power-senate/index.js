@@ -190,7 +190,6 @@ class BalanceOfPowerSenate extends ElementBase {
         this.innerHTML = `
       <main class="embed-bop">
     <div id="embed-bop-on-page" class="embed-bop">
-    <a class="link-container senate" href="http://apps.npr.org/election-results-live-2022/#/senate" target="_top">
       <div class="number-container">
         <div class="candidate dem">
           <div class="name">Dem. ${senate.Dem.total >= 51 ? winnerIcon : ""}</div>
@@ -217,7 +216,7 @@ class BalanceOfPowerSenate extends ElementBase {
 <div class="bar-container">
   <div class="bar dem" style="width: ${senate.Dem.total}%">
   </div>
-  <div class="bar other" style="width: ${senate.Ind.width}%">
+  <div class="bar other" style="width: ${senate.Ind.total}%">
   </div>
   <div class="bar gop" style="width: ${senate.GOP.total}%">
   </div>
@@ -236,7 +235,6 @@ class BalanceOfPowerSenate extends ElementBase {
       </div>
 
       ${ footnote }
-    </a>
   </div>
   `;
   }
