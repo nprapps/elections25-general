@@ -5,7 +5,7 @@
 
 <header>
 	<div class="headline">
-		<img src="https://apps.npr.org/primary-election-results-2024/assets/states/<%= state %>.svg" alt="" class="state-icon">
+		<img src="https://apps.npr.org/primary-election-results-2024/assets/states/<%= state %>.svg" alt="" class="state-icon<%= states[state].wide ? ' wide' : '' %>">
 		<div>
 			<h1><%= states[state].name %><span class=""> election results</span></h1>
 			<form class="section-nav">

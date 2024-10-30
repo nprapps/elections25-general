@@ -356,7 +356,7 @@ Geography
         <electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>
         ${!hideResultsBoard ? `<results-board-display office="president" split="true" hed="Competitive"></results-board-display>` : ''}
       </div>
-        ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''};`;
+        ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''}`;
     this.setupTabs();
   }
 }

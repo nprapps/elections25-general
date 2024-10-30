@@ -4,12 +4,12 @@ const ElementBase = require("../elementBase");
 
 const offices = {
   "key-races": "key-races",
-  president: "P",
-  governor: "G",
-  senate: "S",
-  house: "H",
-  "ballot-measures": "I",
-};
+  "president": "P",
+  "governor": "G",
+  "senate": "S",
+  "house": "H",
+  "ballot-measures": "I"
+}
 
 class StatePageResults extends ElementBase {
   constructor() {
@@ -52,6 +52,10 @@ class StatePageResults extends ElementBase {
 
     const results = this.data.results;
     let template = "";
+    const electoral = results
+      .filter(d => d.office === "P")
+      .map(obj => obj.electoral)
+      .reduce((accumulator, current) => accumulator + current, 0);
 
     this.sections.forEach(section => {
       let sectionHTML = "";
@@ -77,7 +81,7 @@ class StatePageResults extends ElementBase {
           }" races='${JSON.stringify(races).replace(
             /'/g,
             "&#39;"
-          )}' key-races-only></results-collection>
+          )}' key-races-only electoral=${electoral}></results-collection>
           `;
         });
         sectionHTML += "</section>";
@@ -104,7 +108,8 @@ class StatePageResults extends ElementBase {
           }" races='${JSON.stringify(races).replace(
             /'/g,
             "&#39;"
-          )}'></results-collection>
+          )}' electoral=${electoral} 
+          ></results-collection>
               <h3 class="section-hed">Presidential results by ${townshipStates.includes(this.state) ? 'township' : 'county'}</h3>
               <county-map state="${this.state}"></county-map>
                 ${!races.some(d => d.office === "P" && d.eevp === 0) ? `<county-dataviz state="${this.state}"></county-dataviz>` : ''}              <results-table-county
@@ -113,14 +118,16 @@ class StatePageResults extends ElementBase {
                 order="1">
               </results-table-county>
             </section>
-          `;
+          `
         } else if (section === "senate" || section === "governor") {
           let countiesHTML = "";
-          let countyRaces = this.countyRaces.filter(
-            d => d.office === offices[section]
-          );
+          let countyRaces = this.countyRaces.filter(d => d.office === offices[section]);
           races.forEach(race => {
-            const countyHTML = `
+            let countyHTML = "";
+            if (races.length > 1) {
+              countyHTML += "<h3>" + race.name_override + "</h3>"
+            }
+            countyHTML += `
               <county-map state="${this.state}" race-id="${this.state}-${race.id}"></county-map>
               ${!races.some(d => d.office === "S" && d.eevp === 0) ? `<county-dataviz state="${this.state}" race="${this.state}-${race.id}"></county-dataviz>` : ''}
               <results-table-county

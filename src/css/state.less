@@ -5,6 +5,7 @@
 @import "about-box";
 @import "../js/components/results-table/results-table";
 @import "../js/components/test-banner/test-banner";
+@import "source-footnote";
 
 @breakpoint1: 650px;
 @breakpoint2: 900px;
@@ -37,13 +38,14 @@ header, main {
 
 .state-icon {
 	filter: invert(15%) sepia(4%) saturate(18%) hue-rotate(321deg) brightness(94%) contrast(84%);
+	height: 4.5em;
 	margin-right: 1em;
 	@media (max-width: @breakpoint1) {
-		height: 2.5em;
+		order: 1;
     margin-top: 0.5em;
 	}
-	@media (min-width: @breakpoint1) {
-		height: 4.5em;
+	&.wide {
+		height: 2.5em;
 	}
 }
 
@@ -135,9 +137,14 @@ label {
 	}
 }
 
+input:first-child + label {
+	padding-left: 0;
+}
+
 input:checked + label {
 	color: black;
 	cursor: default;
+	white-space: nowrap;
 	&:hover {
 		text-decoration: none;
 	}
@@ -161,6 +168,7 @@ section {
 .section-hed {
 	color: #333;
 	font-size: 1.4em;
+	margin-bottom: 5px;
 }
 
 .dotted-line {
@@ -181,12 +189,35 @@ section {
 	}
 }
 
-.source-footnote {
-  font-size: 12px;
-  color: #787878;
-  margin: 50px 20px 0 20px;
+.section-info {
+	display: block;
+	margin: 0 0 10px;
+	width: 100%;
+}
 
-  a { text-decoration: none; }
+p.section-info {
+	color: #787878;
+	font-style: italic;
+	a {
+		font-style: normal;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+			color: @linkblue;
+		}
+	}
+}
+
+a.section-info {
+	text-decoration: none;
+	&:hover {
+		color: @linkblue;
+		text-decoration: underline;
+	}
+}
+
+results-collection {
+  align-items: end;
 }
 
 @media (min-width: @breakpoint2) {

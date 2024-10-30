@@ -68,7 +68,7 @@ class ResultsTable extends ElementBase {
       } else if (result.office === "I") {
         elements.resultsTableHed.innerHTML = result.description;
       } else {
-        elements.resultsTableHed.remove();
+        elements.resultsTableHeader.remove();
       }
     }
 
@@ -122,7 +122,10 @@ class ResultsTable extends ElementBase {
         el.classList.add("winner");
       }
 
-      const name = (d.first ? d.first + " " : " ") + (d.last === "Other" ? "Other candidates" : d.last);
+      const name = `
+        ${d.first ? "<span class='first-name'>" + d.first + " </span>" : ""}
+        ${d.last === "Other" ? "Other candidates" : d.last}
+      `;
       let party = " (" + d.party + ")";
       if (d.party === "Other" || d.party === "Yes" || d.party === "No") {
         party = "";
