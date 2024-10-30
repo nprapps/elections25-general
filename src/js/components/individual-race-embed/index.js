@@ -1,6 +1,15 @@
 import gopher from "../gopher.js";
+const { classify } = require("../util");
 const ElementBase = require("../elementBase");
 const ResultsTable = require("../results-table");
+
+const headers = {
+  "P": "President",
+  "G": "Governor",
+  "S": "Senate",
+  "H": "House",
+  "I": "Ballot measures"
+}
 
 class IndividualRaceEmbed extends ElementBase {
   constructor() {
@@ -35,7 +44,32 @@ class IndividualRaceEmbed extends ElementBase {
 
   render() {
   	let result = this.data.results.find(d => d.id === this.race);
+
+    let raceName = "";
+    if (result.name_override) {
+      raceName = result.stateName + " – " + result.name_override;
+    } else if (result.office === "I") {
+      raceName = result.description;
+    } else if (result.office == "H") {
+      raceName = result.stateName + " – " + headers[result.office] + " " + result.seat;
+    } else {
+      raceName = result.stateName + " – " + headers[result.office];
+    }
+
+    let countyLink = "";
+    if (result.office === "P" || result.office === "G" || result.office === "S") {
+      countyLink = `
+        <a class="county-results-link" href="${classify(result.stateName)}.html?section=${result.office}">
+          County-level results
+        </a>
+      `
+    }
+
     let table = `
+      <h3 class="race-embed-header">
+        <span class="race-embed-hed">${raceName}</span>
+        ${countyLink}
+      </h3>
       <results-table state="${this.getAttribute("state")}" result='${JSON.stringify(result).replace(/'/g, "&#39;")}' is-individual-embed></results-table>
     `
 		this.innerHTML = table;
