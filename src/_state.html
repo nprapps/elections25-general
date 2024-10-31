@@ -24,7 +24,7 @@
   if (stateData.results.filter(d => d.office === "H" && d.keyRace === "yes").length > 0) {
     keyRaceCollections.push("house");
   }
-  if (stateData.results.filter(d => d.office === "I" && d.keyRace === "yes").length > 0) {
+  if (stateData.results.filter(d => d.office === "I" && d.featured === "yes").length > 0) {
     keyRaceCollections.push("ballot-measures");
   }
   
