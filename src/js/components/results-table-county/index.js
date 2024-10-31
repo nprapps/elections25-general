@@ -161,7 +161,6 @@ class ResultsTableCounty extends ElementBase {
         return `
       <li class="sortButton ${selected}" data-sort-metric="${metric.key}">
         <span class="metric">${metric.name}</span>
-        <span class="pipe"> | </span>
       </li>
     `;
     }

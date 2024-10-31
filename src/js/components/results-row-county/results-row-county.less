@@ -4,10 +4,9 @@
   table.results-table {
     border-collapse: collapse;
     color: #666;
-    font-size: 12px;
+    font-size: 13px;
     table-layout: fixed;
     width: 100%;
-    // display: block;
 
     tbody.collapsed :nth-child(n + 11) {
       .sr-only();
@@ -232,40 +231,44 @@
     }
   }
 
+  .label {
+    color: #787878;
+    display: block;
+    font-size: 14px;
+    font-family: @sans;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-top: 0;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
   .sorter {
     font-family: @sans;
-    font-size: 12px;
+    font-size: 14px;
     list-style-type: none;
-    margin-bottom: 15px;
+    margin: 2px 0 20px;
     padding: 0;
 
     // @media screen and (max-width: @screen-xs) { text-align: center; }
 
     > li {
       color: @gray-medium;
+      font-weight: bold;
       white-space: nowrap;
-      line-height: 1.7em;
+      line-height: 1em;
       display: inline-block;
-      margin: 0 2px 0 0;
-
-      &.label {
-        color: #787878;
-        display: block;
-        font-size: 11px;
-        font-family: @sans;
-        font-weight: normal;
-        text-transform: uppercase;
-        padding-top: 0;
-        line-height: 1.2;
-        letter-spacing: 0.05em;
-        -webkit-font-smoothing: antialiased;
-        margin-bottom: 6px;
-      }
+      margin: 4px 2px 0 0;
 
       &.sortButton {
+        &:first-child .metric {
+          padding-left: 0;
+        }
         .metric {
           color: #4774cc;
-          padding: 0 5px;
+          padding: 0 7px;
 
           &:hover {
             color: @link-hover-color;
@@ -301,18 +304,18 @@
   }
 
   button {
-    .sans-header();
     background-color: #fff;
     border: none;
     box-shadow: none;
     box-sizing: border-box;
-    color: #4774cc;
+    color: @linkblue;
     display: block;
+    font-family: @sans;
+    font-size: 16.8px;
     font-weight: bold;
     margin-top: 0;
     margin-bottom: 22px;
-    padding: 10px;
-    text-transform: uppercase;
+    padding: 12px 0;
 
     &:focus {
       color: @link-hover-color;
