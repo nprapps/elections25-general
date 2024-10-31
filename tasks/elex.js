@@ -115,7 +115,9 @@ module.exports = function (grunt) {
     for (let state in states) {
       let stateOutput = {
         test,
-        results: states[state],
+        results: states[state].sort((a, b) =>
+          a.seatNumber - b.seatNumber < 0 ? -1 : 1
+        ),
       };
 
       const stateChatter = longform.statePages[state.toLowerCase()];

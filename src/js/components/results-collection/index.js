@@ -6,9 +6,6 @@ class ResultsCollection extends ElementBase {
   constructor() {
     super();
     this.races = JSON.parse(this.getAttribute("races"));
-    if (this.getAttribute("office") === "H") {
-      this.races.sort((a, b) => a.seatNumber - b.seatNumber < 0 ? -1 : 1);
-    }
   }
 
   connectedCallback() {
