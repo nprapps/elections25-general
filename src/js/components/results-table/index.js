@@ -40,6 +40,20 @@ class ResultsTable extends ElementBase {
     elements.updated.innerHTML = `${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}`;
     elements.eevp.innerHTML = formatEEVP(result.eevp);
 
+    var diff = (new Date(result.updated) - new Date(result.candidates[0].winnerDateTime)) / 1000;
+    if (diff > 0) {
+      console.log(`${ result.state }-${ result.office }: ${ diff } seconds difference`);
+      console.log("result.updated", new Date(result.updated));
+      console.log("winnerDateTime", new Date(result.candidates[0].winnerDateTime));
+    }
+
+    if (result.candidates[0].winner === "X" && result.candidates[0].winnerDateTime) {
+      var winnerDateTime = result.candidates[0].winnerDateTime;
+      elements.callTimestamp.innerHTML = ` &bull; Winner called: ${formatAPDate(new Date(winnerDateTime))} at ${formatTime(new Date(winnerDateTime))}.`;
+    } else {
+      elements.callTimestamp.remove();
+    }
+
     if (result.office === "P") {
       elements.wrapper.classList.add("president");
     }
@@ -65,6 +79,8 @@ class ResultsTable extends ElementBase {
 
     if (candidates.length > 1) {
       elements.uncontestedFootnote.remove();
+    } else {
+      elements.footnoteMetadata.style.display = "none";
     }
 
     if (result.flags) {
@@ -84,6 +100,13 @@ class ResultsTable extends ElementBase {
       }
     } else {
       elements.rcvFootnote.remove();
+    }
+
+    // show winThreshold for ballot measures where the threshold isn't a simple majority
+    if (result.office == "I" && result.winThreshold && result.winThreshold != 50) {
+      elements.winThresholdFootnote.innerHTML = `This measure must win at least ${ result.winThreshold }% of the vote to pass.`
+    } else {
+      elements.winThresholdFootnote.remove();
     }
 
     if (candidates.some(d => d[0].incumbent) === true) {
