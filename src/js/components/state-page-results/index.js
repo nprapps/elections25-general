@@ -69,8 +69,10 @@ class StatePageResults extends ElementBase {
               (this.state === "NE" || this.state === "ME")
             ) {
               return d.office === "P" && d.electoral === 2;
-            } else if (office === "H" || office === "I") {
-              return d.office === offices[office] && d.keyRace === "yes";
+            } else if (office === "house") {
+              return d.office === "H" && d.keyRace === "yes";
+            } else if (office === "ballot-measures") {
+              return d.office === "I" && d.featured === "yes";
             } else {
               return d.office === offices[office];
             }
