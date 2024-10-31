@@ -6,15 +6,30 @@ var races = grunt.data.json.races;
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <%= t.include("partials/_head.html", grunt.data.json) %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <title>Election 2024 embed customizer : NPR</title>
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://media.npr.org/templates/favicon/favicon-180x180.png" />
+    <link rel="icon" sizes="96x96" href="https://media.npr.org/templates/favicon/favicon-96x96.png" />
+    <link rel="icon" sizes="32x32" href="https://media.npr.org/templates/favicon/favicon-32x32.png" />
+    <link rel="icon" sizes="16x16" href="https://media.npr.org/templates/favicon/favicon-16x16.png" />
+    
+    <!-- Safari, you're the worst -->
+    <meta name='format-detection' content='telephone=no'>
+    
+    <%= t.include("partials/_webfonts.html") %>
+  
     <!-- <link rel="stylesheet" type="text/css" href="style.css"/> -->
     <link rel="stylesheet" type="text/css" href="customizer.css"/>
 
     <script src="customizer.js"></script>
     <script src="app.js"></script>
-
   </head>
   <body>
+
     <script>
       document.body.classList.add(
         new URL(window.location).searchParams.get("theme")
@@ -128,7 +143,7 @@ var races = grunt.data.json.races;
             >Race:
             <select id="stateRaceSelect">
             </select></label
-          ></div><br /><label
+          ></div><br /><label id="showStateHeader"
             >Show state header?
           <input class="nestedCheckbox" type="checkbox" id="stateHeaderTrue" checked/></label>
           </div>
@@ -138,7 +153,16 @@ var races = grunt.data.json.races;
             id="checkboxSection"
             class="hidden"
           >
+            <h4>Select races to include</h4>
             <label
+              ><input
+              checked 
+                type="checkbox"
+                value="president"
+                onchange="handleSelection('bop')"
+                class="nestedCheckbox"
+              />President</label
+            ><label
               ><input
                checked 
                 type="checkbox"
@@ -154,17 +178,10 @@ var races = grunt.data.json.races;
                 onchange="handleSelection('bop')"
                 class="nestedCheckbox"
               />House</label
-            ><label
-              ><input
-              checked 
-                type="checkbox"
-                value="president"
-                onchange="handleSelection('bop')"
-                class="nestedCheckbox"
-              />President</label
             >
           </div>
           <div id="presidentOptions" class="hidden">
+            <h4>Select initial tab</h4>
             <label>
               <input
                 checked 
@@ -217,6 +234,5 @@ var races = grunt.data.json.races;
       window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
     </script>
 
-    <%= t.include("partials/_analytics.html") %>
   </body>
 </html>

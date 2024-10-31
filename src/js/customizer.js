@@ -43,6 +43,12 @@ let embedType,
     }
   };
 
+/**
+ * Create the URL that will populate the embed code, including additional parameters
+ * 
+ * @param {*} config 
+ * @returns 
+ */
 const createURL = function (config) {
   var prefix = PROJECT_URL;
   var page = config["page"];
@@ -51,14 +57,28 @@ const createURL = function (config) {
     var baseURL = prefix + page + ".html";
     const url = new URL(baseURL);
     url.searchParams.append('embedded', 'true');
+
+    var allowedParams = []
     
     // Add any additional parameters
-    if (config.params) {
-      Object.keys(config.params).forEach(key => {
-        if (key !== 'embedded' && config.params[key] !== undefined) {
-          url.searchParams.append(key, config.params[key]);
-        }
-      });
+    // if (config.params) {
+    //   Object.keys(config.params).forEach(key => {
+    //     if (key !== 'embedded' && config.params[key] !== undefined) {
+    //       url.searchParams.append(key, config.params[key]);
+    //     }
+    //   });
+    // }
+
+    if (page === "bop") {
+      if (config.params["races"] !== undefined) {
+        url.searchParams.append("races", config.params["races"]);
+      }
+    }
+
+    if (page === "presidentMaps") {
+      if (config.params["options"] !== undefined) {
+        url.searchParams.append("options", config.params["options"]);
+      }
     }
     
     return url.toString();
@@ -77,7 +97,7 @@ const createURL = function (config) {
     neededParams.push(...moreParams);
   }
   if (config["page"] == "race-embed") {
-    moreParams = ["stateAbbrev", "race", "showHeader"];
+    moreParams = [ "stateAbbrev", "race" ];
     neededParams.push(...moreParams);
   }
   neededParams.forEach(key => {
@@ -201,6 +221,9 @@ const buildSections = function () {
     });
 };
 
+/**
+ * Build dropdown list of available races in a state
+ */
 const buildRaces = function () {
   var state = customizerState["params"]["stateAbbrev"];
   fetch("data/states/" + state + ".json")
@@ -241,6 +264,10 @@ const buildRaces = function () {
 
         stateRaceDropdown.appendChild(sectionItem);
       });
+
+      stateRaceDropdown.selectedIndex = 0;
+      customizerState["params"]["race"] = stateRaceDropdown.value;
+      createEmbed(customizerState);
     });
 };
 
@@ -252,6 +279,7 @@ const updateView = function () {
     stateConfigOptions.classList.remove("hidden");
     $.one("#stateSectionContain").classList.remove("hidden");
     $.one("#stateRaceContain").classList.add("hidden");
+    $.one("#showStateHeader").classList.remove("hidden");
     checkboxSection.classList.add("hidden");
     presidentOptions.classList.add("hidden");
     buildSections();
@@ -261,6 +289,7 @@ const updateView = function () {
     $.one("#stateRaceContain").classList.remove("hidden");
     checkboxSection.classList.add("hidden");
     presidentOptions.classList.add("hidden");
+    $.one("#showStateHeader").classList.add("hidden");
     buildRaces();
   } else if (page === "bop") {
     checkboxSection.classList.remove("hidden");
@@ -346,5 +375,10 @@ window.onload = function () {
   const stateDropdown = document.getElementById("stateSelect");
   const raceDropdown = document.getElementById("stateRaceSelect");
   const presidentOptions = document.getElementById("presidentOptions");
+
+  // load president board by default
+  document.querySelector("#embedType input[value='index']").setAttribute("checked", true);
+  updateView();  
+
   //createEmbed("president");
 };
