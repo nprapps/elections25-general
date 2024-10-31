@@ -236,12 +236,11 @@ Geography
     this.loadData();
     gopher.watch(`./data/president.json`, this.loadData);
     this.illuminate();
-    gopher.watch(this.getAttribute("./data/president.json"), this.loadData);
   }
 
 
   disconnectedCallback() {
-    gopher.unwatch(this.getAttribute("./data/president.json"), this.loadData);
+    gopher.unwatch("./data/president.json"), this.loadData;
   }
 
   setupTabs() {
@@ -331,14 +330,17 @@ Geography
 
     var called = groupCalled(this.results);
 
-    let hasAnyDataAttribute = this.getAttribute("data-cartogram") !== null ||
-      this.getAttribute("data-national") !== null ||
-      this.getAttribute("data-bubbles") !== null;
+    const hasAnyDataAttribute = ['data-cartogram', 'data-national', 'data-bubbles']
+    .some(attr => this.getAttribute(attr) !== null);
 
     let hideResultsBoard = hasAnyDataAttribute ?
       this.getAttribute("data-hide-results") !== null :
       false;
 
+      var updated = Math.max(...this.results.map(r => r.updated));
+      const date = new Date(updated);
+      const time = `${date.getHours() % 12 || 12}:${String(date.getMinutes()).padStart(2, '0')} ${date.getHours() >= 12 ? 'PM' : 'AM'}`;
+      const fullDate = `${date.toLocaleString('en-US', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`;
 
     this.innerHTML = `
       <div class="president board">
@@ -356,7 +358,8 @@ Geography
         <electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>
         ${!hideResultsBoard ? `<results-board-display office="president" split="true" hed="Competitive"></results-board-display>` : ''}
       </div>
-        ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''}`;
+        ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''}
+        <div class="board source-footnote">Last updated ${fullDate} at ${time}</div>`;
     this.setupTabs();
   }
 }

@@ -67,6 +67,11 @@ class BoardSenate extends ElementBase {
 
         var called = groupCalled(this.results);
 
+        var updated = Math.max(...this.results.map(r => r.updated));
+      const date = new Date(updated);
+      const time = `${date.getHours() % 12 || 12}:${String(date.getMinutes()).padStart(2, '0')} ${date.getHours() >= 12 ? 'PM' : 'AM'}`;
+      const fullDate = `${date.toLocaleString('en-US', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`;
+
         this.innerHTML = `
         <div class="president board">
           ${test ? '<test-banner></test-banner>' : ''}
@@ -81,6 +86,7 @@ class BoardSenate extends ElementBase {
             <results-board-display office="Senate" split="true" hed="Competitive"></results-board-display>
             <results-board-key race="senate"></results-board-key>
         </div>
+        <div class="board source-footnote">Source: AP (as of ${time} on ${fullDate})</div>
       `;
     }
 }

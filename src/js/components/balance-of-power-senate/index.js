@@ -13,12 +13,12 @@ class BalanceOfPowerSenate extends ElementBase {
   connectedCallback() {
     this.loadData();
     this.illuminate();
-    gopher.watch(`./data/senate.json`, this.loadData);
+    //gopher.watch(`./data/senate.json`, this.loadData);
   }
 
   // Lifecycle: Called when the element is removed from the DOM
   disconnectedCallback() {
-    gopher.unwatch(`./data/senate.json`, this.loadData);
+    //gopher.unwatch(`./data/senate.json`, this.loadData);
   }
 
   /*====================*/

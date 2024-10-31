@@ -41,7 +41,7 @@ class ResultsBoard extends ElementBase {
 
     connectedCallback() {
       this.loadData();
-      gopher.watch(`./data/senate.json`, this.loadData);
+      //gopher.watch(`./data/senate.json`, this.loadData);
     }
 
     async loadData() {
@@ -186,8 +186,6 @@ class ResultsBoard extends ElementBase {
                             // Existing case for other race types
                             var seatLabel = "";
                             var ballotLabel = "";
-
-                            console.log(r.office)
                   
                             switch (r.office) {
                                 case "H": 

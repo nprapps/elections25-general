@@ -22,7 +22,7 @@ class Cartogram extends ElementBase {
 
   async connectedCallback() {
     this.loadData();
-    gopher.watch(`./data/president.json`, this.loadData);
+    //gopher.watch(`./data/president.json`, this.loadData);
   }
 
 
@@ -212,30 +212,17 @@ class Cartogram extends ElementBase {
       const hasDistricts = g.querySelector("[data-postal]");
 
       let x, y;
-      try {
-        // Try to use getBBox first
-        const bbox = square.getBBox();
-        if (hasDistricts) {
-          x = bbox.x - 10
-          y = bbox.y
-        } else {
-          x = bbox.x + (bbox.width / 2);
-          y = bbox.y + (bbox.height / 2) + 4;
-        }
-      } catch (e) {
-        // Fallback to attribute-based calculations if getBBox fails
-        if (hasDistricts) {
-          x = parseFloat(square.getAttribute('x')) - 10;
-          y = parseFloat(square.getAttribute('y'));
-        } else {
-          const squareX = parseFloat(square.getAttribute('x'));
-          const squareY = parseFloat(square.getAttribute('y'));
-          const squareWidth = parseFloat(square.getAttribute('width'));
-          const squareHeight = parseFloat(square.getAttribute('height'));
+      if (hasDistricts) {
+        x = parseFloat(square.getAttribute('x')) - 12;
+        y = parseFloat(square.getAttribute('y'));
+      } else {
+        const squareX = parseFloat(square.getAttribute('x'));
+        const squareY = parseFloat(square.getAttribute('y'));
+        const squareWidth = parseFloat(square.getAttribute('width'));
+        const squareHeight = parseFloat(square.getAttribute('height'));
 
-          x = squareX + (squareWidth / 2);
-          y = squareY + (squareHeight / 2);
-        }
+        x = squareX + (squareWidth / 2);
+        y = squareY + (squareHeight / 2);
       }
 
       if (window.innerWidth > 650) {

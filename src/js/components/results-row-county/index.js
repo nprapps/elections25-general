@@ -4,6 +4,12 @@ import { percentDecimal, reportingPercentage, getParty, voteMargin } from "../ut
 class ResultsRowCounty extends ElementBase {
     constructor() {
         super();
+        this.orderedCandidates = JSON.parse(this.getAttribute('ordered-candidates') || '[]');
+        this.row = JSON.parse(this.getAttribute('row') || '{}');
+        this.metric = JSON.parse(this.getAttribute('metric') || '{}');
+        this.removeAttribute('row');
+        this.removeAttribute('metric');
+        this.removeAttribute('ordered-candidates');
     }
 
     connectedCallback() {
@@ -45,9 +51,9 @@ class ResultsRowCounty extends ElementBase {
     }
 
     render() {
-        const orderedCandidates = JSON.parse(this.getAttribute('ordered-candidates') || '[]');
-        const row = JSON.parse(this.getAttribute('row') || '{}');
-        const metric = JSON.parse(this.getAttribute('metric') || '{}');
+        const orderedCandidates = this.orderedCandidates
+        const row = this.row
+        const metric = this.metric
     
         const topCands = orderedCandidates.map(c => c.last);
         const candidates = orderedCandidates.map(header => {

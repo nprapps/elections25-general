@@ -11,7 +11,8 @@ class CountyChart extends ElementBase {
       this.handleResize = this.handleResize.bind(this);
       this.resizeFrame = null;
 
-      this.data = null
+      this.data = JSON.parse(decodeURIComponent(this.getAttribute('data') || '[]'));
+      this.removeAttribute('data');
   
       this.margins = {
         top: 20,
@@ -53,7 +54,8 @@ class CountyChart extends ElementBase {
     }
   
     render() {
-      const data = JSON.parse(this.getAttribute('data') || '[]');
+      const data = this.data;
+      this.removeAttribute('races');
       if (!data.length) {
         this.innerHTML = '';
         return;
@@ -131,7 +133,7 @@ class CountyChart extends ElementBase {
       const tooltip = this.querySelector('.tooltip');
 
       tooltip.classList.remove("shown");
-      const data = JSON.parse(this.getAttribute('data') || '[]');
+      const data = this.data
       const fips = e.target.dataset.fips;
       const county = data.find(d => d.fips == fips);
   
@@ -166,7 +168,7 @@ class CountyChart extends ElementBase {
         const [yStart, yEnd] = this.yScale.range();
 
         
-        const data = JSON.parse(this.getAttribute('data') || '[]')
+        const data = this.data
         .sort((a, b) => b.percent - a.percent);
       
       // Find top two different parties
@@ -206,16 +208,24 @@ class CountyChart extends ElementBase {
       }
   
       createDots() {
-        const data = JSON.parse(this.getAttribute('data') || '[]');
+        const data = this.data
         const variable = this.getAttribute('variable');
-    
+        var yScale
+        if (variable === 'past_margin') {
+          yScale = this.yScaleMargin
+      } else if (variable.includes('percent')) {
+        yScale = this.yScalePercent }
+      else {
+          yScale = this.yScale
+      }
+      
         return `
           <g class="dots">
             ${data
               .filter(t => t.x !== null && !isNaN(getCountyVariable(t, variable)) && getCountyVariable(t, variable) !== null)
               .map((t, i) => {
               const value = getCountyVariable(t, variable);
-              const y = this.yScale(value);
+              const y = yScale(value);
               const x = this.xScale(t.x);
               return `
                 <circle
@@ -232,6 +242,7 @@ class CountyChart extends ElementBase {
           </g>
         `;
       }
+      
   
       handleResize() {
         const containerWidth = this.parentElement.offsetWidth;
@@ -247,7 +258,7 @@ class CountyChart extends ElementBase {
     
         // Get min/max for Y axis
         const variable = this.getAttribute('variable');
-        const data = JSON.parse(this.getAttribute('data') || '[]');
+        const data = this.data
         const currV = data
           .filter(d => !isNaN(getCountyVariable(d, variable)) && getCountyVariable(d, variable) !== null)
           .map(d => getCountyVariable(d, variable));
@@ -262,7 +273,10 @@ class CountyChart extends ElementBase {
         }
     
         this.xScale = this.scaleFactory([0, 1], [0, chartWidth]);
-        this.yScale = this.scaleFactory([minY, maxY], [chartHeight, 0]);
+        this.yScaleMargin = this.scaleFactory([minY, maxY], [chartHeight, 0]);
+        this.yScalePercent = this.scaleFactory([0, 1], [chartHeight, 0]);
+        this.yScale = this.scaleFactory([0, maxY], [chartHeight, 0]);
+
     
         const height = chartHeight + this.margins.top + this.margins.bottom;
         const width = chartWidth + this.margins.left + this.margins.right;

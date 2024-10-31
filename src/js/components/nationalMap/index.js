@@ -59,12 +59,12 @@ class NationalMap extends ElementBase {
     this.initLabels();
     this.paint();
 
-    gopher.watch(`./data/president.json`, this.loadData);
+    //gopher.watch(`./data/president.json`, this.loadData);
   }
 
   disconnectedCallback() {
     const svg = this.svgContainer;
-    gopher.unwatch(`./data/president.json`, this.loadData);
+    //gopher.unwatch(`./data/president.json`, this.loadData);
   }
 
   async loadData() {

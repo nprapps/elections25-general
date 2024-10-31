@@ -40,7 +40,7 @@ class ResultsBoardDisplay extends ElementBase {
 
         // Watch the appropriate data file if it's set
         if (this.dataFileName) {
-            gopher.watch(`./data/${this.dataFileName}`, this.loadData);
+            //gopher.watch(`./data/${this.dataFileName}`, this.loadData);
         }
 
         // Always watch states data
@@ -119,6 +119,7 @@ class ResultsBoardDisplay extends ElementBase {
         var { results, test, latest, alert } = this.state;
         this.state.results = this.results
 
+
         if (!alert) {
             alert = '';
         }
@@ -144,7 +145,7 @@ class ResultsBoardDisplay extends ElementBase {
         let content = `${this.results[0].test ? '<test-banner></test-banner>' : ''} `;
 
         //let content = `${this.results[0].test ? '<test-banner></test-banner>' : ''} `;
-
+        if (results) {
         if (this.office.includes('Senate')) {
             content += `
                 <div class="board-container Senate">
@@ -250,6 +251,7 @@ class ResultsBoardDisplay extends ElementBase {
                 </div>
             `;
         }
+    }
 
         content += '</div>';
         this.innerHTML = content;

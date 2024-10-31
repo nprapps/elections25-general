@@ -8,6 +8,7 @@ class ElectoralBars extends ElementBase {
     constructor() {
         super();
         this.called = this.getAttribute('called');
+        this.removeAttribute('called');
     }
 
     connectedCallback() {

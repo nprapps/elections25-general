@@ -11,12 +11,12 @@ class BalanceOfPowerHouse extends ElementBase {
   connectedCallback() {
     this.loadData();
     this.illuminate();
-    gopher.watch(`./data/house.json`, this.loadData);
+    //gopher.watch(`./data/house.json`, this.loadData);
   }
 
     // Lifecycle: Called when the element is removed from the DOM
     disconnectedCallback() {
-      gopher.unwatch(`./data/house.json`, this.loadData);
+      //gopher.unwatch(`./data/house.json`, this.loadData);
     }
 
   /*====================*/

@@ -20,10 +20,7 @@ class Leaderboard extends ElementBase {
     constructor() {
         super();
         this.called = this.getAttribute('called');
-    }
-
-    static get observedAttributes() {
-        return ['called'];
+        this.removeAttribute('called');
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

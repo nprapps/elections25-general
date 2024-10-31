@@ -284,6 +284,7 @@ const updateView = function () {
     presidentOptions.classList.add("hidden");
     buildSections();
   } else if (page == "race-embed") {
+    $.one("#showStateHeaderLabel").classList.add("hidden");
     stateConfigOptions.classList.remove("hidden");
     $.one("#stateSectionContain").classList.add("hidden");
     $.one("#stateRaceContain").classList.remove("hidden");
@@ -292,12 +293,14 @@ const updateView = function () {
     $.one("#showStateHeader").classList.add("hidden");
     buildRaces();
   } else if (page === "bop") {
+    $.one("#showStateHeaderLabel").classList.add("hidden");
     checkboxSection.classList.remove("hidden");
     stateConfig.classList.add("hidden");
     presidentOptions.classList.add("hidden");
     createBOPEmbed();
     return;
   } else if (page === "presidentMaps") {
+    $.one("#showStateHeaderLabel").classList.add("hidden");
     presidentOptions.classList.remove("hidden");
     stateConfig.classList.add("hidden");
     checkboxSection.classList.add("hidden");
@@ -307,6 +310,7 @@ const updateView = function () {
     stateConfigOptions.classList.add("hidden");
     checkboxSection.classList.add("hidden");
     presidentOptions.classList.add("hidden");
+    $.one("#showStateHeaderLabel").classList.add("hidden");
   }
 
   createEmbed(customizerState);

@@ -46,18 +46,6 @@ class CountyMap extends ElementBase {
 
       const newEnglandStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
 
-      
-      if (newEnglandStates.includes(state)) {
-        console.log('fetching the response')
-        const townCodesResponse = await fetch('../../data/town_codes.json');
-        if (townCodesResponse.ok) {
-          this.townCodesData = await townCodesResponse.json();
-        }
-        else {
-          console.log('this didnt work')
-        }
-      }
-
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

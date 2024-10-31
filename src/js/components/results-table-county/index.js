@@ -140,10 +140,12 @@ class ResultsTableCounty extends ElementBase {
         });
     }
 
-    getSorter() {
+    getSorter(currentState) {
+
+        const townshipStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
         return `
       <ul class="sorter">
-        <li class="label">Sort Counties By:</li>
+        <li class="label">Sort ${townshipStates.includes(currentState) ? 'Townships' : 'Counties'} By:</li>
         ${Object.keys(this.availableMetrics)
                 .map(m => this.getSorterLi(this.availableMetrics[m]))
                 .join('')}
@@ -289,13 +291,13 @@ class ResultsTableCounty extends ElementBase {
         this.innerHTML = `
         <div class="results-counties ${this.state.sortMetric.key.split("_").join("-")}">
             <h3>Demographics by ${townshipStates.includes(this.currentState) ? 'township' : 'county'}</h3>
-            ${this.getSorter()}
+            ${this.getSorter(this.currentState)}
             <table class="results-table candidates-${orderedCandidates.length}">
                 <thead>
                     <tr>
                         <th class="county sortable" data-sort="countyName">
                             <div>
-                                <span class="county">County</span>
+                                <span class="county">${townshipStates.includes(this.currentState) ? 'Township' : 'County'}</span>
                             </div>
                         </th>
                         <th class="amt precincts" data-sort="countyName">
