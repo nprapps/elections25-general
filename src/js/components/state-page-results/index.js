@@ -96,11 +96,28 @@ class StatePageResults extends ElementBase {
             return d.office === offices[section];
           }
         });
-        
 
-        const townshipStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
+        const townshipStates = ["CT", "MA", "ME", "NH", "RI", "VT"];
+        if (
+          section === "president" &&
+          (this.state === "AK" || this.state === "DC")
+        ) {
+          sectionHTML += `
+            <section id="${section}-section" section="${section}">
+              <results-collection 
+                state=${this.state}
+                office="${offices[section]}" 
+                races='${JSON.stringify(races).replace(/'/g, "&#39;")}' 
+                electoral=${electoral} 
+              >
+              </results-collection>
 
-        if (section === "president") {
+              <p class="county-data-note"> County-level results not available for ${
+                this.state === "AK" ? "Alaska" : "District of Columbia"
+              }. </p>
+            </section>
+          `;
+        } else if (section === "president") {
           sectionHTML += `
             <section id="${section}-section" section="${section}">
               <results-collection state="${this.state}" office="${
