@@ -1,6 +1,8 @@
 const ElementBase = require("../elementBase");
 const { classify } = require("../util");
 
+const townshipStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
+
 class ResultsCollection extends ElementBase {
   constructor() {
     super();
@@ -30,24 +32,23 @@ class ResultsCollection extends ElementBase {
       </h3>
     `;
 
-    let stateSlug = classify(this.races[0].stateName);
+    const stateSlug = classify(this.races[0].stateName);
+    const locality = townshipStates.includes(this.getAttribute("state")) ? "Township" : "County";
 
     if (this.hasAttribute("key-races-only")) {
       if (this.getAttribute("office") === "P") {
-        let linkElement = ` • <a href="${stateSlug}.html?section=P">County-level results</a>`;
+        let linkElement = ` • <a href="${stateSlug}.html?section=P">${locality}-level results</a>`;
         if (stateSlug === "alaska" || stateSlug === "district-of-columbia") {
           linkElement = "";
-        } else if (stateSlug === "nebraska") {
-          linkElement = ` • <a href="${stateSlug}.html?section=P">District and county-level results</a>`
-        } else if (stateSlug === "maine") {
-          linkElement = ` • <a href="${stateSlug}.html?section=P">District and township-level results</a>`
+        } else if (stateSlug === "nebraska" || stateSlug === "maine") {
+          linkElement = ` • <a href="${stateSlug}.html?section=P">District and ${locality.toLowerCase()}-level results</a>`
         }
         template += `
           <p class="section-info">
             ${this.getAttribute("electoral")} electoral votes${linkElement}</p>`;
       } else if (this.getAttribute("office") === "S") {
         template += `<a class='section-info' href="${stateSlug}.html?section=S">
-          County-level results
+          ${locality}-level results
         </a>`
       } else if (this.getAttribute("office") === "H") {
         template += `<a class="section-info" href='${stateSlug}.html?section=H'>
