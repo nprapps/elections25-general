@@ -23,32 +23,25 @@
       </a>
     </div>
 
-    <button class="menu-toggle" aria-controls="main-menu">
-      More <span class="abbrev label">results</span>
-      <svg viewBox="0 0 5 5" preserveAspectRatio="none" aria-hidden="true">
-        <path fill="currentColor" d="M1,1.5 L4,1.5 L2.5,4 Z" />
-      </svg>
-    </button>
-
     <ul class="menu-contents" id="main-menu">
 
-      <li> <a href="<%= footer[0].url %>">
+      <li class="main-menu-item"> <a href="<%= footer[0].url %>">
         <span class="full label">Live Coverage</span>
         <span class="abbrev label">Live</span>
       </a> </li>
-      <li> <a href="./">
+      <li class="main-menu-item"> <a href="./">
         <span class="full label">President</span>
         <span class="abbrev label">Pres.</span>
       </a> </li>
    
-      <li> <a href="./house.html">House</a> </li>
-      <li> <a href="./senate.html">Senate</a> </li>
-      <li> <a href="./governors.html">
+      <li class="main-menu-item"> <a href="./house.html">House</a> </li>
+      <li class="main-menu-item"> <a href="./senate.html">Senate</a> </li>
+      <li class="main-menu-item"> <a href="./governors.html">
         <span class="full label">Governor</span>
         <span class="abbrev label">Gov.</span>
       </a> </li>
 
-      <li class="state-nav">
+      <li class=" main-menu-item state-nav">
         <button class="menu-toggle" aria-controls="states-menu">
           State <span class="full label">results</span>
           <svg viewBox="0 0 5 5" preserveAspectRatio="none" aria-hidden="true">
@@ -57,17 +50,11 @@
         </button>
 
         <ul class="states menu-contents" id="states-menu">
-          <!-- <li class="ag-link">
-            <a href="https://www.npr.org/1133362263">
-              Attorney General
-            </a>
-          </li> -->
-
           <% for (var state of Object.keys(states)) {%>
           <% if (states[state].district) continue; %>
           <% if (states[state]["district"]=='x') continue; %>
 
-          <li>
+          <li class="state-menu-item">
             <a href="<%= classify(states[state].name) + ".html" %>"><%= states[state].name == "District of Columbia" ? "D.C." : states[state].name %></a>
           </li>
           <%}%>
