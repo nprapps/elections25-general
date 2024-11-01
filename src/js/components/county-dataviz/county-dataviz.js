@@ -135,9 +135,15 @@ class CountyChart extends ElementBase {
       tooltip.classList.remove("shown");
       const data = this.data
       const fips = e.target.dataset.fips;
-      const county = data.find(d => d.fips == fips);
+      const censusId = e.target.dataset.censusId;
+
+      const county = data.find(d => 
+        censusId ? d.censusID == censusId : d.fips == fips
+      );
+
   
       if (county) {
+        
         const variable = this.getAttribute('variable');
         const displayVar = county[variable];
         const metric = this.availableMetrics[variable];
@@ -236,6 +242,7 @@ class CountyChart extends ElementBase {
                   stroke-width="1"
                   class="${t.party}"
                   data-fips="${t.fips}"
+                  ${t.censusID ? `data-census-id="${t.censusID}"` : ''}
                 />
               `;
             }).join('')}

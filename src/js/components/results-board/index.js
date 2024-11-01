@@ -168,7 +168,7 @@ class ResultsBoard extends ElementBase {
                                 <tr key="${r.state}${r.district}" role="row" class="${hasResult ? "closed" : "open"} index-${i}">
                                     <td role="cell" class="state">
                                         <a href="./${ classify(r.stateName) }.html?section=${r.office}" target="_top">
-                                            ${stateDetail.ap} ${r.district && r.district !== "AL" ? r.district : ""}
+                                            ${stateDetail.ap} ${r.seatNumber && r.seatNumber !== "AL" ? r.seatNumber : ""}
                                         </a>
                                     </td>
                                     <td role="cell" class="electoral">${r.electoral}</td>
