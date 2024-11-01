@@ -117,15 +117,15 @@ class StatePageResults extends ElementBase {
                   state="${this.state}"
                   races='${JSON.stringify(races).replace(/'/g, "&#39;")}'
                 ></tabbed-results-collection>
+                <h3 class="section-hed">Presidential results by ${townshipStates.includes(this.state) ? 'township' : 'county'}</h3>
+                <county-map state="${this.state}"></county-map>
+                ${!races.some(d => d.office === "P" && d.eevp === 0) ? `<county-dataviz state="${this.state}"></county-dataviz>` : ''}
+                <results-table-county
+                  state="${this.state}"
+                  race-id="0"
+                  order="1">
+                </results-table-county>
               </section>
-              <h3 class="section-hed">Presidential results by ${townshipStates.includes(this.state) ? 'township' : 'county'}</h3>
-              <county-map state="${this.state}"></county-map>
-              ${!races.some(d => d.office === "P" && d.eevp === 0) ? `<county-dataviz state="${this.state}"></county-dataviz>` : ''}
-              <results-table-county
-                state="${this.state}"
-                race-id="0"
-                order="1">
-              </results-table-county>
             `
           } else {
             sectionHTML += `
