@@ -30,13 +30,9 @@ module.exports = function (grunt) {
     "less",
     "template",
   ]);
-  grunt.registerTask("startup", "Build all files and data", [
-    "copy",
-    "bundle",
-    "less",
-    "ap",
-    "build",
-  ]);
+  grunt.registerTask("startup", "Build all files and data", function (arg = "stage") {
+    grunt.task.run(`update:${arg}`, "clean", "ap", "static");
+  });
   grunt.registerTask("quick", "Build without assets", [
     "clean",
     "bundle",
@@ -53,11 +49,7 @@ module.exports = function (grunt) {
     "cron:60:local",
   ]);
   grunt.registerTask("deploy", "Deploy HTML to stage on a timer", [
-    "sheets",
-    "docs",
-    "clean",
-    "static",
-    "elex",
+    "startup:stage",
     "publish",
     "cron:30:publish",
   ]);
@@ -72,11 +64,7 @@ module.exports = function (grunt) {
     ["sheets", "clean", "static", "elex", "publish"]
   );
   grunt.registerTask("deploy-live", "Deploy HTML to live on a timer", [
-    "sheets",
-    "docs",
-    "clean",
-    "static",
-    "elex",
+    "startup:live",
     "publish:live",
     "cron:30:publishLive",
   ]);
@@ -106,7 +94,7 @@ module.exports = function (grunt) {
     "replay",
     "Run the server for testing events",
     function () {
-      const seconds = grunt.option('seconds') || 60;
+      const seconds = grunt.option("seconds") || 60;
 
       const tasks = [
         "static",
@@ -115,7 +103,7 @@ module.exports = function (grunt) {
         `cron:${seconds}:replay`,
       ];
 
-      grunt.task.run(tasks)
+      grunt.task.run(tasks);
     }
   );
 };
