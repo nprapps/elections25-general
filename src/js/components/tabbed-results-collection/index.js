@@ -22,7 +22,7 @@ class TabbedResultsCollection extends ElementBase {
 
 	  let tabsHTML = "<form id='race-selector'>";
 	  this.races.forEach((race, i) => {
-	  	let labelText = race.seat ? race.seat : "Overall";
+	  	let labelText = race.seat ? race.seat : "Statewide";
 	  	let tab = `
 		  	<input type="radio" name="district" id="option-${race.id}" value="table-${race.id}"${i === 0 ? " checked" : ""}>
 		  	<label for="option-${race.id}">${labelText}</label>
