@@ -1,4 +1,3 @@
-import gopher from "../gopher.js";
 const ElementBase = require("../elementBase");
 const { classify } = require("../util");
 
@@ -35,16 +34,17 @@ class ResultsCollection extends ElementBase {
 
     if (this.hasAttribute("key-races-only")) {
       if (this.getAttribute("office") === "P") {
-        const isAKorDC =
-          stateSlug !== "alaska" && stateSlug !== "district-of-columbia"
-            ? `<a href="${stateSlug}.html?section=P">County-level results</a>`
-            : "";
-
+        let linkElement = ` • <a href="${stateSlug}.html?section=P">County-level results</a>`;
+        if (stateSlug === "alaska" || stateSlug === "district-of-columbia") {
+          linkElement = "";
+        } else if (stateSlug === "nebraska") {
+          linkElement = ` • <a href="${stateSlug}.html?section=P">District and county-level results</a>`
+        } else if (stateSlug === "maine") {
+          linkElement = ` • <a href="${stateSlug}.html?section=P">District and township-level results</a>`
+        }
         template += `
           <p class="section-info">
-            ${this.getAttribute("electoral")} electoral votes • 
-        
-            ${isAKorDC}</p>`;
+            ${this.getAttribute("electoral")} electoral votes${linkElement}</p>`;
       } else if (this.getAttribute("office") === "S") {
         template += `<a class='section-info' href="${stateSlug}.html?section=S">
           County-level results
@@ -58,7 +58,7 @@ class ResultsCollection extends ElementBase {
       if (this.getAttribute("office") === "P") {
         template += `
           <p class="section-info">${this.getAttribute("electoral")} electoral votes</p>
-          `
+        `
       }
     }
 
