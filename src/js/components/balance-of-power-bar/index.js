@@ -1,6 +1,7 @@
 var ElementBase = require("../elementBase.js");
 import { getParty } from "../util.js";
 import gopher from "../gopher.js";
+const { formatAPDate, formatTime, winnerIcon } = require("../util");
 
 
 class BalanceOfPowerBar extends ElementBase {
@@ -9,6 +10,7 @@ class BalanceOfPowerBar extends ElementBase {
     this.loadData = this.loadData.bind(this);
     this.embedClass = '';
     this.results;
+    this.latest;
   }
 
   connectedCallback() {
@@ -20,7 +22,7 @@ class BalanceOfPowerBar extends ElementBase {
       this.races = raceAttr.toLowerCase().split(' ');
       
       this.embedClass = this.races.length === 2 ? 'twoEmbeds' :
-        this.races.length === 1 ? 'oneEmbed' : '';
+      this.races.length === 1 ? 'oneEmbed' : '';
     } else {
       this.races = ['president', 'house', 'senate'];
     }
@@ -46,6 +48,8 @@ class BalanceOfPowerBar extends ElementBase {
   }
 
   processResults(results) {
+
+    this.latest = this.results.latest
 
     var InactiveSenateRaces = {
       "GOP": 38,
@@ -148,6 +152,9 @@ class BalanceOfPowerBar extends ElementBase {
 
   render() {
 
+    const date = new Date(this.latest);
+    let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
+
     const winnerIcon = `<span class="winner-icon" role="img" aria-label="check mark">
       <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path fill="#333" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
@@ -164,6 +171,9 @@ class BalanceOfPowerBar extends ElementBase {
       </div>
     </div>
         </main>
+        <div class="board-footer">
+        <div class="board source-footnote">${timestampHTML}</div>
+        </div>
     `;
   }
 

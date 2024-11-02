@@ -1,4 +1,6 @@
 var ElementBase = require("../elementBase");
+const { formatAPDate, formatTime, winnerIcon } = require("../util");
+
 
 import gopher from "../gopher.js";
 import { getBucket, sumElectoral, groupCalled } from "../util.js";
@@ -10,6 +12,20 @@ import Cartogram from "../cartogram";
 import NationalMap from "../nationalMap";
 import Tabs from "../tabs";
 
+/**
+ * BoardPresident - Custom element for displaying presidential election results
+ * Supports multiple visualization sub components: national-map, cartogram-map, and electoral-bubbles, all of which should be imported above
+ *
+ * @class
+ * @extends ElementBase
+ 
+ * The constructor intializes a few variables, including a container for the results (this.results = []) and a container for the loadData function. initialSelectedTab is used only for the embed
+  * @constructor
+  * @property {Object} state - Component state
+  * @property {PresidentRaceResult[]} results - Election results
+  * @property {number} initialSelectedTab - Initial tab selection (0: national, 1: cartogram, 2: bubbles)
+  * @property {Object} tabElementMap - Maps tab indices to visualization elements
+     */
 
 class BoardPresident extends ElementBase {
   constructor() {
@@ -232,6 +248,12 @@ Geography
 
   }
 
+  /**
+    * Initializes data loading and sets up gopher watchers. if there's anything wrong with the refresh or initial load, the call will start here   
+    * 
+    * 
+    * @callback connectedCallback
+    */
   connectedCallback() {
     this.loadData();
     gopher.watch(`./data/president.json`, this.loadData);
@@ -243,6 +265,12 @@ Geography
     gopher.unwatch("./data/president.json"), this.loadData;
   }
 
+
+  /**
+     * Sets up tab buttons and element mapping with 250ms delay to allow for all of the subcomponents to render correctly. watch out for cartogram's initLabels()
+     * 
+     * @function setupTabs
+     */
   setupTabs() {
     // Select all tab buttons and custom elements
     setTimeout(() => {
@@ -267,10 +295,15 @@ Geography
     }, 250);
   }
 
+
+  /**
+     * Handles tab selection changes and element visibility based off of the tab that was clicked
+     * @function updateTabSelection
+     * @param {HTMLElement} clickedTab - The tab button that was clicked
+  */
   updateTabSelection(clickedTab) {
 
 
-    // Deselect all tabs and hide all elements
     this.tabButtons.forEach(tab => {
       tab.setAttribute('aria-selected', 'false');
       const tabIndex = tab.getAttribute('data-tab');
@@ -279,7 +312,6 @@ Geography
       }
     });
 
-    // Select clicked tab and show corresponding element
     clickedTab.setAttribute('aria-selected', 'true');
     const selectedTabIndex = clickedTab.getAttribute('data-tab');
     this.tabElementMap[selectedTabIndex]
@@ -289,6 +321,43 @@ Geography
   }
 
 
+  /**
+     * Loads presidential race data
+     * @async
+     * @function loadData
+     * Fetches and processes president.json data
+    * The data it fetches should look like this
+    * @typedef {Object} PresidentResult
+    * @property {boolean} test - Test data indicator
+    * @property {string} id - Race identifier
+    * @property {string} office - Office type ("P")
+    * @property {number} eevp - Expected election vote percentage
+    * @property {string} type - Election type
+    * @property {number} winThreshold - Percentage needed to win
+    * @property {boolean} rankedChoice - Ranked choice voting indicator
+    * @property {string} raceCallStatus - Race call status
+    * @property {string} level - Geographic level
+    * @property {string} state - State abbreviation
+    * @property {number} electoral - Electoral votes
+    * @property {number} updated - Last update timestamp
+    * @property {number} reporting - Precincts reporting count
+    * @property {number} precincts - Total precincts
+    * @property {string} reportingunitID - Reporting unit identifier
+    * @property {number} reportingPercent - Percentage of precincts reporting
+    * @property {string} stateName - Full state name
+    * @property {string} stateAP - AP style state name
+    * @property {string} rating - Race rating (e.g., "likely-r")
+    * @property {Object[]} candidates - Array of candidate information
+
+    * 
+      @typedef {Object} Candidate - stored in the candidates property of the Results object
+    * @property {string} first - First name
+    * @property {string} last - Last name
+    * @property {string} party - Political party ("Dem", "GOP", "Other")
+    * @property {string} id - Candidate identifier
+    * @property {number} votes - Vote count
+    * @property {number|null} percent - Vote percentage
+        */
   async loadData() {
     let presidentDataFile = './data/president.json';
 
@@ -302,6 +371,13 @@ Geography
     }
   }
 
+  /**
+     * Renders the presidential board interface
+     * Creates sub components, including the electoral bars, leaderboard, maps, and results display. 
+     * Ech component handles conditional rendering based on data attributes passed through their parent, or by that component's loadData() function
+     * @function render
+     * @property {Object} buckets - Groups races by rating (likelyD, tossup, likelyR)
+     */
   render() {
     const { results = [], test, latest } = this.state;
 
@@ -338,9 +414,18 @@ Geography
       false;
 
       var updated = Math.max(...this.results.map(r => r.updated));
+
       const date = new Date(updated);
-      const time = `${date.getHours() % 12 || 12}:${String(date.getMinutes()).padStart(2, '0')} ${date.getHours() >= 12 ? 'PM' : 'AM'}`;
-      const fullDate = `${date.toLocaleString('en-US', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`;
+      const winnerResult = this.results.find(r => r.candidates?.[0]?.winner === "X");
+      const winnerDateTime = winnerResult?.candidates?.[0]?.winnerDateTime;
+
+      // Build the footer timestamp HTML
+      let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
+      if (winnerDateTime) {
+        const winnerDate = new Date(winnerDateTime);
+        timestampHTML += ` • Winner called: ${formatAPDate(winnerDate)} at ${formatTime(winnerDate)}`;
+      }
+    
 
     this.innerHTML = `
       <div class="president board">
@@ -359,7 +444,10 @@ Geography
         ${!hideResultsBoard ? `<results-board-display office="president" split="true" hed="Competitive"></results-board-display>` : ''}
       </div>
         ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''}
-        <div class="board source-footnote">Last updated ${fullDate} at ${time}</div>`;
+        <div class="board-footer">
+        ${!hideResultsBoard ? '' : `<div class="full-link"><span><a href="">See full results ›</a></span></div>`}
+        <div class="board source-footnote">${timestampHTML}</div>
+        </div>`;
     this.setupTabs();
   }
 }

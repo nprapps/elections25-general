@@ -5,6 +5,18 @@ import gopher from "../gopher.js";
 import TestBanner from "../test-banner";
 
 
+/**
+ * Cartogram - Interactive electoral map visualization component that is part of the board-president parent component
+ * Displays state-by-state election results in a grid-based layout
+ * @extends ElementBase
+ * 
+ * @class
+ * @property {Object} state - Component state
+ * @property {Object} races - Election race results
+ * @property {HTMLElement} tooltip - Tooltip element reference
+ * @property {Object} svgContainerRef - Reference to SVG container
+ * @property {SVGElement} svg - The SVG element
+ */
 class Cartogram extends ElementBase {
   constructor() {
     super();
@@ -20,6 +32,11 @@ class Cartogram extends ElementBase {
     this.svg = null;
   }
 
+  /**
+   * Lifecycle method that initiates data loading and watching
+   * Sets up data watcher for president.json to enable live updates
+   * @callback connectedCallback
+   */
   async connectedCallback() {
     this.loadData();
     //gopher.watch(`./data/president.json`, this.loadData);
@@ -33,6 +50,11 @@ class Cartogram extends ElementBase {
     }
   }
 
+   /**
+   * Creates initial DOM structure
+   * Called on first load and when data updates
+   * @method render
+   */
   render() {
     this.innerHTML = `
           <div class="cartogram" role="img" aria-label="Cartogram of state results">
@@ -43,7 +65,48 @@ class Cartogram extends ElementBase {
         `;
   }
 
+/**
+   * Fetches and processes required data files
+   * Loads states.sheet.json for electoral votes
+   * Loads president.json for race results
+   * Loads _map-cartogram.svg for visualization
+   * Called on initialization and whenever data updates
+   * @method loadData
+   * @async
+   * Triggers paint() and initLabels() after successful load
+   * 
+   * The data it fetches should look like this
+    * @typedef {Object} PresidentResult
+    * @property {boolean} test - Test data indicator
+    * @property {string} id - Race identifier
+    * @property {string} office - Office type ("P")
+    * @property {number} eevp - Expected election vote percentage
+    * @property {string} type - Election type
+    * @property {number} winThreshold - Percentage needed to win
+    * @property {boolean} rankedChoice - Ranked choice voting indicator
+    * @property {string} raceCallStatus - Race call status
+    * @property {string} level - Geographic level
+    * @property {string} state - State abbreviation
+    * @property {number} electoral - Electoral votes
+    * @property {number} updated - Last update timestamp
+    * @property {number} reporting - Precincts reporting count
+    * @property {number} precincts - Total precincts
+    * @property {string} reportingunitID - Reporting unit identifier
+    * @property {number} reportingPercent - Percentage of precincts reporting
+    * @property {string} stateName - Full state name
+    * @property {string} stateAP - AP style state name
+    * @property {string} rating - Race rating (e.g., "likely-r")
+    * @property {Object[]} candidates - Array of candidate information
 
+    * 
+      @typedef {Object} Candidate - stored in the candidates property of the Results object
+    * @property {string} first - First name
+    * @property {string} last - Last name
+    * @property {string} party - Political party ("Dem", "GOP", "Other")
+    * @property {string} id - Candidate identifier
+    * @property {number} votes - Vote count
+    * @property {number|null} percent - Vote percentage
+        */
   async loadData() {
     this.render();
 
@@ -98,6 +161,14 @@ class Cartogram extends ElementBase {
   }
 
 
+  /**
+  * Prepares SVG for interaction and sets up event listeners for hover and click
+  * Called after SVG text is loaded
+  * @method loadSVG
+  * @async
+  * @param {string} svgText - Raw SVG content
+  * @returns {SVGElement|null}
+  */
   async loadSVG(svgText) {
     if (!this.svgContainerRef.current) {
       console.error("SVG container not found");
@@ -120,6 +191,13 @@ class Cartogram extends ElementBase {
     return this.svg;
   }
 
+ /**
+  * Handles state/district selection
+  * Redirects to detailed state view
+  * Triggers analytics tracking
+  * @method onClick
+  * @param {Event} e - Click event
+  */
   onClick(e) {
     const group = e.target.closest("svg > g");
     if (!group) return;
@@ -132,6 +210,35 @@ class Cartogram extends ElementBase {
     }
   }
 
+  /**
+   * Called on mouse movement over states and manages hover state and tooltip position and content
+   * Shows electoral votes and candidate percentages
+   * @method onMove
+   * @param {MouseEvent} e - Mouse event object
+ * @requires {SVGElement} this.svg - SVG element must be loaded
+ * @requires {HTMLElement} this.tooltip - Tooltip element
+ * @requires {Array} this.races - Race results data
+ * 
+ * @effects
+ * - Positions tooltip relative to mouse and viewport
+ *   - Left side if cursor in right half of SVG
+ *   - Right side if cursor in left half
+ *   - x offset: -150px (left) or +20px (right)
+ * - Displays race information in tooltip
+ *   - State/district header with electoral votes
+ *   - Candidate rows with party color, name, winner icon
+ *   - Reporting percentage footer
+ * 
+ * @dataHandling
+ * - Handles special cases:
+ *   - At-Large districts ("AL")
+ *   - Multi-district states
+ *   - Missing or incomplete results
+ * 
+ * @triggers
+ * - On mousemove over SVG
+ * - Removes tooltip when leaving postal group
+   */
   onMove(e) {
     const currentHover = this.svg.querySelector(".hover");
     if (currentHover) {
@@ -197,6 +304,22 @@ class Cartogram extends ElementBase {
     this.tooltip.classList.add("shown");
   }
 
+  /**
+   * Positions state labels and electoral vote counts and adjusts the labels based on viewport width
+   * Called after SVG load and on resize, though may occaisonally not finish in time
+   * @method initLabels
+   *  @requires {Object} this.states - State data containing electoral votes
+ * 
+ * @effects
+ * - Positions state abbreviation labels, with special handling for ME (4 votes) and NE (5 votes)
+ * - Adds electoral vote counts if viewport > 650px
+ * - Attempts getBBox() for positioning, falls back to attribute calculations
+* 
+ * @triggers
+ * - After SVG load
+ * - On viewport resize (though not automatically)
+ * - Should re-run if SVG dimensions change
+   */
   initLabels() {
     if (!this.svg) {
       console.error("SVG not available for initializing labels");
@@ -252,6 +375,37 @@ class Cartogram extends ElementBase {
     });
   }
 
+   /**
+   * Colors states based on results and reporting status and called after data load and updates
+   *
+   * @method paint
+  * @requires {SVGElement} this.svg - SVG element must be loaded
+  * @requires {Array} this.races - Array of race results with at least these elements 
+  *   {
+  *     eevp: number -  Expected vote percentage
+  *     reportingPercent - number,
+  *     district: string -  District identifier
+  *     seatNumber: string -  Alternate district identifier
+  *     state: string - State abbreviation
+  *     candidates: [{
+  *       party: string  - Party identifier
+  *     }],
+  *     winnerParty: string - Winner's party if race called
+  *   }
+  * 
+  * @effects
+  * - Adds classes to state elements based on reporting status:
+  *   - "early": When any votes reported (eevp > 0)
+  *   - "leader"+"party": When majority reported (eevp > 0.5)
+  *   - "winner"+"party": When race is called
+  * - Handles special cases for ME/NE districts
+  * - Skips states not found in SVG
+  * 
+  * @triggers
+  * - After initial data load
+  * - When race results update
+  * - When SVG is loaded/reloaded
+  */
   paint() {
     if (!this.svg) return;
 

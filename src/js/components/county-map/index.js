@@ -224,7 +224,7 @@ class CountyMap extends ElementBase {
 
       path.classList.add("painted");
 
-      var hitThreshold = entry.reportingPercent > 0.5;
+      var hitThreshold = entry.reportingPercent > 0.01;
       var allReporting = entry.reportingPercent >= 1;
 
       if (!hitThreshold) {
@@ -325,6 +325,15 @@ class CountyMap extends ElementBase {
         .sort((a, b) => b.percent - a.percent)
         .slice(0, 2);
 
+      const tooltipReportingPercentage = function (pct) {
+        if (pct > 0 && pct < 0.005) {
+          return "<1";
+        } else if (pct > 0.995 && pct < 1) {
+          return ">99";
+        } else {
+          return (pct * 100).toFixed(1)
+        }
+      }
 
       var candText = displayCandidates
         .map((cand, index) => {
@@ -333,7 +342,7 @@ class CountyMap extends ElementBase {
           var cs = `<div class="row">
             <span class="party ${getParty(cand.party)} ${special}"></span>
             <span>${cand.last} ${!legendCandidate ? `(${getParty(cand.party)})` : ""}</span>
-            <span class="amt">${reportingPercentage(cand.percent)}%</span>
+            <span class="amt">${tooltipReportingPercentage(cand.percent)}%</span>
           </div>`;
           return cand.percent > 0 ? cs : "";
         })

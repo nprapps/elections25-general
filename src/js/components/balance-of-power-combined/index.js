@@ -18,7 +18,7 @@ class BalanceOfPowerCombined extends ElementBase {
     connectedCallback() {
         this.loadData();
         this.illuminate();
-        gopher.watch(`./data/bop.json`, this.loadData);
+        //gopher.watch(`./data/bop.json`, this.loadData);
 
         // Parse the race attribute
         const raceAttr = this.getAttribute('race');
@@ -28,7 +28,7 @@ class BalanceOfPowerCombined extends ElementBase {
     }
 
     disconnectedCallback() {
-        gopher.unwatch(`./data/bop.json`, this.loadData);
+        //gopher.unwatch(`./data/bop.json`, this.loadData);
     }
 
     async loadData() {

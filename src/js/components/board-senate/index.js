@@ -1,4 +1,5 @@
 var ElementBase = require("../elementBase");
+const { formatAPDate, formatTime, winnerIcon } = require("../util");
 
 import gopher from "../gopher.js";
 import { getBucket, sumElectoral, groupCalled } from "../util.js";
@@ -8,6 +9,14 @@ import ResultBoardKey from "../results-board-key";
 import BalanceOfPowerCombined from "../balance-of-power-combined";
 
 
+/**
+ * BoardSenate - An element for displaying the board/page that holds the Senate races election results
+ * Extends ElementBase to create a component inline with the rest of the project. Also has properties and classes assigned to have the three column design.
+ * The results are stored and accessed in this.results = []
+ *
+ * @class
+ * @extends ElementBase
+ */
 class BoardSenate extends ElementBase {
     constructor() {
         super();
@@ -17,14 +26,20 @@ class BoardSenate extends ElementBase {
         this.loadData = this.loadData.bind(this);
     }
 
+     /**
+   * Lifecycle method called when component is added to the DOM
+   * Initiates the initial data loading, after which it should keep watching gopher. Technically, no other subcomponent should need to watch gopher
+   * 
+   * @callback connectedCallback
+   */
     connectedCallback() {
         this.loadData();
         this.illuminate();
-        gopher.watch(this.getAttribute("./data/senate.json"), this.onData);
+        gopher.watch(this.getAttribute("./data/senate.json"), this.loadData);
     }
 
     disconnectedCallback() {
-        gopher.unwatch(this.getAttribute("./data/senate.json"), this.onData);
+        gopher.unwatch(this.getAttribute("./data/senate.json"), this.loadData);
     }
 
 
@@ -39,6 +54,13 @@ class BoardSenate extends ElementBase {
           }
     }
 
+    /**
+   * Renders the senate board interface
+   * Creates Creates balance-of-power-combined component and results-board-display component after sorting into buckets
+   * Handles conditional rendering based on data attributes
+   * @function render
+   * @property {Object} buckets - Groups races by rating (likelyD, tossup, likelyR)
+   */
     render() {
         const { results = [], test, latest } = this.state;
 
@@ -68,9 +90,10 @@ class BoardSenate extends ElementBase {
         var called = groupCalled(this.results);
 
         var updated = Math.max(...this.results.map(r => r.updated));
-      const date = new Date(updated);
-      const time = `${date.getHours() % 12 || 12}:${String(date.getMinutes()).padStart(2, '0')} ${date.getHours() >= 12 ? 'PM' : 'AM'}`;
-      const fullDate = `${date.toLocaleString('en-US', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`;
+
+        const date = new Date(updated);
+
+        let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
 
         this.innerHTML = `
         <div class="president board">
@@ -86,7 +109,9 @@ class BoardSenate extends ElementBase {
             <results-board-display office="Senate" split="true" hed="Competitive"></results-board-display>
             <results-board-key race="senate"></results-board-key>
         </div>
-        <div class="board source-footnote">Source: AP (as of ${time} on ${fullDate})</div>
+        <div class="board-footer">
+        <div class="board source-footnote">${timestampHTML}</div>
+        </div>
       `;
     }
 }
