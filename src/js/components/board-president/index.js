@@ -430,7 +430,7 @@ Geography
     this.innerHTML = `
       <div class="president board">
         <electoral-bars called='${JSON.stringify(called)}'></electoral-bars>
-        <h1 tabindex="-1">Presidential Results</h1>       
+        <h1 tabindex="-1">Presidential results</h1>       
         <leader-board called='${JSON.stringify(called)}'></leader-board>
         <div role="tablist" class="tabs">
           ${this.nationalButton}
@@ -441,12 +441,13 @@ Geography
         <national-map races="{results}"></national-map>
         <cartogram-map races="{results}"></cartogram-map>
         <electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>
+        ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''}
         ${!hideResultsBoard ? `<results-board-display office="president" split="true" hed="Competitive"></results-board-display>` : ''}
       </div>
         ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''}
         <div class="board-footer">
         ${!hideResultsBoard ? '' : `<div class="full-link"><span><a href="">See full results ›</a></span></div>`}
-        <div class="board source-footnote">${timestampHTML}</div>
+        <div class="footnote board-footnote">${timestampHTML}</div>
         </div>`;
     this.setupTabs();
   }

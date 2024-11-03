@@ -184,7 +184,7 @@ class ResultsBoardDisplay extends ElementBase {
                         </results-board>
                         <results-board 
                             office="House"
-                            hed="Toss-Up Seats"
+                            hed="Toss-up seats"
                             split="true"
                             class="middle"
                             races='${JSON.stringify(buckets.tossup || []).replace(/'/g, "&#39;")}'>
@@ -237,7 +237,7 @@ class ResultsBoardDisplay extends ElementBase {
                         <results-board 
                             office="President"
                             split="true"
-                            hed="Competitive States"
+                            hed="Competitive states"
                             class="middle"
                             races='${JSON.stringify(buckets.tossup)}'>
                         </results-board>

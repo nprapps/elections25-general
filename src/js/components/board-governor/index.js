@@ -136,16 +136,12 @@ class BoardGovernor extends ElementBase {
         this.innerHTML = `
         <div class="president board">
           ${test ? '<test-banner></test-banner>' : ''}
-        <div class="header">
-          <div class="title-wrapper">
-            <h1 tabindex="-1">Governor Results</h1>
-          </div>
-        </div>
+            <h1 tabindex="-1">Governor results</h1>
             <results-board-display office="governor"  hed="Competitive"></results-board-display>
             <results-board-key race="gov"></results-board-key>
         </div>
         <div class="board-footer">
-        <div class="board source-footnote">${timestampHTML}</div>
+        <div class="footnote board-footnote">${timestampHTML}</div>
         </div>
       `;
     }

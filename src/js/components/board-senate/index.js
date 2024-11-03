@@ -96,11 +96,11 @@ class BoardSenate extends ElementBase {
         let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
 
         this.innerHTML = `
-        <div class="president board">
+        <div class="senate board">
           ${test ? '<test-banner></test-banner>' : ''}
         <div class="header">
           <div class="title-wrapper">
-            <h1 tabindex="-1">Senate Results</h1>
+            <h1 tabindex="-1">Senate results</h1>
           </div>
           <div class="bop-wrapper">
            <balance-of-power-combined race="senate"></balance-of-power-combined>
@@ -110,7 +110,7 @@ class BoardSenate extends ElementBase {
             <results-board-key race="senate"></results-board-key>
         </div>
         <div class="board-footer">
-        <div class="board source-footnote">${timestampHTML}</div>
+        <div class="footnote board-footnote">${timestampHTML}</div>
         </div>
       `;
     }

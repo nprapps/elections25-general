@@ -141,11 +141,11 @@ class BoardHouse extends ElementBase {
 
         let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
 
-    this.innerHTML = `
-        <div class="president board">
+        this.innerHTML = `
+        <div class="house board">
           <div class="header">
             <div class="title-wrapper">
-              <h1 tabindex="-1">Key House Results</h1>
+              <h1 tabindex="-1">Key House results</h1>
             </div>
             <div class="bop-wrapper">
              <balance-of-power-combined race="house"></balance-of-power-combined>
@@ -155,7 +155,7 @@ class BoardHouse extends ElementBase {
           <results-board-key race="house"></results-board-key>
         </div>
           <div class="board-footer">
-        <div class="board source-footnote">${timestampHTML}</div>
+        <div class="footnote board-footnote">${timestampHTML}</div>
         </div>
       `;
   }

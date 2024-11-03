@@ -5,6 +5,15 @@
   h1 {
     text-align: center;
     margin-bottom: 30px;
+    @media (@mobile) {
+      font-size: 2.4em;
+    }
+    @media (@mobile-above) {
+      font-size: 3em;
+    }
+    @media (@tablet-above) {
+      font-size: 3.6em;
+    }
   }
   .full-link a {
     color: #eee;
@@ -22,14 +31,12 @@
     margin: 0;
     list-style-type: none;
     .sans();
-    text-transform: uppercase;
     line-height: 1;
     font-weight: bold;
     align-items: stretch;
 
     .party {
-      font-size: 56px;
-      // display: block;
+      font-size: 3.2em;
       padding: 0 40px;
       text-align: center;
       color: @gray;
@@ -37,6 +44,16 @@
       display: flex; 
       flex-direction: column; 
       justify-content: flex-end;
+
+      @media (@mobile) {
+        font-size: 2em;
+      }
+      @media (@mobile-above) {
+        font-size: 2.4em;
+      }
+      @media (@tablet-above) {
+        font-size: 3.2em;
+      }
 
       &:first-child {
         border-left: 0;
@@ -137,7 +154,6 @@
 
 .board-footer {
   div {
-    text-align: center;
     padding: 10px 0;
   }
 }

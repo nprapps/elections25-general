@@ -67,14 +67,16 @@
     <main class="app constrained">
       <state-page-results state="<%= key %>" key-race-collections='<%= JSON.stringify(keyRaceCollections).replace(/'/g, "&#39;") %>' sections='<%= JSON.stringify(sections).replace(/'/g, "&#39;") %>' county-races='<%= JSON.stringify(listOfCountyRaces).replace(/'/g, "&#39;") %>'></state-page-results>
 
-      <p class="source-footnote">
-        <strong>Notes:</strong>
-        <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
-        <%= t.smarty(grunt.data.json.strings.sources) %>
-        <%= t.smarty(grunt.data.json.strings.trends_footnote) %>
-        <%= t.smarty(grunt.data.json.strings.unemployment_footnote) %>
-        <%= t.smarty(grunt.data.json.strings.margins_footnote) %>
-      </p>
+      <div class="state-page-footnote">
+        <p class="footnote">
+          <strong>Notes:</strong>
+          <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
+          <%= t.smarty(grunt.data.json.strings.sources) %>
+          <%= t.smarty(grunt.data.json.strings.trends_footnote) %>
+          <%= t.smarty(grunt.data.json.strings.unemployment_footnote) %>
+          <%= t.smarty(grunt.data.json.strings.margins_footnote) %>
+        </p>
+      </div>
     </main>
     <div class="remove-embedded">
     <%= t.include("partials/_ad.html", {id: "ad-secondary"}) %> 

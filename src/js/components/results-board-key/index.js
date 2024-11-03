@@ -39,8 +39,13 @@ class ResultsBoardKey extends ElementBase {
       this.hasRCV = this.race !== "ballot";
       this.hasEEVP = true;
 
+      let stateNavHTML = `
+        <hr class="divider" />
+      `
+
       this.innerHTML = `
-        ${this.full ? '<hr class="divider" />' : ''}
+        ${this.full ? stateNavHTML : ""}
+
         <div class="board-key">
           <ul>
             ${this.hasParties ? `
