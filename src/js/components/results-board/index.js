@@ -182,7 +182,7 @@ class ResultsBoard extends ElementBase {
                             return `
                                 <tr key="${r.id}" class="tr ${hasResult ? "closed" : "open"} index-${i}" role="row">
                                     <td class="state" role="cell">
-                                        <a target="_top" href="./${ classify(r.stateName) }.html?section=${r.office}">
+                                        <a href="./${ classify(r.stateName) }.html?section=${r.office}">
                                             <span class="not-small">
                                                 ${this.states[r.state].ap + seatLabel + ballotLabel}
                                             </span>

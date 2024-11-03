@@ -112,10 +112,8 @@ class BalanceOfPowerHouse extends ElementBase {
       house.netGain = topHouse.gains;
     }
 
-    //! UPDATE OR REMOVE LINK (LINK IS ONLY NEEDED FOR EMBED)
     this.innerHTML = `
     <div id="embed-bop-on-page">
-      <a class="link-container house" href="/house.html" target="_top">
         <div class="number-container">
           <div class="candidate dem">
             <div class="name">Dem. ${house.Dem.total >= 218 ? winnerIcon : ""}</div>
@@ -151,9 +149,8 @@ class BalanceOfPowerHouse extends ElementBase {
           <div class="chatter"><strong>218</strong> seats for majority</div>
         </div>
 
-      ${ footnote }
+        ${ footnote }
       </div>
-      </a>
     </div>
   `;
   }

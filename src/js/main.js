@@ -20,16 +20,29 @@ require("./components/electoralBubbles");
 require("./components/county-map");
 require("./components/results-collection");
 
+var baseTarget = document.head.querySelector("base");
+if (baseTarget == null) {
+  baseTarget = document.createElement("base");
+  document.getElementsByTagName('head')[0].appendChild(baseTarget);
+}
+baseTarget.target = "_top";
+
 const urlParams = new URLSearchParams(window.location.search);
 
 if (urlParams.has('embedded')) {
-    const isEmbedded = urlParams.get('embedded');
+  const isEmbedded = urlParams.get('embedded');
 
-    if (isEmbedded) {
-        Sidechain.registerGuest();
-    }
+  if (isEmbedded) {
+    Sidechain.registerGuest();
+
+    document.body.classList.add("embedded");
+
+    // everything should open in a new window from embeds
+    baseTarget.target = "_blank";
+  }
 }
 
+// close disclaimer alert box
 if (document.querySelector("#close-disclaimer")) {
   document
     .querySelector("#close-disclaimer")

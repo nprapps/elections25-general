@@ -203,10 +203,10 @@ class Cartogram extends ElementBase {
     if (!group) return;
     const state = group.getAttribute("data-postal");
     if (state) {
-      window.location.href = `#/states/${state}/P`;
       track("clicked-cartogram", state);
+      var linkTarget = document.head.querySelector("base").target || "_blank";
       var stateFull = statePostalToFull(state);
-      window.location.href = `${ classify(stateFull) }.html?section=P`;
+      window.open(`${ classify(stateFull) }.html?section=P`, linkTarget);
     }
   }
 

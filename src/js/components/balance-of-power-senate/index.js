@@ -124,10 +124,8 @@ class BalanceOfPowerSenate extends ElementBase {
         senate.netGain = topSenate.gains;
     }
 
-    //! UPDATE OR REMOVE LINK (LINK IS ONLY NEEDED FOR EMBED)
     this.innerHTML = `
     <div id="embed-bop-on-page" class="embed-bop">
-    <a class="link-container senate" href="http://apps.npr.org/election-results-live-2022/#/senate" target="_top">
       <div class="number-container">
         <div class="candidate dem">
           <div class="name">Dem. ${senate.Dem.total >= 51 ? winnerIcon : ""}</div>
@@ -151,17 +149,13 @@ class BalanceOfPowerSenate extends ElementBase {
         </div>
       </div>
 
- <div class="bar-container">
-  <div class="bar dem" style="width: ${senate.Dem.total}%">
-  </div>
-  <div class="bar other dem" style="width: ${senate.IndCaucusDem.total}%">
-  </div>
-  <div class="bar gop" style="width: ${senate.GOP.total}%">
-  </div>
-  <div class="bar other gop" style="width: ${senate.IndCaucusGOP.total}%">
-  </div>
-  <div class="middle"></div>
-</div>
+        <div class="bar-container">
+          <div class="bar dem" style="width: ${senate.Dem.total}%"></div>
+          <div class="bar other dem" style="width: ${senate.IndCaucusDem.total}%"></div>
+          <div class="bar gop" style="width: ${senate.GOP.total}%"></div>
+          <div class="bar other gop" style="width: ${senate.IndCaucusGOP.total}%"></div>
+          <div class="middle"></div>
+        </div>
       </div>
 
       <div class="bop-footer">
@@ -175,7 +169,6 @@ class BalanceOfPowerSenate extends ElementBase {
       </div>
 
       ${ footnote }
-    </a>
   </div>
   `;
   }

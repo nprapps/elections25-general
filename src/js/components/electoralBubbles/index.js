@@ -248,15 +248,11 @@ class ElectoralBubbles extends ElementBase {
     this.render();
   }
 
-  goToState(state) {
-    track("clicked-bubble", state);
-    var stateFull = statePostalToFull(state);
-    window.location.href = `${ classify(stateFull) }.html?section=P`;
-  }
-
       goToState(state) {
         track("clicked-bubble", state);
-        window.location.href = `#/states/${state}/P`;
+        var linkTarget = document.head.querySelector("base").target || "_blank";
+        var stateFull = statePostalToFull(state);
+        window.open(`./${ classify(stateFull) }.html?section=P`, linkTarget);
       }
     
       onMove(e) {
