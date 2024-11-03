@@ -441,7 +441,6 @@ Geography
         <national-map races="{results}"></national-map>
         <cartogram-map races="{results}"></cartogram-map>
         <electoral-bubbles results="{results}" races="{results}"></electoral-bubbles>
-        ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''}
         ${!hideResultsBoard ? `<results-board-display office="president" split="true" hed="Competitive"></results-board-display>` : ''}
       </div>
         ${!hideResultsBoard ? `<results-board-key race="president"></results-board-key> ` : ''}
