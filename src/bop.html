@@ -7,15 +7,11 @@
 
   </head>
   <body>
-    <div >
+
+    <div id="bop-embed-wrapper">
+      <div id="bop-wrapper"></div>   
     </div>
 
-    <main class="app constrained">
-     <div id="bop-embed-wrapper">
-        <div id="bop-wrapper">
-          </div>   
-        </div>
-    </main>
     <script>
         window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
     </script>

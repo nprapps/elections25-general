@@ -70,19 +70,28 @@ class BalanceOfPowerBar extends ElementBase {
       Dem: { total: parseInt(InactiveSenateRaces["house_Dem"]), gains: 0 },
       GOP: { total: parseInt(InactiveSenateRaces["house_GOP"]), gains: 0 },
       Ind: { total: parseInt(InactiveSenateRaces["house_Other"]), gains: 0 },
+      IndCaucusDem: { total: 0, gains: 0 },
+      IndCaucusGOP: { total: 0, gains: 0 },
+      IndUnaffiliated: { total: 0, gains: 0 },
     };
     this.senate = {
       Dem: { total: InactiveSenateRaces.Dem, gains: 0 },
       GOP: { total: InactiveSenateRaces.GOP, gains: 0 },
       Ind: { total: InactiveSenateRaces.Other, gains: 0 },
+      IndCaucusDem: { total: 0, gains: 0 },
+      IndCaucusGOP: { total: 0, gains: 0 },
+      IndUnaffiliated: { total: 0, gains: 0 },
     };
 
     results.president.forEach(r => this.president[r.winner] += r.electoral);
 
-    this.mcmullinWon = false;
-
     results.house.forEach(r => {
-      const winnerParty = getParty(r.winner);
+      let winnerParty = getParty(r.winner);
+      if (winnerParty != "Dem" && winnerParty != "GOP") {
+        winnerParty = "Ind";
+      }
+      var previousParty = r.previousParty;
+
       const priorWinner = getParty(r.previous);
 
       if (!this.house[winnerParty]) {
@@ -98,10 +107,27 @@ class BalanceOfPowerBar extends ElementBase {
         this.house[winnerParty].gains += 1;
         this.house[priorWinner].gains -= 1;
       }
+
+      // account for how an independent candidate may caucus
+      if (winnerParty == "Ind") {
+        if (r.caucusWith && r.caucusWith == "GOP") {
+          this.house.IndCaucusGOP.total += 1;
+        }
+        if (r.caucusWith && r.caucusWith == "Dem") {
+          this.house.IndCaucusDem.total += 1;
+        }
+        if (!r.caucusWith) {
+          this.house.IndUnaffiliated.total += 1;
+        }
+      }      
     });
 
     results.senate.forEach(r => {
-      const winnerParty = getParty(r.winner);
+      let winnerParty = getParty(r.winner);
+      if (winnerParty != "Dem" && winnerParty != "GOP") {
+        winnerParty = "Ind";
+      }
+
       const previousParty = getParty(r.previous);
 
       if (!this.senate[winnerParty]) {
@@ -111,24 +137,26 @@ class BalanceOfPowerBar extends ElementBase {
         this.senate[previousParty] = { total: 0, gains: 0 };
       }
 
-      if (r.hasOwnProperty('winner')) {
-        if (r.id == '46329' && r.winner == 'Ind') {
-          this.mcmullinWon = true;
-        }
-      }
-
       this.senate[winnerParty].total += 1;
 
       if (r.winner !== r.previous) {
         this.senate[winnerParty].gains += 1;
         this.senate[previousParty].gains -= 1;
       }
-    });
 
-    this.senate.Ind.width = this.senate.Ind.total;
-    if (this.mcmullinWon) {
-      this.senate.Ind.width = (this.senate.Ind.total) - 1;
-    }
+      // account for how an independent candidate may caucus
+      if (winnerParty == "Ind") {
+        if (r.caucusWith && r.caucusWith == "GOP") {
+          this.senate.IndCaucusGOP.total += 1;
+        }
+        if (r.caucusWith && r.caucusWith == "Dem") {
+          this.senate.IndCaucusDem.total += 1;
+        }
+        if (!r.caucusWith) {
+          this.senate.IndUnaffiliated.total += 1;
+        }
+      }
+    });
 
     // Calculate net gains
     this.calculateNetGains();
@@ -153,7 +181,7 @@ class BalanceOfPowerBar extends ElementBase {
   render() {
 
     const date = new Date(this.latest);
-    let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
+    let timestampHTML = `Source: AP. Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
 
     const winnerIcon = `<span class="winner-icon" role="img" aria-label="check mark">
       <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -162,18 +190,16 @@ class BalanceOfPowerBar extends ElementBase {
     </span>`;
 
     this.innerHTML = `
-          <main class="embed-bop">
-    <div class="inline">
-      <div class="container ${this.embedClass}">
-      ${!this.races || this.races.includes('president') ? this.renderPresident(winnerIcon) : ''}
-      ${!this.races || this.races.includes('house') ? this.renderHouse(winnerIcon) : ''}
-      ${!this.races || this.races.includes('senate') ? this.renderSenate(winnerIcon) : ''}
-      </div>
-    </div>
-        </main>
-        <div class="board-footer">
-        <div class="board source-footnote">${timestampHTML}</div>
+    <main class="embed-bop">
+      <div class="inline">
+        <div class="container ${this.embedClass}">
+        ${!this.races || this.races.includes('president') ? this.renderPresident(winnerIcon) : ''}
+        ${!this.races || this.races.includes('house') ? this.renderHouse(winnerIcon) : ''}
+        ${!this.races || this.races.includes('senate') ? this.renderSenate(winnerIcon) : ''}
         </div>
+      </div>
+    </main>
+      <div class="board source source-footnote">${timestampHTML}</div>
     `;
   }
 
@@ -231,9 +257,10 @@ class BalanceOfPowerBar extends ElementBase {
           </div>
         </div>
         <div class="bar-container">
-          <div class="bar dem" style="width: ${this.house.Dem.total / 435 * 100}%"></div>
-          <div class="bar other" style="width: ${this.house.Ind.total / 538 * 100}%; ${this.house.Ind.total === 0 ? 'display: none;' : ''}"></div>
-          <div class="bar gop" style="width: ${this.house.GOP.total / 435 * 100}%"></div>
+          <div class="bar dem" style="width: ${(this.house.Dem.total / 435 * 100)}%"></div>
+          <div class="bar other dem" style="width: ${(this.house.IndCaucusDem.total / 435 * 100)}%"></div>
+          <div class="bar gop" style="width: ${(this.house.GOP.total / 435 * 100)}%"></div>
+          <div class="bar other gop" style="width: ${(this.house.IndCaucusGOP.total / 435 * 100)}%"></div>
           <div class="middle"></div>
         </div>
         <div class="chatter"><strong>218</strong> seats for majority</div>
@@ -255,7 +282,7 @@ class BalanceOfPowerBar extends ElementBase {
           ${this.senate.Ind.total ? `
             <div class="candidate other">
               <div class="name">Ind. ${this.senate.Ind.total >= 51 ? winnerIcon : ""}</div>
-              <div class="votes">${this.senate.Ind.total}${this.mcmullinWon ? "*" : ""}</div>
+              <div class="votes">${this.senate.Ind.total}${this.IndUnaffiliated > 0 ? "*" : ""}</div>
             </div>
           ` : ""}
           <div class="candidate gop">
@@ -265,8 +292,9 @@ class BalanceOfPowerBar extends ElementBase {
         </div>
         <div class="bar-container">
           <div class="bar dem" style="width: ${this.senate.Dem.total}%"></div>
-          <div class="bar other" style="width: ${this.senate.Ind.width}%"></div>
+          <div class="bar other dem" style="width: ${this.senate.IndCaucusDem.total}%"></div>
           <div class="bar gop" style="width: ${this.senate.GOP.total}%"></div>
+          <div class="bar other gop" style="width: ${this.senate.IndCaucusGOP.total}%"></div>
           <div class="middle"></div>
         </div>
         <div class="chatter"><strong>51</strong> seats for majority</div>
