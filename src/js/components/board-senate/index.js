@@ -22,7 +22,6 @@ class BoardSenate extends ElementBase {
         super();
         this.state = {};
         this.results = []
-        //this.onData = this.onData.bind(this);
         this.loadData = this.loadData.bind(this);
     }
 
@@ -51,7 +50,13 @@ class BoardSenate extends ElementBase {
             this.render();
           } catch (error) {
             console.error('Error fetching senate data:', error);
-          }
+            // Optionally show error state
+            this.innerHTML = `
+                <div class="error-message">
+                    Error loading Senate results. Please try again later.
+                </div>
+            `;
+        }
     }
 
     /**
