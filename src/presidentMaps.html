@@ -1,3 +1,9 @@
+<% 
+// show electoral bubbbles. controlled via `showBubbles` in config.strings sheet
+const showBubbles = grunt.data.json.strings.showBubbles || "yes";
+let bubbleClass = showBubbles == "yes" ? "show-bubbles" : "hide-bubbles";
+%>
+
 <!doctype html>
 <html lang="en-US">
 
@@ -9,7 +15,7 @@
 
 <body>
   <main class="app constrained">
-    <div id="president-wrapper"></div>
+    <div id="president-wrapper" class="<%= bubbleClass %>"></div>
   </main>
 
     <script>

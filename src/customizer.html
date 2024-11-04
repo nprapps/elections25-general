@@ -198,7 +198,8 @@ var races = grunt.data.json.races;
                 onchange="handleSelection('presidentMaps')"
                 class="nestedCheckbox"
               />Electoral Map</label>
-            <label>
+            <% if (grunt.data.json.strings.showBubbles == "yes") { %>
+              <label>
               <input
                 type="radio"
                 name="presidentMaps"
@@ -206,6 +207,7 @@ var races = grunt.data.json.races;
                 onchange="handleSelection('presidentMaps')"
                 class="nestedCheckbox"
               />Margin Bubbles</label>
+            <% } %>
           </div>
         </form>
       </div>
