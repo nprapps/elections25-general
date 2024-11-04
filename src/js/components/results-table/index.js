@@ -131,7 +131,7 @@ class ResultsTable extends ElementBase {
           <span class="bar" style="width: ${d.percent * 100}%"></span>
         </span>
         <span class="name">
-          ${name}${party}${d.incumbent ? "<span class='incumbent-icon'> &#x2022;</span>" : ""}${d.winner === "X" ? winnerIcon : ""}${d.winner === "R" ? "<span class='runoff-indicator'> - runoff</span>" : ""}
+          ${name}${party.trim() !== "(Oth)" ? party : ""}${d.incumbent ? "<span class='incumbent-icon'> &#x2022;</span>" : ""}${d.winner === "X" ? winnerIcon : ""}${d.winner === "R" ? "<span class='runoff-indicator'> - runoff</span>" : ""}
         </span>
         <span class="percentage">${(d.percent * 100).toFixed(1)}%</span>
         <span class="votes">${formatComma(d.votes)}</span>
