@@ -22,6 +22,7 @@
   "scripts": {
     "src/js/main.js": "build/app.js",
     "src/js/loadHeaderBidding.js": "build/loadHeaderBidding.js",
+    "src/js/removeLoadingScreen.js": "build/removeLoadingScreen.js",
     "src/js/state.js": "build/state.js",
     "src/js/customizer.js": "build/customizer.js",
     "src/js/raceEmbed.js": "build/raceEmbed.js",

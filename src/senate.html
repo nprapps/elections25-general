@@ -23,9 +23,7 @@ var metadata = {
     <%= t.include("partials/_ad.html", {id: "ad-centerstage"}) %>
     <%= t.include("partials/_about-box.html") %>
     <main class="app constrained">
-
       <board-senate></board-senate>
-
       <p class="footnote page-footnote">
         <strong>Notes:</strong>
         <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
