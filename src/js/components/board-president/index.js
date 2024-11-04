@@ -362,9 +362,12 @@ Geography
     let presidentDataFile = './data/president.json';
 
     try {
-      const presidentResponse = await fetch(presidentDataFile);
-      const presidentData = await presidentResponse.json();
-      this.results = presidentData.results || {};
+      const response = await fetch(presidentDataFile);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      let data = await response.json();
+      this.results = data.results;
       this.render();
     } catch (error) {
       console.error('Error fetching president data:', error);
