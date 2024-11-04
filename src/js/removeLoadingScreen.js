@@ -6,11 +6,11 @@ const boardTypes = {
 };
 
 (function () {
-    const CHECK_INTERVAL = 100;
+    const CHECK_INTERVAL = 120;
     const MAX_WAIT_TIME = 25000; //25 seconds
     let checkCount = 0;
     let successiveReadyChecks = 0;
-    const REQUIRED_SUCCESSIVE_CHECKS = 2;
+    const REQUIRED_SUCCESSIVE_CHECKS = 3;
     const startTime = Date.now();
 
     /**

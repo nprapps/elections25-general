@@ -23,6 +23,16 @@ class BoardSenate extends ElementBase {
         this.state = {};
         this.results = []
         this.loadData = this.loadData.bind(this);
+
+         // Set up gopher watcher directly in constructor
+    const senateDataFile = './data/senate.json';
+    this.gopherCallback = (data) => {
+      if (data && data.results) {
+        this.results = data.results;
+        this.render();
+      }
+    };
+    gopher.watch(senateDataFile, this.gopherCallback);
     }
 
      /**
@@ -34,11 +44,13 @@ class BoardSenate extends ElementBase {
     connectedCallback() {
         this.loadData();
         this.illuminate();
-        gopher.watch("./data/senate.json", this.loadData);
     }
 
     disconnectedCallback() {
-        gopher.unwatch("./data/senate.json",  this.loadData);
+      if (this.gopherCallback) {
+        const senateDataFile = './data/senate.json';
+        gopher.unwatch(senateDataFile, this.gopherCallback);
+      }
     }
 
     async loadData() {

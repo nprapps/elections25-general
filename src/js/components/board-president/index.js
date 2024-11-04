@@ -40,18 +40,28 @@ class BoardPresident extends ElementBase {
     this.tabElementMap = null;
 
 
-    let initialSelectedTab = 0; 
+    let initialSelectedTab = 0;
     if (this.hasAttribute("data-national")) {
       initialSelectedTab = 0;
-  }
-  else if (this.hasAttribute("data-cartogram")) {
+    }
+    else if (this.hasAttribute("data-cartogram")) {
       initialSelectedTab = 1;
-  } 
-  else if (this.hasAttribute("data-bubbles")) {
+    }
+    else if (this.hasAttribute("data-bubbles")) {
       initialSelectedTab = 2;
-  }
+    }
 
     this.initialSelectedTab = initialSelectedTab;
+
+    // Set up gopher watcher directly in constructor
+    const presidentDataFile = './data/president.json';
+    this.gopherCallback = (data) => {
+      if (data && data.results) {
+        this.results = data.results;
+        this.render();
+      }
+    };
+    gopher.watch(presidentDataFile, this.gopherCallback);
 
     this.cartogramButton = `
 <button role="tab" aria-controls="tab-1" aria-selected="false" data-tab="1">
@@ -256,15 +266,16 @@ Geography
     */
   connectedCallback() {
     this.loadData();
-    gopher.watch(`./data/president.json`, this.loadData);
+    //gopher.watch(`./data/president.json`, this.loadData);
     this.illuminate();
   }
 
-
   disconnectedCallback() {
-    gopher.unwatch("./data/president.json", this.loadData);
+    if (this.gopherCallback) {
+      const presidentDataFile = './data/president.json';
+      gopher.unwatch(presidentDataFile, this.gopherCallback);
+    }
   }
-
 
   /**
      * Sets up tab buttons and element mapping with 250ms delay to allow for all of the subcomponents to render correctly. watch out for cartogram's initLabels()
@@ -362,12 +373,9 @@ Geography
     let presidentDataFile = './data/president.json';
 
     try {
-      const response = await fetch(presidentDataFile);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      let data = await response.json();
-      this.results = data.results;
+      const presidentResponse = await fetch(presidentDataFile);
+      const presidentData = await presidentResponse.json();
+      this.results = presidentData.results || {};
       this.render();
     } catch (error) {
       console.error('Error fetching president data:', error);
@@ -382,6 +390,7 @@ Geography
      * @property {Object} buckets - Groups races by rating (likelyD, tossup, likelyR)
      */
   render() {
+
     const { results = [], test, latest } = this.state;
 
     var buckets = {
@@ -410,25 +419,25 @@ Geography
     var called = groupCalled(this.results);
 
     const hasAnyDataAttribute = ['data-cartogram', 'data-national', 'data-bubbles']
-    .some(attr => this.getAttribute(attr) !== null);
+      .some(attr => this.getAttribute(attr) !== null);
 
     let hideResultsBoard = hasAnyDataAttribute ?
       this.getAttribute("data-hide-results") !== null :
       false;
 
-      var updated = Math.max(...this.results.map(r => r.updated));
+    var updated = Math.max(...this.results.map(r => r.updated));
 
-      const date = new Date(updated);
-      const winnerResult = this.results.find(r => r.candidates?.[0]?.winner === "X");
-      const winnerDateTime = winnerResult?.candidates?.[0]?.winnerDateTime;
+    const date = new Date(updated);
+    const winnerResult = this.results.find(r => r.candidates?.[0]?.winner === "X");
+    const winnerDateTime = winnerResult?.candidates?.[0]?.winnerDateTime;
 
-      // Build the footer timestamp HTML
-      let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
-      if (winnerDateTime) {
-        const winnerDate = new Date(winnerDateTime);
-        timestampHTML += ` • Winner called: ${formatAPDate(winnerDate)} at ${formatTime(winnerDate)}`;
-      }
-    
+    // Build the footer timestamp HTML
+    let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
+    if (winnerDateTime) {
+      const winnerDate = new Date(winnerDateTime);
+      timestampHTML += ` • Winner called: ${formatAPDate(winnerDate)} at ${formatTime(winnerDate)}`;
+    }
+
 
     this.innerHTML = `
       <div class="president board">

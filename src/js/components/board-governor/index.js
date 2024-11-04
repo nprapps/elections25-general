@@ -23,6 +23,16 @@ class BoardGovernor extends ElementBase {
         this.results = []
         //this.onData = this.onData.bind(this);
         this.loadData = this.loadData.bind(this);
+
+        // Set up gopher watcher directly in constructor
+    const governorDataFile = './data/gov.json';
+    this.gopherCallback = (data) => {
+      if (data && data.results) {
+        this.results = data.results;
+        this.render();
+      }
+    };
+    gopher.watch(governorDataFile, this.gopherCallback);
     }
 
       /**
@@ -37,7 +47,10 @@ class BoardGovernor extends ElementBase {
     }
 
     disconnectedCallback() {
-        gopher.unwatch(this.getAttribute("data-file"), this.onData);
+      if (this.gopherCallback) {
+        const houseDataFile = './data/gov.json';
+        gopher.unwatch(houseDataFile, this.gopherCallback);
+      }
     }
 
 

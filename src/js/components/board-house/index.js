@@ -23,6 +23,17 @@ class BoardHouse extends ElementBase {
     this.results = []
     //this.onData = this.onData.bind(this);
     this.loadData = this.loadData.bind(this);
+
+    // Set up gopher watcher directly in constructor
+    const houseDataFile = './data/house.json';
+    this.gopherCallback = (data) => {
+      if (data && data.results) {
+        this.results = data.results;
+        this.render();
+      }
+    };
+    gopher.watch(houseDataFile, this.gopherCallback);
+
   }
 
   /**
@@ -33,12 +44,13 @@ class BoardHouse extends ElementBase {
    */
   connectedCallback() {
     this.loadData();
-    gopher.watch(`./data/house.json`, this.loadData);
-    this.illuminate();
   }
 
   disconnectedCallback() {
-    gopher.unwatch(`./data/house.json`, this.loadData);
+    if (this.gopherCallback) {
+      const houseDataFile = './data/house.json';
+      gopher.unwatch(houseDataFile, this.gopherCallback);
+    }
   }
 
   /**
@@ -137,11 +149,11 @@ class BoardHouse extends ElementBase {
 
     var updated = Math.max(...this.results.map(r => r.updated));
 
-        const date = new Date(updated);
+    const date = new Date(updated);
 
-        let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
+    let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
 
-        this.innerHTML = `
+    this.innerHTML = `
         <div class="house board">
           <div class="header">
             <div class="title-wrapper">
