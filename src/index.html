@@ -21,11 +21,11 @@ let bubbleClass = showBubbles == "yes" ? "show-bubbles" : "hide-bubbles";
     <%= t.include("partials/_head.html", metadata) %>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
-  <body>
+  <body class="<%= bubbleClass %>">
     <%= t.include("partials/_navbar.html") %>
     <%= t.include("partials/_ad.html", {id: "ad-centerstage"}) %>
     <%= t.include("partials/_about-box.html") %>
-    <main class="centered-page app constrained <%= bubbleClass %>">
+    <main class="centered-page app constrained">
 
       <board-president></board-president>
 

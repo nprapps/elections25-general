@@ -13,9 +13,9 @@ let bubbleClass = showBubbles == "yes" ? "show-bubbles" : "hide-bubbles";
   <base target="_blank">
 </head>
 
-<body>
+<body class="<%= bubbleClass %>">
   <main class="app constrained">
-    <div id="president-wrapper" class="<%= bubbleClass %>"></div>
+    <div id="president-wrapper"></div>
   </main>
 
     <script>

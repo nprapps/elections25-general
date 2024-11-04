@@ -20,7 +20,7 @@ require("./components/nationalMap");
 require("./components/cartogram");
 
 // show electoral bubbbles. controlled via `showBubbles` in config.strings sheet
-if (body.classList.contains("show-bubbles")) {
+if (document.body.classList.contains("show-bubbles")) {
   require("./components/electoralBubbles");
 }
 
