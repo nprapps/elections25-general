@@ -174,7 +174,7 @@ class NationalMap extends ElementBase {
       track("clicked-map", state);
       var linkTarget = document.head.querySelector("base").target || "_blank";
       var stateFull = statePostalToFull(state);
-      window.open(`./${ classify(stateFull) }.html?section=P`, linkTarget);
+      window.open(`${ classify(stateFull) }.html?section=P`, linkTarget);
     }
   }
 

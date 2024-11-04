@@ -205,7 +205,7 @@ class BalanceOfPowerBar extends ElementBase {
 
   renderPresident(winnerIcon) {
     return `
-      <a class="link-container president ${this.embedClass}" href="/" target="_blank">
+      <a class="link-container president ${this.embedClass}" href="https://apps.npr.org/2024-election-results/" target="_blank">
         <h3>President</h3>
         <div class="number-container">
           <div class="candidate dem">
@@ -238,7 +238,7 @@ class BalanceOfPowerBar extends ElementBase {
 
   renderHouse(winnerIcon) {
     return `
-      <a class="link-container house ${this.embedClass}" href="/house.html" target="_blank">
+      <a class="link-container house ${this.embedClass}" href="house.html" target="_blank">
         <h3>House</h3>
         <div class="number-container">
           <div class="candidate dem">
@@ -272,7 +272,7 @@ class BalanceOfPowerBar extends ElementBase {
 
   renderSenate(winnerIcon) {
     return `
-      <a class="link-container senate ${this.embedClass}" href="/senate.html" target="_blank">
+      <a class="link-container senate ${this.embedClass}" href="senate.html" target="_blank">
         <h3>Senate</h3>
         <div class="number-container">
           <div class="candidate dem">
