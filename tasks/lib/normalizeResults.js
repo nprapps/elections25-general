@@ -53,7 +53,7 @@ const translation = {
     incumbent: "incumbent",
     rankedChoiceVotes: "rankedChoiceVotes",
     eliminated: "eliminated",
-    caucusWith: "caucusWith"
+    caucusWith: "caucusWith",
   },
   metadata: {
     previousParty: "party",
@@ -313,7 +313,17 @@ module.exports = function (resultArray, overrides = {}) {
         }
 
         unitMeta.candidates = ballot;
-        output.push(unitMeta);
+
+        if (
+          !(
+            (unitMeta.state == "DC" || unitMeta.state == "AK") &&
+            unitMeta.level == "county"
+          )
+        ) {
+          output.push(unitMeta);
+        }
+
+        // output.push(unitMeta);
       }
     }
   }

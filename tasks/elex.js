@@ -65,17 +65,19 @@ module.exports = function (grunt) {
     }
 
     // turn AP into normalized race objects
-    const normalizedResults = normalize(rawResults, grunt.data.json);
+    const results = normalize(rawResults, grunt.data.json);
     //AP returns county level data for both AK/DC when they both don't have counties (😕 I know)
     //Here we are filtering out the data if it's not state level for both these states
-    let results = normalizedResults.filter(
-      (result) =>
-        !(
-          (result.state == "DC" || result.state == "AK") &&
-          result.level == "county"
-        )
-    );
 
+    // console.log("normalizedResults: ", normalizedResults[0]);
+
+    // let results = normalizedResults.filter(
+    //   (result) =>
+    //     !(
+    //       (result.state == "DC" || result.state == "AK") &&
+    //       result.level == "county"
+    //     )
+    // );
     grunt.log.writeln("Merging in external data...");
     augment(results, grunt.data);
 
@@ -87,13 +89,30 @@ module.exports = function (grunt) {
 
     // now create slices of various results
     // separate by geography for easier grouping
+    // const geo = {
+    //   national: results.filter((r) => r.level == "national"),
+    //   state: results.filter((r) => r.level == "state"),
+    //   county: results.filter(
+    //     (r) => r.level == "county" || r.level == "subunit"
+    //   ),
+    // };
+
     const geo = {
-      national: results.filter((r) => r.level == "national"),
-      state: results.filter((r) => r.level == "state"),
-      county: results.filter(
-        (r) => r.level == "county" || r.level == "subunit"
-      ),
+      national: [],
+      state: [],
+      county: [],
     };
+    results.map((r) => {
+      if (r.level == "national") {
+        geo.national.push(r);
+      }
+      if (r.level == "state") {
+        geo.state.push(r);
+      }
+      if (r.level == "county" || r.level == "subunit") {
+        geo.county.push(r);
+      }
+    });
 
     grunt.log.writeln("Geo.national: ");
     grunt.log.writeflags(geo.national);
@@ -148,15 +167,37 @@ module.exports = function (grunt) {
     }
 
     // sliced by office
+    // const byOffice = {
+    //   president: geo.state.filter((r) => r.office == "P"),
+    //   house: geo.state.filter(
+    //     (r) => r.office == "H" && r.id !== "45888" && r.id !== "50068"
+    //   ),
+    //   senate: geo.state.filter((r) => r.office == "S"),
+    //   gov: geo.state.filter((r) => r.office == "G"),
+    //   //ballots: geo.state.filter((r) => r.office == "I" && r.featured),
+    // };
+
     const byOffice = {
-      president: geo.state.filter((r) => r.office == "P"),
-      house: geo.state.filter(
-        (r) => r.office == "H" && r.id !== "45888" && r.id !== "50068"
-      ),
-      senate: geo.state.filter((r) => r.office == "S"),
-      gov: geo.state.filter((r) => r.office == "G"),
-      ballots: geo.state.filter((r) => r.office == "I" && r.featured),
+      president: [],
+      house: [],
+      senate: [],
+      gov: [],
     };
+
+    geo.state.map((r) => {
+      if (r.office == "P") {
+        byOffice.president.push(r);
+      }
+      if (r.office == "H" && r.id !== "45888" && r.id !== "50068") {
+        byOffice.house.push(r);
+      }
+      if (r.office == "S") {
+        byOffice.senate.push(r);
+      }
+      if (r.office == "G") {
+        byOffice.gov.push(r);
+      }
+    });
 
     for (let office in byOffice) {
       const officeOutput = {
