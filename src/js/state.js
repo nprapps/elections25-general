@@ -13,23 +13,6 @@ require("./components/results-table-county");
 const url = new URL(window.location.href);
 const urlParams = new URLSearchParams(window.location.search);
 
-const navigate = function (e) {
-  var sectionCode = Object.keys(offices).find(key => offices[key] === e);
-  url.searchParams.set("section", sectionCode);
-  window.history.pushState({}, "", url);
-  const selectedSection = document.querySelector("#" + e + "-section");
-  document.querySelectorAll("section").forEach(section => {
-    section.classList.remove("shown");
-  });
-  selectedSection.classList.add("shown");
-};
-
-let nav = document.querySelector("form");
-
-nav.addEventListener("change", e => {
-  navigate(e.target.value);
-});
-
 const offices = {
   "key-races": "key-races",
   P: "president",
@@ -39,9 +22,20 @@ const offices = {
   I: "ballot-measures",
 };
 
+const navigate = function(key) {
+  var sectionCode = Object.keys(offices).find(d => offices[d] === key);
+  url.searchParams.set("section", sectionCode);
+  window.history.pushState({}, "", url);
+  document.querySelector("body").dataset.section = key;
+}
+
 var oldOnload = window.onload;
-window.onload = function() { oldOnload(); 
-  
+window.onload = function() { oldOnload();
+
+  let nav = document.querySelector("form");
+  nav.addEventListener("change", e => {
+    navigate(e.target.value);
+  });
 
   const urlParams = new URLSearchParams(window.location.search);
   let urlSection = urlParams.get("section");
