@@ -262,7 +262,7 @@ Geography
 
 
   disconnectedCallback() {
-    gopher.unwatch("./data/president.json"), this.loadData;
+    gopher.unwatch("./data/president.json", this.loadData);
   }
 
 
