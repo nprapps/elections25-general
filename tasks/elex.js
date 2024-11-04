@@ -8,7 +8,8 @@ const normalize = require("./lib/normalizeResults");
 const nullify = require("./lib/nullifyResults");
 const augment = require("./lib/augmentResults");
 const fs = require("fs").promises;
-
+const { writeDataToSheets } = require("../extras/writeDataToSheets");
+const { emptyGSheets } = require("../extras/emptyGsheets");
 module.exports = function (grunt) {
   // Grunt doesn't like top-level async, so define this here and call it immediately
   var task = async function () {
@@ -123,14 +124,41 @@ module.exports = function (grunt) {
       serialize({ test, results: geo.national })
     );
 
+    //internal dashboard
+    const dashboard = [];
     // state-level results
     await fs.mkdir("build/data/states", { recursive: true });
     const states = {};
     geo.state.forEach(function (result) {
+      if (result.office === "H" || result.office === "S") {
+        dashboard.push({
+          state: result.state,
+          office: result.office,
+          seatNumber: result.seatNumber,
+          rating: result.rating,
+          called: result.called ? "Called" : "",
+          winnerParty: result.winnerParty ? result.winnerParty : "",
+        });
+      }
       const { state } = result;
       if (!states[state]) states[state] = [];
       states[state].push(result);
     });
+
+    //converts into csv to upload to google sheets
+    const replacer = (key, value) => (value === null ? "" : value); // specify how you want to handle null values here
+    const header = Object.keys(dashboard[0]);
+    const csv = [
+      header.join(","), // header row first
+      ...dashboard.map((row) =>
+        header
+          .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+          .join(",")
+      ),
+    ].join("\r\n");
+
+    fs.writeFile(`build/data/dashboard.csv`, csv);
+
     for (let state in states) {
       let stateOutput = {
         test,

@@ -5,12 +5,12 @@ const ElementBase = require("../elementBase");
 
 const offices = {
   "key-races": "key-races",
-  "president": "P",
-  "governor": "G",
-  "senate": "S",
-  "house": "H",
-  "ballot-measures": "I"
-}
+  president: "P",
+  governor: "G",
+  senate: "S",
+  house: "H",
+  "ballot-measures": "I",
+};
 
 const townshipStates = ["CT", "MA", "ME", "NH", "RI", "VT"];
 
@@ -56,17 +56,17 @@ class StatePageResults extends ElementBase {
     const results = this.data.results;
     let template = "";
     const electoral = results
-      .filter(d => d.office === "P")
-      .map(obj => obj.electoral)
+      .filter((d) => d.office === "P")
+      .map((obj) => obj.electoral)
       .reduce((accumulator, current) => accumulator + current, 0);
 
-    this.sections.forEach(section => {
+    this.sections.forEach((section) => {
       let sectionHTML = "";
 
       if (section === "key-races") {
         sectionHTML += '<section id="key-races-section" section="key-races">';
-        this.keyRaceCollections.forEach(office => {
-          let races = results.filter(d => {
+        this.keyRaceCollections.forEach((office) => {
+          let races = results.filter((d) => {
             if (
               office === "president" &&
               (this.state === "NE" || this.state === "ME")
@@ -91,7 +91,7 @@ class StatePageResults extends ElementBase {
         });
         sectionHTML += "</section>";
       } else {
-        let races = results.filter(d => d.office === offices[section]);
+        let races = results.filter((d) => d.office === offices[section]);
 
         if (section === "president") {
           if (this.state === "AK" || this.state === "DC") {
@@ -117,48 +117,68 @@ class StatePageResults extends ElementBase {
                   state="${this.state}"
                   races='${JSON.stringify(races).replace(/'/g, "&#39;")}'
                 ></tabbed-results-collection>
-                <h3 class="section-hed">Presidential results by ${townshipStates.includes(this.state) ? 'township' : 'county'}</h3>
+                <h3 class="section-hed">Presidential results by ${
+                  townshipStates.includes(this.state) ? "township" : "county"
+                }</h3>
                 <county-map state="${this.state}"></county-map>
-                ${!races.some(d => d.office === "P" && d.eevp === 0) ? `<county-dataviz state="${this.state}"></county-dataviz>` : ''}
+                ${
+                  !races.some((d) => d.office === "P" && d.eevp === 0)
+                    ? `<county-dataviz state="${this.state}"></county-dataviz>`
+                    : ""
+                }
                 <results-table-county
                   state="${this.state}"
                   race-id="0"
                   order="1">
                 </results-table-county>
               </section>
-            `
+            `;
           } else {
             sectionHTML += `
               <section id="president-section" section="president">
                 <results-collection state="${this.state}" office="${
-                  offices[section]
-                }" races='${JSON.stringify(races).replace(
-                  /'/g,
-                  "&#39;"
-                )}' electoral=${electoral} 
+              offices[section]
+            }" races='${JSON.stringify(races).replace(
+              /'/g,
+              "&#39;"
+            )}' electoral=${electoral} 
                 ></results-collection>
-                <h3 class="section-hed">Presidential results by ${townshipStates.includes(this.state) ? 'township' : 'county'}</h3>
+                <h3 class="section-hed">Presidential results by ${
+                  townshipStates.includes(this.state) ? "township" : "county"
+                }</h3>
                 <county-map state="${this.state}"></county-map>
-                ${!races.some(d => d.office === "P" && d.eevp === 0) ? `<county-dataviz state="${this.state}"></county-dataviz>` : ''}
+                ${
+                  !races.some((d) => d.office === "P" && d.eevp === 0)
+                    ? `<county-dataviz state="${this.state}"></county-dataviz>`
+                    : ""
+                }
                 <results-table-county
                   state="${this.state}"
                   race-id="0"
                   order="1">
                 </results-table-county>
               </section>
-            `
+            `;
           }
         } else if (section === "senate" || section === "governor") {
           let countiesHTML = "";
-          let countyRaces = this.countyRaces.filter(d => d.office === offices[section]);
-          races.forEach(race => {
+          let countyRaces = this.countyRaces.filter(
+            (d) => d.office === offices[section]
+          );
+          races.forEach((race) => {
             let countyHTML = "";
             if (races.length > 1) {
-              countyHTML += "<h3>" + race.name_override + "</h3>"
+              countyHTML += "<h3>" + race.name_override + "</h3>";
             }
             countyHTML += `
-              <county-map state="${this.state}" race-id="${this.state}-${race.id}"></county-map>
-              ${!races.some(d => d.office === "S" && d.eevp === 0) ? `<county-dataviz state="${this.state}" race="${this.state}-${race.id}"></county-dataviz>` : ''}
+              <county-map state="${this.state}" race-id="${this.state}-${
+              race.id
+            }"></county-map>
+              ${
+                !races.some((d) => d.office === "S" && d.eevp === 0)
+                  ? `<county-dataviz state="${this.state}" race="${this.state}-${race.id}"></county-dataviz>`
+                  : ""
+              }
               <results-table-county
                 state="${this.state}"
                 race-id="${race.id}"
@@ -203,9 +223,13 @@ class StatePageResults extends ElementBase {
     //show section from URL param
     const urlParams = new URLSearchParams(window.location.search);
     var selectedSection = urlParams.get("section");
-    var sectionName = Object.keys(offices).find(key => offices[key] === selectedSection);
-    var showSection = document.querySelector("section#" + sectionName + "-section");
-    showSection.classList.add("shown")
+    var sectionName = Object.keys(offices).find(
+      (key) => offices[key] === selectedSection
+    );
+    var showSection = document.querySelector(
+      "section#" + sectionName + "-section"
+    );
+    showSection.classList.add("shown");
   }
 }
 
