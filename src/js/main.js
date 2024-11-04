@@ -16,6 +16,9 @@ require("./components/board-governor");
 require("./components/board-house");
 require("./components/county-map");
 require("./components/results-collection");
+require("./components/nationalMap");
+require("./components/cartogram");
+require("./components/electoralBubbles");
 
 var baseTarget = document.head.querySelector("base");
 if (baseTarget == null) {

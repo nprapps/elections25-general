@@ -34,13 +34,12 @@ class BoardSenate extends ElementBase {
     connectedCallback() {
         this.loadData();
         this.illuminate();
-        gopher.watch(this.getAttribute("./data/senate.json"), this.loadData);
+        gopher.watch("./data/senate.json", this.loadData);
     }
 
     disconnectedCallback() {
-        gopher.unwatch(this.getAttribute("./data/senate.json"), this.loadData);
+        gopher.unwatch("./data/senate.json",  this.loadData);
     }
-
 
     async loadData() {
         try {
