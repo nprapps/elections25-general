@@ -55,6 +55,9 @@ const boardTypes = {
         const bopWrapper = document.getElementById('bop-embed-wrapper');
         if (bopWrapper) return ['bop-embed-wrapper', 'bop-wrapper'];
 
+        const presidentWrapper = document.getElementById('president-wrapper');
+        if (presidentWrapper) return ['president-wrapper', 'board-president'];
+
         return Object.entries(boardTypes)
             .filter(([selector]) => document.querySelector(selector))
             .flatMap(([boardType, selectors]) => [boardType, ...selectors]);
@@ -86,7 +89,11 @@ const boardTypes = {
                     return document.getElementById(selector);
                 }
 
-                // For child elements, find within board parent
+                if (selector.includes('president-')) {
+                  return document.getElementById(selector);
+              }
+
+              // For child elements, find within board parent
                 const boardParent = document.querySelector(
                     Object.keys(boardTypes).find(board =>
                         document.querySelector(board)

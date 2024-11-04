@@ -9,24 +9,16 @@
 
 <body>
   <main class="app constrained">
-    <div>
-      <div id="president-wrapper"></div>
-    </div>
+    <div id="president-wrapper"></div>
   </main>
 
-  <script>
-    window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
-  </script>
-  <script>
-    function buildComponents() {
-      const params = new URLSearchParams(window.location.search);
-      const options = params.get('options')?.split(',') || []; // Get options from URL
-
-      // Build data attributes string
-      const dataAttrs = options.map(opt => `data-${opt}`).join(' ');
-
-      // Create component with data attributes if any are selected
-      const component = `<board-president${dataAttrs ? ' ' + dataAttrs : ''} data-hide-results></board-president>`;
+    <script>
+        window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
+    </script>
+    <script>
+        function buildComponents() {
+            const params = new URLSearchParams(window.location.search);
+            const options = params.get('options')?.split(',') || []; // Get options from URL
 
       const container = document.getElementById('president-wrapper');
       if (container) {
