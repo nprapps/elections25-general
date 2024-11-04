@@ -8,8 +8,6 @@ const normalize = require("./lib/normalizeResults");
 const nullify = require("./lib/nullifyResults");
 const augment = require("./lib/augmentResults");
 const fs = require("fs").promises;
-const { writeDataToSheets } = require("../extras/writeDataToSheets");
-const { emptyGSheets } = require("../extras/emptyGsheets");
 module.exports = function (grunt) {
   // Grunt doesn't like top-level async, so define this here and call it immediately
   var task = async function () {
