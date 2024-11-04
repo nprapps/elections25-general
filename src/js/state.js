@@ -1,6 +1,7 @@
 var Sidechain = require("@nprapps/sidechain");
 import "./nav.js";
 
+require("./analytics");
 require("./components/state-page-results");
 require("./components/results-table");
 require("./components/county-map");
@@ -38,7 +39,10 @@ const offices = {
   I: "ballot-measures",
 };
 
-window.onload = function () {
+var oldOnload = window.onload;
+window.onload = function() { oldOnload(); 
+  
+
   const urlParams = new URLSearchParams(window.location.search);
   let urlSection = urlParams.get("section");
   if (urlSection === null) {
