@@ -40,13 +40,6 @@ class ResultsTable extends ElementBase {
     elements.updated.innerHTML = `${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}`;
     elements.eevp.innerHTML = formatEEVP(result.eevp);
 
-    var diff = (new Date(result.updated) - new Date(result.candidates[0].winnerDateTime)) / 1000;
-    if (diff > 0) {
-      console.log(`${ result.state }-${ result.office }: ${ diff } seconds difference`);
-      console.log("result.updated", new Date(result.updated));
-      console.log("winnerDateTime", new Date(result.candidates[0].winnerDateTime));
-    }
-
     if (result.candidates[0].winner === "X" && result.candidates[0].winnerDateTime) {
       var winnerDateTime = result.candidates[0].winnerDateTime;
       elements.callTimestamp.innerHTML = ` &bull; Winner called: ${formatAPDate(new Date(winnerDateTime))} at ${formatTime(new Date(winnerDateTime))}.`;

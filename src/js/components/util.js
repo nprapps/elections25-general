@@ -116,7 +116,7 @@ function getBucket(rating, chamber = null) {
     } else if (rating == "solid-r" || rating == "likely-r" || rating == "lean-r") {
       return "likelyR";
     } else {
-      console.log("bucket error", rating);
+      console.warn("bucket error", rating);
     }
   } else {
     if (rating == "solid-d" || rating == "likely-d") {
@@ -126,7 +126,7 @@ function getBucket(rating, chamber = null) {
     } else if (rating == "solid-r" || rating == "likely-r") {
       return "likelyR";
     } else {
-      console.log("bucket error", rating);
+      console.warn("bucket error", rating);
     }
   }
 }
@@ -210,7 +210,6 @@ function groupCalled(results) {
       if (called[category]) {
         called[category].push(r);
       } else {
-        console.warn(`Unexpected category: ${category}`);
         called.Other.push(r);
       }
     });
