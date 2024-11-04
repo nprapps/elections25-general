@@ -19,3 +19,25 @@
 .state-page-footnote {
   max-width: 1040px;
 }
+
+.embedded {
+  main.embed-bop a.link-container .full-link,
+  board-president .full-link a {
+    font-size: 14px;
+    text-decoration: none;
+    color: @accent-dark;
+
+    &:link, &:visited {
+      color: @accent-dark;
+    }
+
+    &:hover, &:active, &:focus {
+      color: @accent-light;
+      cursor: pointer;
+    }
+  }
+
+  main.embed-bop a.link-container:hover .full-link {
+    color: @accent-light;
+  }
+}
