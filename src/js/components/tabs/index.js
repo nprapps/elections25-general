@@ -62,11 +62,11 @@ class Tabs extends ElementBase {
     }
     
     let stored = null;
-    try {
-      stored = localStorage.getItem(`tabs-${id}`);
-    } catch (err) {
-      console.log("Unable to access local storage");
-    }
+    // try {
+    //   stored = localStorage.getItem(`tabs-${id}`);
+    // } catch (err) {
+    //   console.log("Unable to access local storage");
+    // }
     
     const selected = firstNotNull(childIndex, stored, 0);
     this.state = { id, selected, clicked: false };
@@ -82,11 +82,11 @@ class Tabs extends ElementBase {
   }
 
   choose(selected) {
-    try {
-      localStorage.setItem(`tabs-${this.state.id}`, selected);
-    } catch (err) {
-      console.log("Unable to save tab state to local storage");
-    }
+    // try {
+    //   localStorage.setItem(`tabs-${this.state.id}`, selected);
+    // } catch (err) {
+    //   console.log("Unable to save tab state to local storage");
+    // }
     this.state = { ...this.state, selected, clicked: true };
     this.render();
     track("tab-selected", this.children[selected].getAttribute('label'));

@@ -31,7 +31,18 @@
         border-bottom-right-radius: 4px;
         border-left: none;
       }
-  
+
+      .hide-bubbles & {
+        &[data-tab="2"] { 
+          display: none;
+        }
+        &[data-tab="1"] {
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          border-left: none;
+        }
+      }
+      
       &:hover {
         // border-bottom-color: fade(@true, 20%);
         background: #bbb;
@@ -70,7 +81,7 @@
     }
     margin-bottom: 20px;
   }
-  
+
   [role="tabpanel"] {
     padding: 20px 0 0;
     // max-width: 875px;

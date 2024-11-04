@@ -1,4 +1,5 @@
 <%
+// page metadata
 var thisPage = "president";
 var { seo, strings } = grunt.data.json;
 var metadata = {
@@ -8,6 +9,10 @@ var metadata = {
     image: "assets/synced/" + thisPage + "-results.jpg"
   })
 };
+
+// show electoral bubbbles. controlled via `showBubbles` in config.strings sheet
+const showBubbles = grunt.data.json.strings.showBubbles || "yes";
+let bubbleClass = showBubbles == "yes" ? "show-bubbles" : "hide-bubbles";
 %>
 
 <!doctype html>
@@ -16,7 +21,7 @@ var metadata = {
     <%= t.include("partials/_head.html", metadata) %>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
-  <body>
+  <body class="<%= bubbleClass %>">
     <%= t.include("partials/_navbar.html") %>
     <%= t.include("partials/_ad.html", {id: "ad-centerstage"}) %>
     <%= t.include("partials/_about-box.html") %>

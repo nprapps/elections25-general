@@ -18,7 +18,11 @@ require("./components/county-map");
 require("./components/results-collection");
 require("./components/nationalMap");
 require("./components/cartogram");
-require("./components/electoralBubbles");
+
+// show electoral bubbbles. controlled via `showBubbles` in config.strings sheet
+if (document.body.classList.contains("show-bubbles")) {
+  require("./components/electoralBubbles");
+}
 
 var baseTarget = document.head.querySelector("base");
 if (baseTarget == null) {
