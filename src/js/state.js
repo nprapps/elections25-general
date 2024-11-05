@@ -63,5 +63,14 @@ window.onload = function() { oldOnload();
       .addEventListener("click", () => {
         document.querySelector("#about-box").classList.add("closed");
       });
+
+    //keyboard-accessibility
+    document
+      .querySelector("#close-disclaimer")
+      .addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          document.querySelector("#about-box").classList.add("closed");
+        }
+      });
   }
 };
