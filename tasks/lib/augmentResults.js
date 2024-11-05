@@ -127,7 +127,6 @@ module.exports = function (results, data) {
       if (!result.fips) return;
 
       // get the winner margin from the previous presidential election
-
       const past_margin = {};
       let [top, second] = [];
       if (townshipStates.includes(result.state)) {
@@ -146,13 +145,36 @@ module.exports = function (results, data) {
       let census;
       let bls;
       let countyName;
+      const missingDataByState = {};
+      
+      // Track the townships with the missing data cases
       if (townshipStates.includes(result.state)) {
+        if (!result.censusID) {
+            missingDataByState[result.state] = missingDataByState[result.state] || [];
+            
+            const issueDetails = {
+                hasCensusID: false,
+                hasFIPS: !!result.fips,
+                hasReportingUnitID: !!result.reportingunitID,
+                state: result.state,
+                name: result.name || 'Unknown',
+                originalData: result
+            };
+            missingDataByState[result.state].push(issueDetails);
+          }
+    
+        // reconstruct the censusID if we have all the needed parts
+        if (!result.censusID && result.fips && result.reportingunitID) {
+            result.censusID = `${result.fips.slice(0, 2)}-${result.fips.slice(2)}-${result.reportingunitID}`;
+        }
+    
+        // Try to get unemployment and census data, but don't exclude the county, even if the data is missing
         bls = data.csv.unemployment_township[result.censusID] || {};
-        countyName = data.csv.unemployment_township[result.censusID]
-          ? data.csv.unemployment_township[result.censusID]["township"]
-          : "At large";
-        census = data.csv.census_township_data[result.censusID];
-      } else {
+        census = data.csv.census_township_data[result.censusID] || {};
+        
+        // Use the township name if available, otherwise use the original name
+        countyName = data.csv.unemployment_township[result.censusID]?.township || result.name || '';
+    } else {
         const fips = `${result.fips.slice(0, 2)}-${result.fips.slice(2)}`;
         bls = data.csv.unemployment_data[fips] || {};
         countyName = data.csv.county_names[result.fips] || "At large";

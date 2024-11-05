@@ -101,7 +101,7 @@ class CountyDataViz extends ElementBase {
 
         this.innerHTML = `
         <div class="trends" role="region" aria-labelledby="trends-heading">
-          <h3>Demographic trends</h3>
+          <h3 class="section-hed">Demographic trends</h3>
           <div class="${this.state.collapsed ? 'collapsed' : ''}" id="trendsRef">
             ${this.state.charts.map(c => `
                 <county-chart

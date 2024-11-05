@@ -10,6 +10,13 @@ import {
   getCountyCandidates,
 } from "../util.js";
 
+
+/**
+ * @class CountyMap
+ * @extends ElementBase
+ * @description Renders an interactive county-level map visualization,
+ * used for displaying electoral results data.
+ */
 class CountyMap extends ElementBase {
   constructor() {
     super();
@@ -29,6 +36,16 @@ class CountyMap extends ElementBase {
     this.townCodesData = null;
   }
 
+
+  /**
+   * @async
+   * @method connectedCallback
+   * @description Lifecycle method that runs when the element is added to the DOM.
+   * Fetches and processes county-level data, identifies winning candidates,
+   * and initializes the visualization.
+   * @throws {Error} When HTTP request fails or data cannot be processed
+   * @returns {Promise<void>}
+   */
   async connectedCallback() {
 
     const state = this.getAttribute('state');
@@ -38,9 +55,9 @@ class CountyMap extends ElementBase {
 
     if (race !== null) {
       url = `./data/counties/${race}.json`;
-  } else {
+    } else {
       url = `./data/counties/${state}-0.json`;
-  }
+    }
 
     try {
 
@@ -81,14 +98,13 @@ class CountyMap extends ElementBase {
     //window.addEventListener("resize", this.handleResize);
   }
 
-  disconnectedCallback() {
-    //window.removeEventListener("resize", this.handleResize);
-  }
-
-  componentDidUpdate() {
-    this.paint();
-  }
-
+  /**
+ * @method handleResize
+ * @description Updates SVG dimensions based on window size and container constraints (calculated by updateDimensions)
+ * Maintains aspect ratio while fitting within maximum dimensions.
+ * @returns {void}
+ * @throws {Error} Implicitly returns if this.svg is not available
+ */
   handleResize() {
     var newWidth = window.innerWidth;
     if (!this.state.width || newWidth != this.state.width) {
@@ -98,6 +114,66 @@ class CountyMap extends ElementBase {
       this.updateDimensions();
     }
   }
+
+
+  updateDimensions() {
+    if (!this.svg) return;
+
+    var embedded = false; //document.body.classList.contains("embedded");
+    var mapContainer = this.querySelector('.map-container');
+
+    var innerWidth = window.innerWidth;
+    var maxH = 400;
+    var maxW = 600;
+
+    var ratio = this.height / this.width;
+    var w = Math.min(innerWidth - 40, maxW);
+    var h = Math.min(w * ratio, maxH);
+
+    this.svg.setAttribute("width", w + "px");
+    this.svg.setAttribute("height", h + "px");
+
+    this.querySelector('.container').classList.toggle(
+      "horizontal",
+      this.width < this.height
+    );
+  }
+
+  /**
+ * @method render
+ * @description Renders the component's HTML structure including the map container,
+ * legend, and tooltip elements. Uses template literals for dynamic content generation, and the processData() and createLegend() functions
+ * @returns {void}
+ * @fires createLegend
+ */
+
+  processData(data) {
+    this.legendCands = getCountyCandidates(this.getAttribute('sort-order'), data);
+    let specialCount = 1;
+    this.legendCands.forEach((c, index) => {
+      if (this.legendCands.filter(l => getParty(l.party) == getParty(c.party)).length > 1) {
+        c.special = specialCount;
+        specialCount += 1;
+      }
+    });
+    this.render();
+  }
+
+  createLegend(candidate) {
+    if (!candidate.id) return;
+    var name = `${candidate.last}`;
+    var specialShading = candidate.special;
+    return (`
+      <div class="key-row">
+        <div
+          class="swatch ${getParty(
+      candidate.party
+    )} i${specialShading}"></div>
+        <div class="name">${name}</div>
+      </div>
+    `);
+  }
+
 
   render() {
     this.innerHTML = `
@@ -119,6 +195,13 @@ class CountyMap extends ElementBase {
     `
   }
 
+  /**
+ * @method loadSVG
+ * @description Loads and initializes the SVG map depending on the state. attaches event listeners to the svg
+ * @returns {Promise<void>}
+ * @async
+ * @throws {Error} If SVG loading or processing fails
+ */
   async loadSVG() {
     const state = this.getAttribute('state');
     const newEnglandStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
@@ -150,40 +233,32 @@ class CountyMap extends ElementBase {
     return this.svg;
   }
 
-  processData(data) {
-    this.legendCands = getCountyCandidates(this.getAttribute('sort-order'), data);
-    let specialCount = 1;
-    this.legendCands.forEach((c, index) => {
-      if (this.legendCands.filter(l => getParty(l.party) == getParty(c.party)).length > 1) {
-        c.special = specialCount;
-        specialCount += 1;
-      }
-    });
-    this.render();
-  }
-
-  updateDimensions() {
-    if (!this.svg) return;
-
-    var embedded = false; //document.body.classList.contains("embedded");
-    var mapContainer = this.querySelector('.map-container');
-
-    var innerWidth = window.innerWidth;
-    var maxH = 400;
-    var maxW = 600;
-
-    var ratio = this.height / this.width;
-    var w = Math.min(innerWidth - 40, maxW);
-    var h = Math.min(w * ratio, maxH);
-
-    this.svg.setAttribute("width", w + "px");
-    this.svg.setAttribute("height", h + "px");
-
-    this.querySelector('.container').classList.toggle(
-      "horizontal",
-      this.width < this.height
-    );
-  }
+  /**
+   * @method paint
+   * @description Paints the county map SVG based on electoral data. Handles special cases for
+   * New England townships and implements a two-pass system for data processing and visualization.
+   * 
+   * @returns {void}
+   * @throws {Error} Implicitly returns if this.svg is not available
+   * 
+   * @property {Object} this.fipsLookup - Stores processed FIPS data for quick lookups
+   * @property {Array} this.data - Source data for the map
+   * @property {SVGElement} this.svg - The SVG element to be painted
+   * 
+   * @example
+   * // Example data structure expected in this.data:
+   * // [
+   * //   {
+   * //     state: "MA",
+   * //     fips: "25001",
+   * //     candidates: [
+   * //       { percent: 55.5, votes: 1000, party: "DEM" },
+   * //       { percent: 44.5, votes: 800, party: "REP" }
+   * //     ],
+   * //     reportingPercent: 0.95
+   * //   }
+   * // ]
+   */
 
   paint() {
     if (!this.svg) return;
@@ -191,40 +266,90 @@ class CountyMap extends ElementBase {
     var incomplete = false;
     this.fipsLookup = {};
 
-
     const newEnglandStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
     const isNewEngland = mapData.length > 0 && newEnglandStates.includes(mapData[0].state);
 
     const dataKeys = [...mapData.keys()];
+    const missingCounties = [];
 
     // First pass: build fipsLookup
-    for (var d of dataKeys) {
-      var [top] = mapData[d].candidates.sort((a, b) => b.percent - a.percent);
-      const entry = mapData[d];
-
-      // For New England states, use combination of FIPS and name as key
+    mapData.forEach((entry, index) => {
+      var [top] = entry.candidates.sort((a, b) => b.percent - a.percent);
       const lookupKey = isNewEngland ? `${entry.censusID}` : entry.fips;
       this.fipsLookup[lookupKey] = entry;
-    }
+
+      // Debug: Check if the entry can be found in SVG
+      const pathId = isNewEngland ? `fips-${entry.censusID}` : `fips-${entry.fips}`;
+      const path = this.svg.querySelector(`[id="${pathId}"]`);
+      if (!path) {
+        missingCounties.push({
+          index,
+          pathId,
+          name: entry.name,
+          state: entry.state,
+          censusID: entry.censusID,
+          fips: entry.fips,
+          originalData: entry  // Added this line to include original data
+        });
+      }
+    });
+
+    // Sort missing counties by state and name
+    missingCounties.sort((a, b) => {
+      if (a.state !== b.state) return a.state.localeCompare(b.state);
+      return a.name.localeCompare(b.name);
+    });
+
+
+    // Optional: Group by state for easier reading
+    const missingByState = missingCounties.reduce((acc, county) => {
+      acc[county.state] = acc[county.state] || [];
+      acc[county.state].push({
+        name: county.name,
+        censusID: county.censusID,
+        originalData: county.originalData  // Include original data in grouped view
+      });
+      return acc;
+    }, {});
 
     // Second pass: paint the map
     for (var d of dataKeys) {
       const entry = mapData[d];
-      var fips = entry.fips;
+      if (!entry.candidates) continue;
 
       var candidates = entry.candidates;
-      var [top] = candidates.sort((a, b) => b.percent - a.percent);
-
+      var [top] = entry.candidates.sort((a, b) => b.percent - a.percent);
       if (!top.votes) continue;
       let tie = candidates[0].percent === candidates[1].percent ? true : false;
 
       // Use the same key format as above
       const pathId = isNewEngland ? `fips-${entry.censusID}` : `fips-${entry.fips}`;
-      var path = this.svg.querySelector(`[id="${pathId}"]`);
+      let path = this.svg.querySelector(`[id="${pathId}"]`);
+
+      // If path not found and this is a missing county, try alternative formats
+      if (!path && missingByState[entry.state]) {
+        const missingCounty = missingByState[entry.state].find(c => c.originalData === entry);
+        if (missingCounty) {
+          const altPathIds = [
+            `fips-${entry.censusID}`,
+            `fips-${entry.fips}`,
+            entry.censusID,
+            entry.fips
+          ];
+
+          for (const altPathId of altPathIds) {
+            path = this.svg.querySelector(`[id="${altPathId}"]`);
+            if (path) break;
+          }
+        }
+      }
+
       if (!path) continue;
 
-      path.classList.add("painted");
+      // Skip if already painted
+      if (path.classList.contains("painted")) continue;
 
+      path.classList.add("painted");
       var hitThreshold = entry.reportingPercent > 0.01;
       var allReporting = entry.reportingPercent >= 1;
 
@@ -243,22 +368,37 @@ class CountyMap extends ElementBase {
         if (allReporting) path.classList.add("allin");
       }
     }
+
+    // After painting all counties, find any that weren't painted
+    const allCountyPaths = this.svg.querySelectorAll('.map g path[id^="fips-"]');
+    const unpaintedCounties = Array.from(allCountyPaths)
+      .filter(path => !path.classList.contains("painted"));
+
+    // Group unpainted counties
+    const unpaintedByState = unpaintedCounties.reduce((acc, path) => {
+      const stateCode = path.id.replace('fips-', '').slice(0, 2);
+
+      acc[stateCode] = acc[stateCode] || [];
+      acc[stateCode].push(path.id);
+
+      return acc;
+    }, {});
+
+    // Prepare summary object and log reuslts
+    const summary = {
+      totalCountiesInData: mapData.length,
+      totalMapElements: allCountyPaths.length,
+      missingCounties: missingByState,
+      unpaintedElements: unpaintedByState
+    };
+
+    /*
+    console.log('=================');
+    console.log('Election Map Summary:', summary);
+    console.log('Full county data:', mapData);
+    */
   }
 
-  createLegend(candidate) {
-    if (!candidate.id) return;
-    var name = `${candidate.last}`;
-    var specialShading = candidate.special;
-    return (`
-      <div class="key-row">
-        <div
-          class="swatch ${getParty(
-      candidate.party
-    )} i${specialShading}"></div>
-        <div class="name">${name}</div>
-      </div>
-    `);
-  }
 
   highlightCounty(fips) {
     if (!this.svg) return;
@@ -283,18 +423,22 @@ class CountyMap extends ElementBase {
     const isNewEngland = Object.values(this.fipsLookup).length > 0 &&
       newEnglandStates.includes(Object.values(this.fipsLookup)[0].state);
 
-      let lookupKey = fips;
-      var result
+    let lookupKey = fips;
+    var result
 
-      if (isNewEngland) {
-        result = Object.values(this.fipsLookup).find(entry => entry.censusID === lookupKey);
-      } else {
-        result = this.fipsLookup[lookupKey];
-      }
+    if (isNewEngland) {
+      result = Object.values(this.fipsLookup).find(entry => entry.censusID === lookupKey);
+    } else {
+      result = this.fipsLookup[lookupKey];
+    }
 
 
     this.svg.appendChild(e.target);
 
+    if(!result) {
+      tooltip.classList.remove("shown");
+      return
+    }
 
     if (result) {
       // Update this.sortOrder with the current county's candidates

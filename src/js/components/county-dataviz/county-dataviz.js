@@ -13,6 +13,7 @@ class CountyChart extends ElementBase {
 
       this.data = JSON.parse(decodeURIComponent(this.getAttribute('data') || '[]'));
       this.removeAttribute('data');
+
   
       this.margins = {
         top: 20,
@@ -21,9 +22,18 @@ class CountyChart extends ElementBase {
         left: 30,
       };
 
-      this.defaultWidth = 230;
-      this.minWidth = 200;
-      this.maxWidth = 400;
+      this.isMobile = window.matchMedia('(max-width: 768px)').matches;
+    
+      if (this.isMobile) {
+        this.defaultWidth = 300;
+        this.minWidth = 320;
+        this.maxWidth = 350;
+      } else {
+        this.defaultWidth = 230;
+        this.minWidth = 260;
+        this.maxWidth = 400;
+      }
+
       this.availableMetrics = getAvailableMetrics('CA');
   
       this.state = {
