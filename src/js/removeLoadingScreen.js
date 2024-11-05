@@ -6,7 +6,7 @@ const boardTypes = {
 };
 
 (function () {
-    const CHECK_INTERVAL = 120;
+    const CHECK_INTERVAL = 80;
     const MAX_WAIT_TIME = 25000; //25 seconds
     let checkCount = 0;
     let successiveReadyChecks = 0;

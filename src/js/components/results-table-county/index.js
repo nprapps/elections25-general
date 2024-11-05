@@ -193,22 +193,29 @@ class ResultsTableCounty extends ElementBase {
 
     candidatePercentCell(candidate, leading, percentIn) {
         const displayPercent = percentDecimal(candidate.percent);
-        const party = getParty(candidate.party);
+        const isTied = displayPercent === '50.0%';
+        const party = isTied ? '' : getParty(candidate.party);
 
         const allIn = percentIn >= 1;
         return `
-            <td class="vote ${party} ${leading ? "leading" : ""} ${allIn ? "allin" : ""}" key="${candidate.id}">
-                ${displayPercent}
-            </td>
+             <td class="vote ${party} ${isTied ? '' : (leading ? "leading" : "")} ${isTied ? '' : (allIn ? "allin" : "")}" key="${candidate.id}">
+           ${displayPercent}
+       </td>
         `;
     }
 
     marginCell(candidates, leadingCand, topCands) {
         let voteMargin = "-";
-        const party = getParty(candidates[0]?.party || "");
+        let party = getParty(candidates[0]?.party || "");
         
         if (topCands.includes(candidates[0].last)) {
-            voteMargin = this.calculateVoteMargin(candidates);
+            const calculatedMargin = this.calculateVoteMargin(candidates);
+            if (calculatedMargin.includes('+0')) {
+                voteMargin = 'Tie';
+                party = ''
+            } else {
+                voteMargin = calculatedMargin;
+            }
         }
 
         return `<td class="vote margin ${party}">${voteMargin}</td>`;
