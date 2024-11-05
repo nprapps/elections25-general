@@ -53,8 +53,7 @@ window.onload = function() { oldOnload();
     }
     var showHeader = urlParams.get("showHeader");
     if (showHeader == "false") {
-      const headerElement = document.querySelector("header");
-      headerElement.style.display = "none";
+      document.querySelector("body").dataset.header = "hide";
     }
   }
 

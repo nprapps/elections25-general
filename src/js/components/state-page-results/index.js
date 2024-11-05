@@ -220,16 +220,6 @@ class StatePageResults extends ElementBase {
     });
 
     this.innerHTML = template;
-    //show section from URL param
-    const urlParams = new URLSearchParams(window.location.search);
-    var selectedSection = urlParams.get("section");
-    var sectionName = Object.keys(offices).find(
-      (key) => offices[key] === selectedSection
-    );
-    var showSection = document.querySelector(
-      "section#" + sectionName + "-section"
-    );
-    showSection.classList.add("shown");
   }
 }
 
