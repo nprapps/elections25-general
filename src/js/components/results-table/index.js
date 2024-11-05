@@ -38,7 +38,7 @@ class ResultsTable extends ElementBase {
     }
 
     elements.updated.innerHTML = `${formatAPDate(new Date(result.updated))} at ${formatTime(new Date(result.updated))}`;
-    elements.eevp.innerHTML = formatEEVP(result.eevp);
+    elements.eevp.innerHTML = formatEEVP(result.eevp || result.reportingPercent);
 
     if (result.candidates[0].winner === "X" && result.candidates[0].winnerDateTime) {
       var winnerDateTime = result.candidates[0].winnerDateTime;

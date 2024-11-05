@@ -15,14 +15,16 @@ var daysOfWeek = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
   Display-friendly formatting for reporting numbers (don't round to 0/100%)
 */
 function reportingPercentage(pct) {
-    if (pct > 0 && pct < 0.005) {
-      return "<1";
-    } else if (pct > 0.995 && pct < 1) {
-      return ">99";
-    } else {
-      return Math.round(pct * 100);
-    }
+  let string = "";
+  if (pct > 0 && pct < 0.01) {
+    string = "<1";
+  } else if (pct > 0.99 && pct < 1) {
+    string = ">99";
+  } else {
+    string = (pct * 100).toFixed(0);
   }
+  return string;
+}
   
 /* 
 One off to deal with new alaska stuff, 2022. 
