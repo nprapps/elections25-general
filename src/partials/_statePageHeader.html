@@ -21,7 +21,9 @@
 	</div>
 	<div class="intro-container<%= intro ? ' has-intro' : '' %>">
 		<% if (intro) { %>
-			<p class="intro"><%= intro %></p>
+			<div class="intro">
+        <%= t.renderMarkdown(intro) %>
+      </div>
 		<% } %>
 		<%= t.include("partials/_stationguides.html", { "state": state, "data": grunt.data.json.gfx_guide }) %>
 	</div>

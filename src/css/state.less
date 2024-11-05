@@ -88,10 +88,16 @@ h1 {
 .intro {
 	line-height: 1.45;
 	margin: 0;
-	a {
+
+  a {
 		text-decoration: none;
 	}
-	@media (min-width: @breakpoint1) {
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  @media (min-width: @breakpoint1) {
 		flex-basis: calc(70% - 10px);
 	}
 }
