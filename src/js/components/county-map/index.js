@@ -214,8 +214,9 @@ class CountyMap extends ElementBase {
 
       var candidates = entry.candidates;
       var [top] = candidates.sort((a, b) => b.percent - a.percent);
-      if (!top.votes) continue;
 
+      if (!top.votes) continue;
+      let tie = candidates[0].percent === candidates[1].percent ? true : false;
 
       // Use the same key format as above
       const pathId = isNewEngland ? `fips-${entry.censusID}` : `fips-${entry.fips}`;
@@ -233,7 +234,11 @@ class CountyMap extends ElementBase {
       } else {
         var [candidate] = this.legendCands.filter(c => isSameCandidate(c, top));
         if (candidate.special) path.classList.add(`i${candidate.special}`);
-        path.classList.add(getParty(top.party));
+        if (tie) {
+          path.classList.add("tie")
+        } else {
+          path.classList.add(getParty(top.party));
+        }
         path.classList.add("leading");
         if (allReporting) path.classList.add("allin");
       }
