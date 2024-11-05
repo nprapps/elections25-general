@@ -435,7 +435,7 @@ class ElectoralBubbles extends ElementBase {
           </svg>
         </div>
         <p class="disclaimer">
-          To appear in this chart, a state must have either a declared winner or more than 50% of the estimated vote tabulated. States will be added as results come in. Early returns may not initially match up with the race call. So you may see a state called for one candidate but, for a time, appear in the other candidate's side of the chart. <a href="https://www.npr.org/2020/10/29/928863973/heres-how-npr-reports-election-results">How NPR Makes Calls</a>
+          To appear in this chart, a state must have either a declared winner or more than 50% of the estimated vote tabulated. States will be added as results come in. Early returns may not initially match up with the race call. So you may see a state called for one candidate but, for a time, appear in the other candidate's side of the chart. <a href="https://www.npr.org/2024/11/04/g-s1-31268/2024-election-ap-race-calls-results" target="_blank">How NPR Makes Calls</a>
         </p>
         ${hasUncalled > 0 ? `
           <div class="uncalled">
