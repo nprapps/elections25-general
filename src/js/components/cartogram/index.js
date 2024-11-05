@@ -136,7 +136,7 @@ class Cartogram extends ElementBase {
 
       this.states = statesData || {};
       this.races = presidentData.results || {};
-      if (this.races?.[1]) {
+      if (this.races?.[1]["test"]) {
         const bannerPlaceholder = this.querySelector('.banner-placeholder');
         bannerPlaceholder.innerHTML = '<test-banner></test-banner>';
       }
