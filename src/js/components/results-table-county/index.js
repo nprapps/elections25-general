@@ -233,7 +233,7 @@ class ResultsTableCounty extends ElementBase {
                 .filter(c => c.party !== 'Other')
                 .reduce((sum, c) => sum + (c.percent || 0), 0);
               
-              if (sum < 1) {
+              if (sum > 0 && sum < 1) {
                 c.percent = Math.max(0, 1 - sum);
               }
             }
