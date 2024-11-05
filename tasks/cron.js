@@ -8,6 +8,7 @@ var tasks = {
   replay: ["datashuffle", "ap"],
   publish: ["sheets", "docs", "clean", "ap", "publish"],
   publishLive: ["sheets", "docs", "clean", "ap", "publish:live"],
+  backup: ["backup"]
 };
 
 module.exports = function (grunt) {
