@@ -36,13 +36,16 @@ class ResultsCollection extends ElementBase {
     const locality = townshipStates.includes(this.getAttribute("state"))
       ? "Township"
       : "County";
+    const embedParam = new URL(document.location.toString()).searchParams.get("embedded")
+      ? "&embedded=true"
+      : "";
     if (this.hasAttribute("key-races-only")) {
       if (this.getAttribute("office") === "P") {
-        let linkElement = ` • <a href="${stateSlug}.html?section=P">${locality}-level results</a>`;
+        let linkElement = ` • <a href="${stateSlug}.html?section=P${embedParam}">${locality}-level results</a>`;
         if (stateSlug === "alaska" || stateSlug === "district-of-columbia") {
           linkElement = "";
         } else if (stateSlug === "nebraska" || stateSlug === "maine") {
-          linkElement = ` • <a href="${stateSlug}.html?section=P">District and ${locality.toLowerCase()}-level results</a>`;
+          linkElement = ` • <a href="${stateSlug}.html?section=P${embedParam}">District and ${locality.toLowerCase()}-level results</a>`;
         }
         template += `
           <p class="section-info">
@@ -50,15 +53,15 @@ class ResultsCollection extends ElementBase {
               "electoral"
             )} electoral votes${linkElement}</p>`;
       } else if (this.getAttribute("office") === "S") {
-        template += `<a class='section-info' href="${stateSlug}.html?section=S">
+        template += `<a class='section-info' href="${stateSlug}.html?section=S${embedParam}">
           ${locality}-level results
         </a>`;
       } else if (this.getAttribute("office") === "H") {
-        template += `<a class="section-info" href='${stateSlug}.html?section=H'>
+        template += `<a class="section-info" href='${stateSlug}.html?section=H${embedParam}'>
           All House results
         </a>`;
       } else if (this.getAttribute("office") === "I") {
-        template += `<a class="section-info" href='${stateSlug}.html?section=I'>
+        template += `<a class="section-info" href='${stateSlug}.html?section=I${embedParam}'>
           All ballot measure results
         </a>`;
       }
