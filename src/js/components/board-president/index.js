@@ -433,11 +433,6 @@ Geography
 
     // Build the footer timestamp HTML
     let timestampHTML = `Last updated ${formatAPDate(date)} at ${formatTime(date)}`;
-    if (winnerDateTime) {
-      const winnerDate = new Date(winnerDateTime);
-      timestampHTML += ` • Winner called: ${formatAPDate(winnerDate)} at ${formatTime(winnerDate)}`;
-    }
-
 
     this.innerHTML = `
       <div class="president board">
