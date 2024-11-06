@@ -21,7 +21,7 @@ class ResultsCollection extends ElementBase {
       P: "President",
       G: "Governor",
       S: "Senate",
-      H: "House",
+      H: "Key House races",
       I: "Ballot measures",
     };
     let template = "";
@@ -52,6 +52,10 @@ class ResultsCollection extends ElementBase {
             ${this.getAttribute(
               "electoral"
             )} electoral votes${linkElement}</p>`;
+      } else if (this.getAttribute("office") === "G") {
+        template += `<a class='section-info' href="${stateSlug}.html?section=G${embedParam}">
+          ${locality}-level results
+        </a>`;
       } else if (this.getAttribute("office") === "S") {
         template += `<a class='section-info' href="${stateSlug}.html?section=S${embedParam}">
           ${locality}-level results
