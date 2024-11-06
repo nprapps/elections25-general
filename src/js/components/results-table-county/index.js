@@ -6,6 +6,8 @@ import {
   getAvailableMetrics,
   getParty,
   getCountyCandidates,
+  downCaret,
+  upCaret
 } from "../util.js";
 import track from "../../lib/tracking";
 import ResultsRowCounty from "../results-row-county";
@@ -438,7 +440,7 @@ class ResultsTableCounty extends ElementBase {
                 class="toggle-table ${sortedData.length > 10 ? "" : "hidden"}"
                 data-more="Show all"
                 data-less="Show less">
-                ${this.state.collapsed ? "Show all ▼" : "Show less ▲"}
+                ${this.state.collapsed ? `Show all ${downCaret}` : `Show less ${upCaret}`}
             </button>
         </div>
         `;

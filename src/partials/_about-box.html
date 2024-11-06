@@ -1,9 +1,15 @@
-<div id="about-box"  role="dialog" class="remove-embedded">
-	<div id="close-disclaimer" aria-label="Close dialog" tabindex="0">
-    <svg viewBox="0 0 1 1" preserveAspectRatio="none">
-      <line vector-effect="non-scaling-stroke" stroke="currentColor" x1="0" x2="1" y1="0" y2="1" />
-      <line vector-effect="non-scaling-stroke" stroke="currentColor" x1="0" x2="1" y1="1" y2="0" />
-    </svg> 
+<% /* 
+  layout variable should be either "centered" (for president, senate, 
+  house and governor pages) or "left" (for state page) 
+*/ %>
+<div class="<%= layout %>-layout">
+  <div id="about-box"  role="dialog" class="remove-embedded">
+  	<div id="close-disclaimer" aria-label="Close dialog" tabindex="0">
+      <svg viewBox="0 0 1 1" preserveAspectRatio="none">
+        <line vector-effect="non-scaling-stroke" stroke="currentColor" x1="0" x2="1" y1="0" y2="1" />
+        <line vector-effect="non-scaling-stroke" stroke="currentColor" x1="0" x2="1" y1="1" y2="0" />
+      </svg> 
+    </div>
+  	<%= t.renderMarkdown(grunt.data.archieml.longform.aboutBox.text) %>
   </div>
-	<%= t.renderMarkdown(grunt.data.archieml.longform.aboutBox.text) %>
 </div>

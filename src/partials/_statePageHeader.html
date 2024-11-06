@@ -19,7 +19,7 @@
 			</form>
 		</div>
 	</div>
-	<div class="intro-container<%= intro ? ' has-intro' : '' %>">
+	<div class="intro-container <%= intro ? 'has-intro' : 'no-intro' %>">
 		<% if (intro) { %>
 			<div class="intro">
         <%= t.renderMarkdown(intro) %>

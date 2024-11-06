@@ -11,6 +11,17 @@ var classify = function(str) {
 
 var daysOfWeek = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
 
+var downCaret = `
+  <svg style="width: 10px;" viewBox="0 0 3.2 2.7" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="currentColor" d="M0.1,0.1h3L1.6,2.6L0.1,0.1z"/>
+  </svg>
+  `;
+var upCaret = `
+  <svg style="width: 10px;" viewBox="0 0 3.2 2.7" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="currentColor" d="M3.1,2.6h-3l1.5-2.5L3.1,2.6z"/>
+  </svg>
+  `;
+
 /*
   Display-friendly formatting for reporting numbers (don't round to 0/100%)
 */
@@ -420,6 +431,7 @@ module.exports = {
   apMonths,
   classify,
   daysOfWeek,
+  downCaret,
   formatAPDate,
   formatComma,
   formatEEVP,
@@ -445,5 +457,6 @@ module.exports = {
   styleJSX,
   sumElectoral,
   toggleAttribute,
+  upCaret,
   winnerIcon
 }

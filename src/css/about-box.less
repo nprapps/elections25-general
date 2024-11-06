@@ -1,8 +1,34 @@
+.centered-layout {
+	@media (max-width: 1080px) {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+
+	#about-box {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.left-layout {
+	margin: 0 auto;
+	max-width: 1040px;
+	width: 100%;
+
+	#about-box {
+		@media (max-width: 1080px) {
+			margin-left: 5px;
+			margin-right: 5px;
+		}
+	}
+}
+
 #about-box {
 	.sans();
 	border-radius: 5px;
 	background: #FFE4AF;
-	margin: 20px auto 30px;
+	margin-top: 20px;
+	margin-bottom: 30px;
 	max-width: 765px;
 	padding: 10px 15px;
   color: #333;
@@ -18,11 +44,6 @@
 
 	&.closed {
 		display: none;
-	}
-
-	@media (max-width: 1080px) {
-		margin-left: 5px;
-		margin-right: 5px;
 	}
 }
 
