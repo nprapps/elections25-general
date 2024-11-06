@@ -128,7 +128,12 @@ module.exports = function (grunt) {
     await fs.mkdir("build/data/states", { recursive: true });
     const states = {};
     geo.state.forEach(function (result) {
-      if (result.office === "H" || result.office === "S") {
+      if (
+        (result.office === "H" &&
+          result.id !== "45888" &&
+          result.id !== "50068") ||
+        result.office === "S"
+      ) {
         dashboard.push({
           state: result.state,
           office: result.office,
