@@ -90,7 +90,6 @@ class CountyDataViz extends ElementBase {
     }
 
     render() {
-        console.log(this.state.cleanedData)
         
         if (!this.state.cleanedData || this.state.cleanedData.length === 0) {
             this.innerHTML = '';

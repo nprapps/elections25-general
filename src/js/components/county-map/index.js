@@ -189,16 +189,6 @@ updateDimensions() {
  * @fires createLegend
  */
   render() {
-    console.log('Entries with partial reporting:', 
-      Object.values(this.data)
-          .filter(entry => entry.reportingPercent > 0 && entry.reportingPercent < 0.5)
-          .map(entry => ({
-              reportingPercent: entry.reportingPercent,
-              fips: entry.fips,
-              // Add any other relevant properties you want to see
-          }))
-  );
-
     this.innerHTML = `
       <div class="county-map" data-as="map" aria-hidden="true">
         <div class="container" data-as="container">
@@ -207,7 +197,7 @@ updateDimensions() {
               ${this.legendCands.map(candidate => this.createLegend(candidate)).join('')}
               ${Object.values(this.data).some(entry => entry.reportingPercent > 0 && entry.reportingPercent < 0.5) ? `
                 <div class="key-row">
-                    <div class="swatch" style="background-color: #a0a0a0"></div>
+                    <div class="swatch" style="background-color: #b8b6b6"></div>
                     <div class="name">Early results</div>
                 </div>
             ` : ''}
@@ -386,7 +376,7 @@ updateDimensions() {
         path.style.fill = "#e1e1e1";
         incomplete = true;
     } else if (entry.reportingPercent > 0 && entry.reportingPercent < 0.5) {
-        path.style.fill = "#a0a0a0";  // Special gray for early results
+        path.style.fill = "#b8b6b6";  // Special gray for early results
         incomplete = true;
     } else {  // reportingPercent >= 0.5
         var [candidate] = this.legendCands.filter(c => isSameCandidate(c, top));
@@ -423,8 +413,7 @@ updateDimensions() {
       totalMapElements: allCountyPaths.length,
       missingCounties: missingByState,
       unpaintedElements: unpaintedByState
-    };
-
+    }
   }
 
 
