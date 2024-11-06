@@ -195,12 +195,11 @@ class ResultsTableCounty extends ElementBase {
 
     candidatePercentCell(candidate, leading, percentIn) {
         const displayPercent = percentDecimal(candidate.percent);
-        const isTied = displayPercent === '50.0%';
-        const party = isTied ? '' : getParty(candidate.party);
+        const party = getParty(candidate.party);
 
         const allIn = percentIn >= 1;
         return `
-          <td class="vote ${party} ${isTied ? '' : (leading ? "leading" : "")} ${isTied ? '' : (allIn ? "allin" : "")}" key="${candidate.id}">
+          <td class="vote ${party}${leading ? " leading" : ""}${allIn ? " allin" : ""}" key="${candidate.id}">
            ${displayPercent}
           </td>
         `;
@@ -255,15 +254,22 @@ class ResultsTableCounty extends ElementBase {
         if (row.candidates[0].votes === row.candidates[1].votes) {
             leadingCand = "";
         }
-        
         const reportingPercent = reportingPercentage(row.eevp) + "% in";
-        const candidateCells = candidates.map(c =>
+        const candidateCells = candidates.map(c => 
             this.candidatePercentCell(
                 c,
                 c.party == leadingCand.party && c.last == leadingCand.last,
                 row.eevp
             )
         ).join('');
+
+        if (row.county.countyName === "St. Joseph County" && this.race === "0") {
+            candidates.forEach(c => {
+                console.log("c", c);
+                console.log(c.party == leadingCand.party && c.last == leadingCand.last)
+            })
+        }
+
 
         const marginCell = this.marginCell(row.candidates, leadingCand, topCands);
         const comparisonClass = metricValue.includes('D') ? 'Dem' : metricValue.includes('R') ? 'GOP' : '';
