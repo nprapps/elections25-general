@@ -520,7 +520,7 @@ updateDimensions() {
       var countyName = result.county.countyName.replace(/\s[a-z]/g, match =>
         match.toUpperCase()
       );
-      var perReporting = reportingPercentage(result.reportingPercent);
+      var perReporting = reportingPercentage(result.eevp);
       tooltip.innerHTML = `
         <div class="name">${locationName}</div>
         ${candText}
