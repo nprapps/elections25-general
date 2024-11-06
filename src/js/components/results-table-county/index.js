@@ -263,14 +263,6 @@ class ResultsTableCounty extends ElementBase {
             )
         ).join('');
 
-        if (row.county.countyName === "St. Joseph County" && this.race === "0") {
-            candidates.forEach(c => {
-                console.log("c", c);
-                console.log(c.party == leadingCand.party && c.last == leadingCand.last)
-            })
-        }
-
-
         const marginCell = this.marginCell(row.candidates, leadingCand, topCands);
         const comparisonClass = metricValue.includes('D') ? 'Dem' : metricValue.includes('R') ? 'GOP' : '';
 
