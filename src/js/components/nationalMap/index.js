@@ -364,15 +364,16 @@ class NationalMap extends ElementBase {
 
       stateGroup.classList.remove("early", "winner", "leader", "GOP", "Dem");
 
-      if (eevp > 0) {
+      if (eevp > 0 && eevp < 0.5) {
         stateGroup.classList.add("early");
       }
-      if (eevp > 0.5 && leader) {
+      else if (eevp > 0.5 && leader) {
         stateGroup.classList.add("leader");
         stateGroup.classList.add(leader);
       }
       if (winner) {
         stateGroup.classList.add("winner");
+        stateGroup.classList.remove("early");
         stateGroup.classList.add(winner);
       }
     });

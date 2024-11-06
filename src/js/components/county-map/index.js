@@ -10,13 +10,14 @@ import {
   getCountyCandidates,
 } from "../util.js";
 
-
 /**
  * @class CountyMap
  * @extends ElementBase
- * @description Renders an interactive county-level map visualization,
- * used for displaying electoral results data.
+ * @description A component that renders an interactive county map to display election results..
+ * The map can display election results either at the county-level, or the township-level. The legend is built
+ * by checking the results data, and determining who is in the lead, as well as if there is a tie. Threshold is currently 50% to turn red or blue
  */
+
 class CountyMap extends ElementBase {
   constructor() {
     super();
@@ -47,7 +48,6 @@ class CountyMap extends ElementBase {
    * @returns {Promise<void>}
    */
   async connectedCallback() {
-
     const state = this.getAttribute('state');
     const race = this.getAttribute('race-id');
 
@@ -59,8 +59,8 @@ class CountyMap extends ElementBase {
       url = `./data/counties/${state}-0.json`;
     }
 
+  //check specifically for newEngland candidates
     try {
-
       const newEnglandStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
 
       const response = await fetch(url);
@@ -90,12 +90,17 @@ class CountyMap extends ElementBase {
       });
 
       this.render();
+      this.paint();
       await this.loadSVG();
     } catch (error) {
       console.error("Could not load JSON data:", error);
       this.render(); // Render to show error state
     }
     //window.addEventListener("resize", this.handleResize);
+  }
+
+  componentDidUpdate() {
+    this.paint();
   }
 
   /**
@@ -116,48 +121,49 @@ class CountyMap extends ElementBase {
   }
 
 
-  updateDimensions() {
-    if (!this.svg) return;
+/**
+   * @method updateDimensions
+   * @description Updates the SVG dimensions based on container size and aspect ratio. Called by handle resize
+   */
+updateDimensions() {
+  if (!this.svg) return;
 
-    var embedded = false; //document.body.classList.contains("embedded");
-    var mapContainer = this.querySelector('.map-container');
+  var embedded = false; //document.body.classList.contains("embedded");
+  var mapContainer = this.querySelector('.map-container');
 
-    var innerWidth = window.innerWidth;
-    var maxH = 400;
-    var maxW = 600;
+  var innerWidth = window.innerWidth;
+  var maxH = 400;
+  var maxW = 600;
 
-    var ratio = this.height / this.width;
-    var w = Math.min(innerWidth - 40, maxW);
-    var h = Math.min(w * ratio, maxH);
+  var ratio = this.height / this.width;
+  var w = Math.min(innerWidth - 40, maxW);
+  var h = Math.min(w * ratio, maxH);
 
-    this.svg.setAttribute("width", w + "px");
-    this.svg.setAttribute("height", h + "px");
+  this.svg.setAttribute("width", w + "px");
+  this.svg.setAttribute("height", h + "px");
 
-    this.querySelector('.container').classList.toggle(
-      "horizontal",
-      this.width < this.height
-    );
-  }
+  this.querySelector('.container').classList.toggle(
+    "horizontal",
+    this.width < this.height
+  );
+}
 
-  /**
- * @method render
- * @description Renders the component's HTML structure including the map container,
- * legend, and tooltip elements. Uses template literals for dynamic content generation, and the processData() and createLegend() functions
- * @returns {void}
- * @fires createLegend
- */
-
-  processData(data) {
-    this.legendCands = getCountyCandidates(this.getAttribute('sort-order'), data);
-    let specialCount = 1;
-    this.legendCands.forEach((c, index) => {
-      if (this.legendCands.filter(l => getParty(l.party) == getParty(c.party)).length > 1) {
-        c.special = specialCount;
-        specialCount += 1;
-      }
-    });
-    this.render();
-  }
+ /**
+   * @method processData
+   * @description Process map data and update legend candidates
+   * @param {Object} data - The data to process
+   */
+ processData(data) {
+  this.legendCands = getCountyCandidates(this.getAttribute('sort-order'), data);
+  let specialCount = 1;
+  this.legendCands.forEach((c, index) => {
+    if (this.legendCands.filter(l => getParty(l.party) == getParty(c.party)).length > 1) {
+      c.special = specialCount;
+      specialCount += 1;
+    }
+  });
+  this.render();
+}
 
   createLegend(candidate) {
     if (!candidate.id) return;
@@ -175,13 +181,36 @@ class CountyMap extends ElementBase {
   }
 
 
+  /**
+ * @method render
+ * @description Renders the component's HTML structure including the map container,
+ * legend, and tooltip elements. Uses template literals for dynamic content generation, and the processData() and createLegend() functions
+ * @returns {void}
+ * @fires createLegend
+ */
   render() {
+    console.log('Entries with partial reporting:', 
+      Object.values(this.data)
+          .filter(entry => entry.reportingPercent > 0 && entry.reportingPercent < 0.5)
+          .map(entry => ({
+              reportingPercent: entry.reportingPercent,
+              fips: entry.fips,
+              // Add any other relevant properties you want to see
+          }))
+  );
+
     this.innerHTML = `
       <div class="county-map" data-as="map" aria-hidden="true">
         <div class="container" data-as="container">
           <div class="key" data-as="key">
             <div class="key-grid">
               ${this.legendCands.map(candidate => this.createLegend(candidate)).join('')}
+              ${Object.values(this.data).some(entry => entry.reportingPercent > 0 && entry.reportingPercent < 0.5) ? `
+                <div class="key-row">
+                    <div class="swatch" style="background-color: #a0a0a0"></div>
+                    <div class="name">Early results</div>
+                </div>
+            ` : ''}
             </div>
           </div>
          <div class="map-container" data-as="mapContainer">
@@ -196,12 +225,12 @@ class CountyMap extends ElementBase {
   }
 
   /**
- * @method loadSVG
- * @description Loads and initializes the SVG map depending on the state. attaches event listeners to the svg
- * @returns {Promise<void>}
- * @async
- * @throws {Error} If SVG loading or processing fails
- */
+   * @async
+   * @method loadSVG
+   * @description Loads and initializes the SVG map based on state. Checks to see if we need to upload a New England map. 
+   * Once the data is loaded in, we set the parent container to the width and height, set by updateDimensions
+   * @returns {Promise<SVGElement>} The loaded and configured SVG element
+   */
   async loadSVG() {
     const state = this.getAttribute('state');
     const newEnglandStates = ['CT', 'MA', 'ME', 'NH', 'RI', 'VT'];
@@ -347,27 +376,31 @@ class CountyMap extends ElementBase {
       if (!path) continue;
 
       // Skip if already painted
-      if (path.classList.contains("painted")) continue;
+      //if (path.classList.contains("painted")) continue;
 
       path.classList.add("painted");
-      var hitThreshold = entry.reportingPercent > 0.01;
+      var hitThreshold = entry.reportingPercent > 0.50;
       var allReporting = entry.reportingPercent >= 1;
 
-      if (!hitThreshold) {
+      if (entry.reportingPercent === 0) {
         path.style.fill = "#e1e1e1";
         incomplete = true;
-      } else {
+    } else if (entry.reportingPercent > 0 && entry.reportingPercent < 0.5) {
+        path.style.fill = "#a0a0a0";  // Special gray for early results
+        incomplete = true;
+    } else {  // reportingPercent >= 0.5
         var [candidate] = this.legendCands.filter(c => isSameCandidate(c, top));
         if (candidate.special) path.classList.add(`i${candidate.special}`);
         if (tie) {
-          path.classList.add("tie")
+            path.classList.add("tie")
         } else {
-          path.classList.add(getParty(top.party));
+            path.classList.add(getParty(top.party));
         }
         path.classList.add("leading");
         if (allReporting) path.classList.add("allin");
-      }
     }
+    }
+
 
     // After painting all counties, find any that weren't painted
     const allCountyPaths = this.svg.querySelectorAll('.map g path[id^="fips-"]');
@@ -392,11 +425,6 @@ class CountyMap extends ElementBase {
       unpaintedElements: unpaintedByState
     };
 
-    /*
-    console.log('=================');
-    console.log('Election Map Summary:', summary);
-    console.log('Full county data:', mapData);
-    */
   }
 
 

@@ -52,6 +52,8 @@ class ResultsBoardKey extends ElementBase {
               <li class="dem">${this.full ? "Democrat" : "Harris"} / <span class="leading">Leading</span> <span class="winner">Winner</span></li>
               <li class="gop">${this.full ? "Republican" : "Trump"} / <span class="leading">Leading</span> <span class="winner">Winner</span></li>
               ${this.full ? '<li class="ind">Independent / <span class="leading">Leading</span> <span class="winner">Winner</span></li>' : ''}
+              ${this.full ? '' : '<li class="early"> <span class="empty">No results</span> <span class="leading">Early results</span> </li>'}
+
             ` : ''}
             ${this.full && !this.hasParties ? `
               <li class="yes">Yes / <span class="leading">Leading</span> <span class="winner">Winner</span></li>
