@@ -48,7 +48,12 @@ class CountyDataViz extends ElementBase {
 
 
             // Only display candidates that are winning a county
-            const order = this.data[0].candidates;
+            const order =
+            race == "ME-20978" && state === "ME"
+              ? this.data[0].candidates.filter(
+                  (cand) => cand.last === "King" || cand.last === "Kouzounas"
+                )
+              : this.data[0].candidates;
             this.sortOrder = order;
 
             // Sort by party for consistent display.
