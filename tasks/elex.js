@@ -8,6 +8,20 @@ const normalize = require("./lib/normalizeResults");
 const nullify = require("./lib/nullifyResults");
 const augment = require("./lib/augmentResults");
 const fs = require("fs").promises;
+
+function sortArrayByTotalVotes(arr) {
+  // Add a totalVotes property to each object based on the sum of votes in candidates
+  arr.forEach((obj) => {
+    obj.totalVotes = obj.candidates.reduce(
+      (sum, candidate) => sum + candidate.votes,
+      0
+    );
+  });
+
+  // Sort the array based on the totalVotes in descending order
+  return arr.sort((a, b) => b.totalVotes - a.totalVotes);
+}
+
 module.exports = function (grunt) {
   // Grunt doesn't like top-level async, so define this here and call it immediately
   var task = async function () {
@@ -191,9 +205,11 @@ module.exports = function (grunt) {
     });
 
     for (let key in countyRaces) {
+      const sortArray = sortArrayByTotalVotes(countyRaces[key]);
+
       await fs.writeFile(
         `build/data/counties/${key}.json`,
-        serialize({ test, results: countyRaces[key] })
+        serialize({ test, results: sortArray })
       );
     }
 
