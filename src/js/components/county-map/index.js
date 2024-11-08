@@ -181,6 +181,7 @@ updateDimensions() {
   }
 
 
+
   /**
  * @method render
  * @description Renders the component's HTML structure including the map container,
@@ -189,12 +190,20 @@ updateDimensions() {
  * @fires createLegend
  */
   render() {
+    
+
     this.innerHTML = `
       <div class="county-map" data-as="map" aria-hidden="true">
         <div class="container" data-as="container">
           <div class="key" data-as="key">
             <div class="key-grid">
               ${this.legendCands.map(candidate => this.createLegend(candidate)).join('')}
+              ${Object.values(this.data).some(entry => entry.candidates[0].votes === entry.candidates[1].votes) ? `
+                <div class="key-row">
+                  <div class="swatch" style="background-color: #666"></div>
+                  <div class="name">Tie</div>
+                </div>
+              ` : ''}
               ${Object.values(this.data).some(entry => entry.reportingPercent > 0 && entry.reportingPercent < 0.5) ? `
                 <div class="key-row">
                     <div class="swatch" style="background-color: #b8b6b6"></div>
@@ -339,7 +348,7 @@ updateDimensions() {
       var candidates = entry.candidates;
       var [top] = entry.candidates.sort((a, b) => b.percent - a.percent);
       if (!top.votes) continue;
-      let tie = candidates[0].votes === candidates[1].votes ? true : false;
+      const tie = candidates[0].votes === candidates[1].votes ? true : false;
 
       // Use the same key format as above
       const pathId = isNewEngland ? `fips-${entry.censusID}` : `fips-${entry.fips}`;
