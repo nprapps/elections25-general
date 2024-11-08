@@ -15,6 +15,9 @@ class ResultsCollection extends ElementBase {
 
   render() {
     this.removeAttribute("races");
+    if (this.races.length === 1) {
+      this.classList.add("single");
+    }
 
     const headers = {
       "key-races": "Key races",
