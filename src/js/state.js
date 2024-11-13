@@ -22,7 +22,7 @@ const offices = {
   I: "ballot-measures",
 };
 
-const navigate = function(key) {
+export const navigate = function(key) {
   var sectionCode = Object.keys(offices).find(d => offices[d] === key);
   url.searchParams.set("section", sectionCode);
   window.history.pushState({}, "", url);
@@ -31,25 +31,28 @@ const navigate = function(key) {
 
 var oldOnload = window.onload;
 window.onload = function() { oldOnload();
-
-  let nav = document.querySelector("form");
-  nav.addEventListener("change", e => {
-    navigate(e.target.value);
-  });
-
+  const nav = document.querySelector("form");
   const urlParams = new URLSearchParams(window.location.search);
   let urlSection = urlParams.get("section");
   if (urlSection === null) {
     urlSection = "key-races";
   }
-
   nav.querySelector("#" + offices[urlSection]).checked = true;
   navigate(offices[urlSection]);
+
+  nav.addEventListener("change", e => {
+    navigate(e.target.value);
+  });
 
   if (urlParams.has("embedded")) {
     const isEmbedded = urlParams.get("embedded");
     if (isEmbedded) {
       var guest = Sidechain.Sidechain.registerGuest();
+      guest.sendHeight();
+      console.log(guest);
+      nav.addEventListener("change", e => {
+        guest.sendHeight();
+      });
     }
     var showHeader = urlParams.get("showHeader");
     if (showHeader == "false") {
@@ -74,3 +77,17 @@ window.onload = function() { oldOnload();
       });
   }
 };
+
+window.addEventListener("load", function () {
+  document.querySelectorAll(".section-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      navigate(link.dataset.value);
+      const nav = document.querySelector("form");
+      nav.querySelector("#" + link.dataset.value).checked = true;
+
+      nav.addEventListener("change", (e) => {
+        navigate(e.target.value);
+      });
+    });
+  });
+});
