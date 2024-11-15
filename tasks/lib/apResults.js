@@ -118,7 +118,7 @@ var redeemTicket = async function (ticket, options) {
       if (!!options.test) {
         resultType = "t";
       } else {
-        resultType = "l";
+        resultType = "b"; //getting certified results instead of live results
       }
 
       var flags = {};

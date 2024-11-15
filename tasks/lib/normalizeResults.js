@@ -14,6 +14,8 @@ const translation = {
     test: "test",
     id: "raceID",
     office: "officeID",
+    resultsType: "resultsType",
+    tabulationStatus: "tabulationStatus",
     party: "party",
     eevp: "eevp",
     type: "raceType",
@@ -165,6 +167,7 @@ module.exports = function (resultArray, overrides = {}) {
     for (let race of response.races) {
       //basically this is changing the name of the fields and getting only specific data we need from all the result that is returned from AP
       const raceMeta = translate.race(race);
+
       // early races may not have reporting units yet
       if (!race.reportingUnits) continue;
       for (let unit of race.reportingUnits) {
@@ -183,6 +186,17 @@ module.exports = function (resultArray, overrides = {}) {
         }
         if (unitMeta.precincts) {
           unitMeta.reportingPercent = unitMeta.reporting / unitMeta.precincts;
+        }
+
+        if (unitMeta.resultsType === "certified") {
+          unitMeta.certified = true;
+        }
+
+        if (
+          unitMeta.resultsType === "certified" &&
+          unitMeta.tabulationStatus !== "Vote Certified"
+        ) {
+          console.log("ResultsType and TabulationStatus are different");
         }
 
         // add the state name to states

@@ -24,11 +24,13 @@ var metadata = {
 
       <board-governor></board-governor>
 
-      <p class="footnote page-footnote">
-        <strong>Notes:</strong>
-        <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
-        <%= t.smarty(grunt.data.json.strings.governor_footnote) %>
-      </p>
+      <div class="page-footnote">
+        <p class="footnote">
+          <strong>Notes:</strong>
+          <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
+          <%= t.smarty(grunt.data.json.strings.governor_footnote) %>
+        </p>
+      </div>
     </main>
   <div class="remove-embedded">
     <%= t.include("partials/_ad.html", {id: "ad-secondary"}) %>

@@ -28,11 +28,13 @@ let bubbleClass = showBubbles == "yes" ? "show-bubbles" : "hide-bubbles";
 
       <board-president></board-president>
 
-      <p class="footnote page-footnote">
-        <strong>Notes:</strong>
-        <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
-        <%= t.smarty(grunt.data.json.strings.president_footnote) %>
-      </p>
+      <div class="page-footnote">
+        <p class="footnote">
+          <strong>Notes:</strong>
+          <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
+          <%= t.smarty(grunt.data.json.strings.president_footnote) %>
+        </p>
+      </div>
     </main>
     <div class="remove-embedded">
     <%= t.include("partials/_ad.html", {id: "ad-secondary"}) %> 
