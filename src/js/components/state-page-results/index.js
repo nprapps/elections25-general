@@ -28,11 +28,7 @@ class StatePageResults extends ElementBase {
 
   connectedCallback() {
     this.loadData();
-    gopher.watch("./data/states/" + this.state + ".json", this.loadData);
-  }
-
-  disconnectedCallback() {
-    gopher.unwatch("./data/states/" + this.state + ".json", this.loadData);
+    this.watchData();
   }
 
   async loadData() {
@@ -45,6 +41,13 @@ class StatePageResults extends ElementBase {
       this.render();
     } catch (error) {
       console.error("Could not load JSON data:", error);
+    }
+  }
+
+  async watchData() {
+    await this.loadData();
+    if (this.data.results.every(d => !d.certified)) {
+      gopher.watch("./data/states/" + this.state + ".json", this.loadData);
     }
   }
 
