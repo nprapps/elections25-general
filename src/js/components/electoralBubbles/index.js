@@ -1,7 +1,7 @@
 
 const ElementBase = require("../elementBase");
 
-import { classify, reportingPercentage, statePostalToFull, winnerIcon } from "../util.js";
+import { classify, formatEEVP, reportingPercentage, statePostalToFull, winnerIcon } from "../util.js";
 import track from "../../lib/tracking";
 import gopher from "../gopher.js";
 import stateSheet from "../../../../data/states.sheet.json";
@@ -10,6 +10,19 @@ var d3 = require("d3-force/dist/d3-force.min.js");
 
 var { sqrt, PI, cos, sin } = Math;
 
+/**
+ * @constant {number} Y_FORCE - Vertical force strength 
+ * @constant {number} X_FORCE - Horizontal force strength
+ * @constant {number} COLLIDE_FORCE - Strength of collision detection between nodes
+ * @constant {number} MIN_DOMAIN - Minimum domain value for margin calculations
+ * @constant {number} MAX_DOMAIN - Maximum domain value for margin calculations
+ * @constant {number} POLAR_OFFSET - Offset value for party alignment positioning
+ * @constant {number} HIDE_TEXT - Threshold for hiding text labels
+ * @constant {number} MIN_TEXT - Minimum text size
+ * @constant {number} MIN_RADIUS - Minimum radius for electoral bubbles
+ * @constant {number} FROZEN - Threshold for considering simulation frozen
+ * @constant {number} HEIGHT_STEP - Vertical step size for layout
+ */
 const Y_FORCE = .03;
 const X_FORCE = .4;
 const COLLIDE_FORCE = 1;
@@ -28,6 +41,27 @@ var nextTick = function (f) {
 
 var clamp = (v, l, h) => Math.min(Math.max(v, l), h);
 
+
+/**
+ * ElectoralBubbles - Interactive electoral component that is part of the board-president parent component. 
+ * Creates a bubble for each state and maps it according to its vote margin in d3. 
+ * Also creates a D3 force simulation with three forces: horizontal (x), vertical (y), and collision detection. 
+ * For each state race that's called (or >50% reported): 
+  - Creates a bubble (node) sized by electoral votes
+  - Positions it based on margin of victory (larger margins = further left/right)
+  - Democrats positioned left, Republicans right
+  - Uses D3's force simulation to prevent overlapping
+* For each state race that's called (or >50% reported): 
+  - Continuously updates bubble positions through D3's force simulation
+  - Renders bubbles as SVG circles with state abbreviations
+* Updates when:
+- New data arrives
+- Window is resized
+- Simulation ticks (animation frames)
+ * @extends ElementBase
+ * 
+ * @class
+ */
 class ElectoralBubbles extends ElementBase {
 
   constructor() {
@@ -156,6 +190,11 @@ class ElectoralBubbles extends ElementBase {
     this.render();
   }
 
+  /**
+    * @method intersect
+    * @description Handles intersection observer callback for simulation control
+    * @param {Array<IntersectionObserverEntry>} entries - Intersection observer entries
+   */
   intersect([e]) {
     if (e.isIntersecting) {
       if (!this.running) {
@@ -174,6 +213,13 @@ class ElectoralBubbles extends ElementBase {
     }
   }
 
+   /**
+ * @method tick
+ * @description Handles the animation frame updates for the force simulation and controls the continuous update loop for node positions and rendering
+ * @fires requestAnimationFrame
+ * @fires render
+ * @returns {void}
+ */
   tick() {
     if (!this.running) return;
     nextTick(this.tick);
@@ -184,6 +230,8 @@ class ElectoralBubbles extends ElementBase {
     if (!width) return;
     if (width != this.state.width) {
       this.state.width = width;
+      this.simulation.force('center', d3.forceCenter(width / 2, height / 2));
+     this.simulation.alpha(0.3).restart();
     }
 
     const alpha = this.simulation.alpha();
@@ -194,24 +242,40 @@ class ElectoralBubbles extends ElementBase {
     }
   }
 
+  /**
+    * @method createNode
+    * @description Creates a node object representing an electoral result. uses data it gets from the race results
+    * @param {Object} r - Raw race data
+    * @param {number} dataDomain - Domain value for margin calculations
+    * 
+    * @returns {Object} Processed node object with position and display properties
+    */
   createNode(r, dataDomain) {
     const [winner, loser] = r.candidates;
     const margin = winner.percent - loser.percent;
     const party = r.winnerParty || winner.party;
     const alignment = winner.party;
     const mx = Math.log(Math.min(margin, MAX_DOMAIN) / dataDomain + 1) * (alignment == "Dem" ? -1 : 1);
-    const { state, district, called, electoral } = r;
-    const key = district ? state + district : state;
-    return { key, state, district, called, electoral, margin, mx, party, alignment, original: r };
+    const { state, seatNumber, called, electoral } = r;
+    const key = seatNumber ? `${state}-${seatNumber}` : state;
+    return { key, state, seatNumber, called, electoral, margin, mx, party, alignment, original: r };
   }
 
+  /**
+* @method updateNodes
+* @description Updates the node data and positions based on fetched electoral results. Fires a restart whenever resized
+* 
+* @param {Array<Object>} results - Array of electoral race results
+* 
+* @fires d3.forceSimulation.restart
+* @fires render
+*/
   updateNodes(results) {
     let { nodes } = this.state;
 
-
     const touched = new Set();
     const lookup = {};
-    results.forEach(r => lookup[r.state + (r.district || "")] = r);
+    results.forEach(r => lookup[r.state + (r.seatNumber || "")] = r);
 
     const called = results.filter(r => r.called || r.eevp > 0.5);
     var dataDomain = Math.max(...called.map(r => {
@@ -287,9 +351,9 @@ class ElectoralBubbles extends ElementBase {
                   <div class="perc">${Math.round(c.percent * 1000) / 10}%</div>
               </div>`
       ).join("")}</div>
-            <div class="reporting">${reportingPercentage(
+            <div class="reporting">${formatEEVP(
         data.eevp || data.reportingPercent
-      )}% in</div>
+      )}</div>
           `;
       this.lastHover = key;
     }
@@ -375,11 +439,8 @@ class ElectoralBubbles extends ElementBase {
       likelyR: "Likely Republican"
     };
 
-    const bannerHtml = `${this.races?.[1] ? '<test-banner></test-banner>' : ''}`;
-
     this.innerHTML = `
       <div class="electoral-bubbles">
-        ${bannerHtml}
         <div class="aspect-ratio">
           <svg class="bubble-svg" 
             role="img"
