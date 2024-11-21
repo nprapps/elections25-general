@@ -5,6 +5,8 @@ import os
 import pprint
 
 """
+This function gets the previous election's certified results.
+
 Office ID Examples: These Office IDs are unique at the national level (across all states):
 
 OfficeID    OfficeName

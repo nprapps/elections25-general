@@ -4,6 +4,8 @@ import os
 import pprint
 
 """
+This function gets the previous election's certified results.
+
 Office ID Examples: These Office IDs are unique at the national level (across all states):
 
 OfficeID    OfficeName
@@ -19,10 +21,6 @@ Z           State Senate
 returnformat = "json"
 offices = "P"
 resultslevel = "FIPSCode"
-
-countyLevelDataForStates = "AL,AK,AZ,AR,CA,CO,DC,DE,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,MD,MI,MN,MS,MO,MT,NE,NV,NJ,NM,NY,NC,ND,OH,OK,OR,PA,SC,SD,TN,TX,UT,VA,WA,WV,WI,WY"
-
-townshipLevelDataForStates = "CT,ME,MA,NH,RI,VT"
 
 timestamp = str(datetime.datetime.now()).replace(" ", "_")
 

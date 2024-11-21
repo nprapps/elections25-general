@@ -1,7 +1,7 @@
 const states = require("../data/states.sheet.json");
 
 /**
- *
+ * It returns the AP Closing Poll hours for all the states.
  * @returns Object - State Config with updated timings
  *
  * For now, it doesn't have a way to add the returned data to the google sheet. Something to do in future
@@ -37,7 +37,6 @@ async function getData() {
       states[statePostal].notes = pollHours[i].notes ? pollHours[i].notes : "";
       states[statePostal].closingTime = lastPollClosingET;
     }
-    console.log({ states });
     return states;
   } catch (error) {
     console.error(error.message);

@@ -1,6 +1,11 @@
 import pandas as pd
 import censusdata
 
+"""
+This function uses the censusdata package to get the data for all the new england townships 
+from Census Bureau and saves it in data/census_township_data.csv.
+"""
+
 detail_tables = {'B01003_001E' : 'population', "B02001_001E": "race_total", "B02001_003E": "black_total", "B03002_001E": "race_hispanic_total", "B03002_003E": "white_alone", "B03002_012E" : "hispanic_total"}
 subject_tables = {"S1501_C02_015E": "percent_bachelors", "S1901_C01_012E": "median_income"}
 

@@ -2,6 +2,19 @@ import requests, csv, datetime
 from requests.exceptions import HTTPError
 import os
 
+"""
+This function gets the previous election's certified results for new england states.
+
+Office ID Examples: These Office IDs are unique at the national level (across all states):
+
+OfficeID    OfficeName
+G           Governor 
+H           U.S. House
+I           Amendment, Ballot Measure, Initiative, Proposal, Proposition, Referendum or Question
+P           President
+S           U.S. Senate
+"""
+
 returnformat = "json"
 offices = "P"
 resultslevel = "ru"
