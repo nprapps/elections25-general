@@ -7,21 +7,16 @@
       .replace(/^-+|[^\w\-]|-+$/g, "");
   };
 
-  var states = Object.keys(data).filter(d => !d.includes("-"));
+  var states = Object.keys(data).filter(d => !d.includes("-") && !data[d].district && data[d].active === true);
 %>
 
 <footer class="mega-nav remove-embedded" role="contentinfo">
 <div class="constrained">
 
-  <h3 class="state-hed">2024 General Election Results</h3>
+  <h3 class="state-hed">2025 General Election Results</h3>
 
   <div class="state-nav link-block">
     <ul>
-      <li><a href="./">President</a></li>
-      <li><a href="./house.html">House</a></li>
-      <li><a href="./senate.html">Senate</a></li>
-      <li class="divider"><a href="./governors.html">Governor</a></li>
-
     <% states.forEach(function(s) { %>
       <li>
         <a href="<%= classify(data[s].name) + ".html" %>">
@@ -32,7 +27,7 @@
     </ul>
   </div>
 
-  <h3 class="more-hed">2024 Election Resources</h3>
+  <h3 class="more-hed">2025 Election Resources</h3>
 
   <div class="more-2024 link-block">
     <ul>
@@ -60,7 +55,7 @@
       <li><a href="https://www.npr.org/about-npr/179878450/privacy-policy" target="_blank">Privacy</a></li>
       <li><a href="https://www.npr.org/about-npr/179878450/privacy-policy#yourchoices" target="_blank">Your Privacy Choices</a></li>
       <li><a href="https://text.npr.org/" target="_blank">Text Only</a></li>
-      <li>&copy; 2024 NPR</li>
+      <li>&copy; 2025 NPR</li>
     </ul>
   </div>
 </div>

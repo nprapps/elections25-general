@@ -10,6 +10,7 @@
   };
 
   var { nav, states, footer } = grunt.data.json;
+  var stateList = Object.keys(states).filter(d => !d.includes("-") && !states[d].district && states[d].active === true);
 %>
 
 <nav class="results-nav remove-embedded">
@@ -29,19 +30,17 @@
         <span class="full label">Live coverage</span>
         <span class="abbrev label">Live</span>
       </a> </li>
-      <li class="main-menu-item"> <a href="./">
-        <span class="full label">President</span>
-        <span class="abbrev label">Pres.</span>
-      </a> </li>
-   
-      <li class="main-menu-item"> <a href="./house.html">House</a> </li>
-      <li class="main-menu-item"> <a href="./senate.html">Senate</a> </li>
-      <li class="main-menu-item"> <a href="./governors.html">
-        <span class="full label">Governor</span>
-        <span class="abbrev label">Gov.</span>
-      </a> </li>
 
-      <li class=" main-menu-item state-nav">
+      <% for (var state of stateList) {%>
+      <li class="main-menu-item">
+        <a href="<%= classify(states[state].name) + ".html" %>">
+          <span class="full label"><%= states[state].name == "District of Columbia" ? "D.C." : states[state].name %></span>
+          <span class="abbrev label"><%= states[state].ap %></span>
+        </a>
+      </li>
+      <%}%>
+
+      <li class=" main-menu-item state-nav" style="display: none;">
         <button class="menu-toggle" aria-controls="states-menu">
           State <span class="full label">results</span>
           <svg viewBox="0 0 5 5" preserveAspectRatio="none" aria-hidden="true">
@@ -50,10 +49,7 @@
         </button>
 
         <ul class="states menu-contents" id="states-menu">
-          <% for (var state of Object.keys(states)) {%>
-          <% if (states[state].district) continue; %>
-          <% if (states[state]["district"]=='x') continue; %>
-
+          <% for (var state of stateList) {%>
           <li class="state-menu-item">
             <a href="<%= classify(states[state].name) + ".html" %>"><%= states[state].name == "District of Columbia" ? "D.C." : states[state].name %></a>
           </li>
