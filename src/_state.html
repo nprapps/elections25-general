@@ -45,7 +45,7 @@
   }
   
   const listOfCountyRaces = stateData.results
-  .filter(race => race.office === "S" || race.office === "G")
+  .filter(race => race.office === "S" || race.office === "G" || race.office === "I")
   .map(race => ({
     id: race.id,
     office: race.office,
