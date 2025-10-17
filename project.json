@@ -2,11 +2,11 @@
   "s3": {
     "stage": {
       "bucket": "stage-apps.npr.org",
-      "path": "elections24-general"
+      "path": "elections25-general"
     },
     "live": {
       "bucket": "apps.npr.org",
-      "path": "2024-election-results"
+      "path": "2025-election-results"
     }
   },
   "styles": {
@@ -31,9 +31,9 @@
   "scriptsOnce": {
     "src/js/sidechain.js": "build/sidechain.js"
   },
-  "title": "2024 Election Results: Live",
-  "description": "View interactive maps and live results for the 2024 U.S. election.",
-  "url": "https://apps.npr.org/2024-election-results/",
+  "title": "2025 Election Results: Live",
+  "description": "View interactive maps and live results for the 2025 U.S. election.",
+  "url": "https://apps.npr.org/2025-election-results/",
   "image": "assets/logo.png",
   "analytics": {
     "topicIDs": [1014,139482413,1088064557,1197733670],
@@ -41,10 +41,10 @@
     "secondaryTopics": ["p139482413",1014]
   },
   "sheets": [ 
-    "1zlv0MndWsdLnp15NI1tFjD7eJuvcYgpmhutASiOqcgk",
-    "16F7ifYahp6ahQp7fXCP_7e0C78x4iU4eU24JKrcodZU"
+    "1UviIUJr_EK7uGKtDz14qqcK1oKgE1vGC_4GiY9xkxAQ",
+    "1998dw5_WlH8tFYYILpEcDh1eYXXJnxKI9WSP4_MRYgc"
   ],
-  "docs": { "longform": "1oj6pW1S09SpGzqUBALOYx7fpCG6V3eLmqruErRuKTJE" },
+  "docs": { "longform": "1q9ZbhRUaxj9BIjeNfW3fPwHjHj4E_9eUdC63KsnDoy4" },
   "embedded": false,
-  "production": true
+  "production": false
 }

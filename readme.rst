@@ -1,4 +1,4 @@
-elections24-general
+elections25-general
 ======================================================
 
 This news app is built on our `interactive template <https://github.com/nprapps/interactive-template>`_. Check the readme for that template for more details about the structure and mechanics of the app, as well as how to start your own project.

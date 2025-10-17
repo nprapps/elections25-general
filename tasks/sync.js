@@ -131,7 +131,7 @@ module.exports = function (grunt) {
       var checklist = grunt.file.read("tasks/checklist.txt");
       grunt.fail.fatal(checklist);
     } else if (target == "stage") {
-      var config = require("../stage-elections24-general.json")
+      var config = require("../stage-elections25-general.json")
     } else {
       config = project.s3[target];
     }

@@ -1,11 +1,11 @@
 {
-  "name": "elections24-general",
-  "description": "elections24 general",
+  "name": "elections25-general",
+  "description": "elections25 general",
   "version": "0.0.1",
-  "author": "Shajia Abidi",
+  "author": "Brent Jones",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nprapps/elections24-general.git"
+    "url": "https://github.com/nprapps/elections25-general.git"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.81.0",

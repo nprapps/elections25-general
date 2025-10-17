@@ -8,5 +8,5 @@ npm-debug.log
 data/*.sheet.json
 data/*.docs.txt
 src/assets/synced
-stage-elections24-general.json
+stage-elections25-general.json
 .env
