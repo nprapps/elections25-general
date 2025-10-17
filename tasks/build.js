@@ -121,7 +121,8 @@ module.exports = function (grunt) {
 
       // generate state pages
       var statePageTemplate = grunt.file.read("src/_state.html");
-      var states = Object.keys(grunt.data.json.states).filter(d => !d.includes("-"));
+      var states = Object.keys(grunt.data.json.states).filter(d => !d.includes("-") && grunt.data.json.states[d].active === true);
+      console.log("Building state pages for", states);
       states.forEach(state => {
         var stateData = grunt.data.json.states[state];
         var output = process(statePageTemplate, stateData, `states/${state}.html`);
