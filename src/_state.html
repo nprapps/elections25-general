@@ -3,23 +3,39 @@
 
   const stateData = require("../build/data/states/" + key + ".json");
 
-  let sections = ["key-races", "president"];
-  let keyRaceCollections = ["president"];
+  let sections = ["key-races"];
+  let keyRaceCollections = [];
 
-  if (stateData.results.filter(d => d.office === "G").length > 0) {
-    sections.push("governor");
-    keyRaceCollections.push("governor");
-  }
-  if (stateData.results.filter(d => d.office === "S").length > 0) {
-    sections.push("senate");
-    keyRaceCollections.push("senate");
-  }
-  if (key != "DC") {
-    sections.push("house");
-  }
-  if (stateData.results.filter(d => d.office === "I").length > 0) {
-    sections.push("ballot-measures");
-  }
+  ["P", "G", "S", "H", "I", "M"].forEach(function(thisOffice) {
+    if (stateData.results.filter(d => d.office === thisOffice).length > 0) {
+      var keyword = "";
+      switch (thisOffice) {
+        case "P":
+          keyword = "president";
+          break;
+        case "G":
+          keyword = "governor";
+          break;
+        case "S":
+          keyword = "senate";
+          break;
+        case "H":
+          keyword = "house";
+          break;
+        case "I":
+          keyword = "ballot-measures";
+          break;
+        case "M":
+          keyword = "mayor";
+          break;
+      }
+      sections.push(keyword);
+
+      if (thisOffice == "P" || thisOffice == "G" || thisOffice == "S") {
+        keyRaceCollections.push(keyword);
+      }
+    }
+  })
 
   if (stateData.results.filter(d => d.office === "H" && d.keyRace === "yes").length > 0) {
     keyRaceCollections.push("house");

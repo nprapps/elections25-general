@@ -20,6 +20,7 @@ const offices = {
   S: "senate",
   H: "house",
   I: "ballot-measures",
+  M: "mayor",
 };
 
 export const navigate = function(key) {

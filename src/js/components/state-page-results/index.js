@@ -10,6 +10,7 @@ const offices = {
   senate: "S",
   house: "H",
   "ballot-measures": "I",
+  mayor: "M"
 };
 
 const townshipStates = ["CT", "MA", "ME", "NH", "RI", "VT"];
@@ -163,7 +164,7 @@ class StatePageResults extends ElementBase {
               </section>
             `;
           }
-        } else if (section === "senate" || section === "governor") {
+        } else if (section === "senate" || section === "governor" || section === "ballot-measures") {
           let countiesHTML = "";
           let countyRaces = this.countyRaces.filter(
             (d) => d.office === offices[section]
