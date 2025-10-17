@@ -30,34 +30,36 @@ module.exports = function (grunt) {
     const offline = grunt.option("offline");
     const zero = grunt.option("zero");
 
+    // For 24-general, we pulled county level-data for G,S,P for all non-england states
+    // We pulled township level data for G,S,P for all the england states and state level data for H,I.
     const countyLevelDataForStates =
       "AL,AK,AZ,AR,CA,CO,DC,DE, FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,MD,MI,MN,MS,MO,MT,NE,NV,NJ,NM,NY,NC,ND,OH,OK,OR,PA,SC,SD,TN,TX,UT,VA,WA,WV,WI,WY";
-
     const townshipLevelDataForStates = "CT,ME,MA,NH,RI,VT";
-    // For 24-general, we are getting county level-data for G,S,P for all non-england states
-    // We are getting township level data for G,S,P for all the england states and state level data for H,I.
+
     const tickets = [
       {
-        date: "2024-11-05",
+        date: "2025-11-04",
         params: {
-          officeID: "G,S,P",
+          officeID: "G",
           level: "FIPSCode",
-          statePostal: countyLevelDataForStates,
+          statePostal: "NJ,VA",
         },
       },
       {
-        date: "2024-11-05",
+        date: "2025-11-04",
         params: {
-          officeID: "G,S,P",
+          officeID: "M",
           level: "ru",
-          statePostal: townshipLevelDataForStates,
+          statePostal: "NY",
+          seatName: "New York City"
         },
       },
       {
-        date: "2024-11-05",
+        date: "2025-11-04",
         params: {
-          officeID: "H,I",
-          level: "state",
+          officeID: "I",
+          level: "FIPSCode",
+          statePostal: "CA,CO"
         },
       },
     ];
@@ -69,10 +71,13 @@ module.exports = function (grunt) {
       if (!response) continue;
 
       //This is a 2024 special CA senate election that we don't want so we are filtering it out
+      /*
       const filteredResponse = response.races.filter(
         (race) => race.raceID !== "82961"
       );
       response.races = filteredResponse;
+      */
+
       if (zero) nullify(response);
       rawResults.push(response);
     }
@@ -127,21 +132,26 @@ module.exports = function (grunt) {
       }
     });
 
-    grunt.log.writeln("Geo.national: ");
-    grunt.log.writeflags(geo.national);
+    // grunt.log.writeln("Geo.national: ");
+    // grunt.log.writeflags(geo.national);
 
     // national results
+    console.log("Write national file");
     await fs.writeFile(
       "build/data/national.json",
       serialize({ test, results: geo.national })
     );
 
-    //internal dashboard
-    const dashboard = [];
     // state-level results
     await fs.mkdir("build/data/states", { recursive: true });
     const states = {};
+    // const dashboard = [];
+
     geo.state.forEach(function (result) {
+      // console.log(result);
+      console.log(result.state, result.office, result.seat, result.description);
+      //internal dashboard to monitor oustanding congressional races / not used in 2025
+      /*
       if (
         (result.office === "H" &&
           result.id !== "45888" &&
@@ -157,24 +167,29 @@ module.exports = function (grunt) {
           winnerParty: result.winnerParty ? result.winnerParty : "",
         });
       }
+      */
       const { state } = result;
       if (!states[state]) states[state] = [];
       states[state].push(result);
     });
 
-    //converts into csv to upload to google sheets
-    const replacer = (key, value) => (value === null ? "" : value); // specify how you want to handle null values here
-    const header = Object.keys(dashboard[0]);
-    const csv = [
-      header.join(","), // header row first
-      ...dashboard.map((row) =>
-        header
-          .map((fieldName) => JSON.stringify(row[fieldName], replacer))
-          .join(",")
-      ),
-    ].join("\r\n");
+    //converts dashboard data into csv to upload to google sheets / not used in 2025
+    /*
+    if (dashboard.length > 0) {
+      const replacer = (key, value) => (value === null ? "" : value); // specify how you want to handle null values here
+      const header = Object.keys(dashboard[0]);
+      const csv = [
+        header.join(","), // header row first
+        ...dashboard.map((row) =>
+          header
+            .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+            .join(",")
+        ),
+      ].join("\r\n");
 
-    fs.writeFile(`build/data/dashboard.csv`, csv);
+      fs.writeFile(`build/data/dashboard.csv`, csv);
+    }
+    */
 
     for (let state in states) {
       let stateOutput = {
