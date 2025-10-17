@@ -26,6 +26,7 @@ class ResultsCollection extends ElementBase {
       S: "Senate",
       H: "Key House races",
       I: "Ballot measures",
+      M: "Mayor"
     };
     let template = "";
 
@@ -72,6 +73,10 @@ class ResultsCollection extends ElementBase {
       } else if (this.getAttribute("office") === "I") {
         template += `<button class="section-info section-link" href='' data-value="ballot-measures">
           All ballot measure results
+        </button>`;
+      } else if (this.getAttribute("office") === "M") {
+        template += `<button class="section-info section-link" href='' data-value="mayor">
+          All mayoral results
         </button>`;
       }
     } else {
