@@ -54,7 +54,7 @@ nav.results-nav {
 
   .results-logo {
     display: flex;
-    padding-right: 20px;
+    // padding-right: 20px;
 
     @media @mobile {
       padding-right: 16px;
@@ -70,9 +70,22 @@ nav.results-nav {
       }
     }
 
+    .elections-logo {
+      .sans();
+      font-weight: bold;
+      text-transform: none;
+      color: #000;
+      font-size: 18px;
+      white-space: nowrap;
+      line-height: 1;
+      margin-top: 1px;
+      letter-spacing: 0.01em;
+    }
+
     img {
       height: 15px;
       display: block;
+      margin-right: 20px;
 
       @media @mobile-above {
         height: 20px;
