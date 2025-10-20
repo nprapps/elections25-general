@@ -244,6 +244,7 @@ module.exports = function (grunt) {
       house: [],
       senate: [],
       gov: [],
+      mayor: [],
     };
 
     geo.state.map((r) => {
@@ -258,6 +259,9 @@ module.exports = function (grunt) {
       }
       if (r.office == "G") {
         byOffice.gov.push(r);
+      }
+      if (r.office == "M") {
+        byOffice.mayor.push(r);
       }
     });
 

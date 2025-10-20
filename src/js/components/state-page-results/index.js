@@ -207,6 +207,7 @@ class StatePageResults extends ElementBase {
           sectionHTML += countiesHTML;
           sectionHTML += "</section>";
         } else {
+          console.log(section);
           sectionHTML += `
             <section id="${section}-section" section="${section}">
               <results-collection state="${this.state}" office="${

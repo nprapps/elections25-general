@@ -8,7 +8,8 @@ const headers = {
   "G": "Governor",
   "S": "Senate",
   "H": "House",
-  "I": "Ballot measures"
+  "I": "Ballot measures",
+  "M": "Mayor"
 }
 
 class IndividualRaceEmbed extends ElementBase {

@@ -28,6 +28,10 @@ async function extractData(type) {
     officeID = "I";
   }
 
+  if (type === "mayor") {
+    officeID = "M";
+  }
+
   const apiData = await axios({
     url: baseURL + `&officeID=${officeID}`,
     headers: { "x-api-key": process.env.AP_API_KEY },
