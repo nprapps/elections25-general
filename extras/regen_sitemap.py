@@ -13,7 +13,7 @@ paths = ["", "#/house", "#/senate", "#/governor", "#/president", ]
 
 social_offices = ["share/governor.html", "share/house.html", "share/senate.html"]
 
-state_paths = ['', '/key', '/S', '/H','/I', '/G']
+state_paths = ['', '/key', '/S', '/H','/I', '/G', '/M']
 
 
 header = """<?xml version="1.0" encoding="UTF-8"?>"""
