@@ -1,4 +1,5 @@
 import gopher from "../gopher.js";
+const { classify, statePostalToFull } = require("../util");
 const ResultsCollection = require("../results-collection/index.js");
 const TabbedResultsCollection = require("../tabbed-results-collection/index.js");
 const ElementBase = require("../elementBase.js");
@@ -13,19 +14,28 @@ const offices = {
   mayor: "M"
 };
 
+const officeKeywords = {
+  "P": "president",
+  "G": "governor",
+  "S": "senate",
+  "H": "house",
+  "I": "ballot-measures",
+  "M": "mayor"
+};
+
 const townshipStates = ["CT", "MA", "ME", "NH", "RI", "VT"];
 
 class IndexPageResults extends ElementBase {
   constructor() {
     super();
-    this.sections = JSON.parse(this.getAttribute("sections"));
-    this.keyRaceCollections = JSON.parse(
-      this.getAttribute("key-race-collections")
-    );
+    this.stateList = JSON.parse(this.getAttribute("state-list"));
+    // this.sections = JSON.parse(this.getAttribute("sections"));
+    // this.keyRaceCollections = JSON.parse(
+    //   this.getAttribute("key-race-collections")
+    // );
     this.countyRaces = JSON.parse(this.getAttribute("county-races"));
-    this.state = this.getAttribute("state");
     this.loadData = this.loadData.bind(this);
-    this.datafile = this.state === "all" ? "./data/all.json" : "./data/states/" + this.state + ".json";
+    this.datafile = "./data/all.json";
   }
 
   connectedCallback() {
@@ -34,6 +44,7 @@ class IndexPageResults extends ElementBase {
   }
 
   async loadData() {
+    console.log("loadData");
     try {
       const response = await fetch(this.datafile);
       if (!response.ok) {
@@ -54,17 +65,54 @@ class IndexPageResults extends ElementBase {
   }
 
   render() {
-    this.removeAttribute("sections");
-    this.removeAttribute("key-race-collections");
+    console.log("WTF render");
+    this.removeAttribute("state-races");
+    // this.removeAttribute("sections");
+    // this.removeAttribute("key-race-collections");
     this.removeAttribute("county-races");
 
     const results = this.data.results;
     let template = "";
-    const electoral = results
-      .filter((d) => d.office === "P")
-      .map((obj) => obj.electoral)
-      .reduce((accumulator, current) => accumulator + current, 0);
+    // const electoral = results
+    //   .filter((d) => d.office === "P")
+    //   .map((obj) => obj.electoral)
+    //   .reduce((accumulator, current) => accumulator + current, 0);
 
+    console.log(results);
+    console.log(this.stateList);
+
+    this.stateList.forEach((st) => {
+      console.log(st);
+      let stateData = results.filter(d => d.state === st);
+      let stateSections = "";
+      console.log(stateData);
+
+      let stateHTML = `<h2><a href="${ classify(statePostalToFull(st)) }.html">${ statePostalToFull(st) }</a></h2>`;
+      stateHTML += '<section id="key-races-section" section="key-races">';
+
+      ["P", "G", "S", "H", "I", "M"].forEach((office) => {
+        let officeData = stateData.filter(o => o.office == office );
+        if (officeData.length > 0) {
+          console.log(office, officeData);
+
+          stateHTML += `
+            <results-collection 
+              state="${ st }"
+              office="${ office }" 
+              races='${JSON.stringify(officeData).replace(/'/g, "&#39;")}'
+              key-races-only>
+            </results-collection>
+          `;
+        }
+
+      });
+
+      stateHTML += "</section>";
+
+      template += stateHTML;
+    });
+
+    /*
     this.sections.forEach((section) => {
       let sectionHTML = "";
 
@@ -224,9 +272,10 @@ class IndexPageResults extends ElementBase {
 
       template += sectionHTML;
     });
+    */
 
     this.innerHTML = template;
   }
 }
 
-customElements.define("state-page-results", IndexPageResults);
+customElements.define("index-page-results", IndexPageResults);

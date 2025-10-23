@@ -76,7 +76,7 @@ class ResultsCollection extends ElementBase {
         </button>`;
       } else if (this.getAttribute("office") === "M") {
         template += `<button class="section-info section-link" href='' data-value="mayor">
-          All mayoral results
+          Full mayoral results
         </button>`;
       }
     } else {

@@ -21,6 +21,7 @@
   },
   "scripts": {
     "src/js/main.js": "build/app.js",
+    "src/js/index.js": "build/index.js",
     "src/js/loadHeaderBidding.js": "build/loadHeaderBidding.js",
     "src/js/removeLoadingScreen.js": "build/removeLoadingScreen.js",
     "src/js/state.js": "build/state.js",

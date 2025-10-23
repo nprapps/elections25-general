@@ -1,38 +1,63 @@
 <%
-// page metadata
-var thisPage = "president";
-var { seo, strings } = grunt.data.json;
-var metadata = {
-  project: Object.assign({}, grunt.data.json.project, {
-    title: seo[thisPage + "Title"] ? seo[thisPage + "Title"] : seo["defaultTitle"],
-    description: seo[thisPage + "Description"],
-    image: "assets/synced/" + thisPage + "-results.jpg"
-  })
-};
+  var classify = require("./lib/classify");
 
-// show electoral bubbbles. controlled via `showBubbles` in config.strings sheet
-const showBubbles = grunt.data.json.strings.showBubbles || "yes";
-let bubbleClass = showBubbles == "yes" ? "show-bubbles" : "hide-bubbles";
+  const raceData = require("../build/data/all.json");
+  console.log(raceData.results);
+
+  let listOfStates = raceData.results.map(o => o["state"]);
+  listOfStates = Array.from(new Set(listOfStates)).sort();
+
+  const listOfCountyRaces = raceData.results
+    .filter(race => race.office === "S" || race.office === "G" || race.office === "I")
+    .map(race => ({
+      id: race.id,
+      office: race.office,
+      seatNumber: race.seatNumber,
+      keyRace: race.keyRace
+    }));
+
+  var key = "all";
+
+  // page metadata
+  var thisPage = "default";
+  var { seo, strings } = grunt.data.json;
+  var metadata = {
+    project: Object.assign({}, grunt.data.json.project, {
+      title: seo[thisPage + "Title"] ? seo[thisPage + "Title"] : seo["defaultTitle"],
+      description: seo[thisPage + "Description"],
+      image: "assets/synced/" + thisPage + "-results.jpg"
+    })
+  };
 %>
 
 <!doctype html>
 <html lang="en-US">
   <head>
     <%= t.include("partials/_head.html", metadata) %>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="state.css">
+    <link rel="stylesheet" type="text/css" href="county.css">
   </head>
-  <body class="<%= bubbleClass %>">
+  <body data-section="key-races" data-header="show">
     <%= t.include("partials/_navbar.html") %>
     <%= t.include("partials/_ad.html", {id: "ad-centerstage"}) %>
-    <main class="centered-page app constrained">
 
-      <board-president></board-president>
+    <header>
+      <div class="headline">
+        <div>
+          <h1><%= grunt.data.json.project.title %></h1>
+        </div>
+      </div>
+    </header>
 
-      <div class="page-footnote">
+    <main class="app constrained">
+
+      <index-page-results state-list='<%= JSON.stringify(listOfStates).replace(/'/g, "&#39;") %>' county-races='<%= JSON.stringify(listOfCountyRaces).replace(/'/g, "&#39;") %>'></index-page-results>
+
+      <div class="state-page-footnote">
         <p class="footnote">
           <strong>Notes:</strong>
           <%= t.smarty(grunt.data.json.strings.eevp_footnote) %>
-          <%= t.smarty(grunt.data.json.strings.president_footnote) %>
+          <%= t.smarty(grunt.data.json.strings.sources) %>
         </p>
       </div>
     </main>
@@ -41,12 +66,12 @@ let bubbleClass = showBubbles == "yes" ? "show-bubbles" : "hide-bubbles";
     <%= t.include("partials/_footer.html", {"data": grunt.data.json.states}) %>
   </div>
     <script>
-      window.PROJECT_ANALYTICS = <%= JSON.stringify(json.project.analytics || {}) %>;
+      window.PROJECT_ANALYTICS = <%= JSON.stringify(grunt.data.json.project.analytics || {}) %>;
     </script>
-    <script src="app.js" async></script>
+    <script src="index.js" async></script>
 
-    <%= t.include("partials/_sponsorship.html", { "production": json.project.production }) %>
     <%= t.include("partials/_analytics.html") %>
+    <%= t.include("partials/_sponsorship.html", { "production": grunt.data.json.project.production }) %>
     <script class="remove-embedded" src="loadHeaderBidding.js" async></script>
     <script>
       var here = new URL(window.location);
