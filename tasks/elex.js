@@ -137,9 +137,13 @@ module.exports = function (grunt) {
 
     // national results
     console.log("Write national file");
+    // await fs.writeFile(
+    //   "build/data/national.json",
+    //   serialize({ test, results: geo.national })
+    // );
     await fs.writeFile(
-      "build/data/national.json",
-      serialize({ test, results: geo.national })
+      "build/data/all.json",
+      serialize({ test, results: geo.state })
     );
 
     // state-level results
