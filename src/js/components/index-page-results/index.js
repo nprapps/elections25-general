@@ -44,7 +44,6 @@ class IndexPageResults extends ElementBase {
   }
 
   async loadData() {
-    console.log("loadData");
     try {
       const response = await fetch(this.datafile);
       if (!response.ok) {
@@ -65,7 +64,6 @@ class IndexPageResults extends ElementBase {
   }
 
   render() {
-    console.log("WTF render");
     this.removeAttribute("state-races");
     // this.removeAttribute("sections");
     // this.removeAttribute("key-race-collections");
@@ -78,14 +76,9 @@ class IndexPageResults extends ElementBase {
     //   .map((obj) => obj.electoral)
     //   .reduce((accumulator, current) => accumulator + current, 0);
 
-    console.log(results);
-    console.log(this.stateList);
-
     this.stateList.forEach((st) => {
-      console.log(st);
       let stateData = results.filter(d => d.state === st);
       let stateSections = "";
-      console.log(stateData);
 
       let stateHTML = `<h2><a href="${ classify(statePostalToFull(st)) }.html">${ statePostalToFull(st) }</a></h2>`;
       stateHTML += '<section id="key-races-section" section="key-races">';
@@ -93,8 +86,6 @@ class IndexPageResults extends ElementBase {
       ["P", "G", "S", "H", "I", "M"].forEach((office) => {
         let officeData = stateData.filter(o => o.office == office );
         if (officeData.length > 0) {
-          console.log(office, officeData);
-
           stateHTML += `
             <results-collection 
               state="${ st }"

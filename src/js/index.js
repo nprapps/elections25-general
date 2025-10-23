@@ -19,8 +19,6 @@ const offices = {
   M: "mayor",
 };
 
-console.log(offices);
-
 export const navigate = function(key) {
   var sectionCode = Object.keys(offices).find(d => offices[d] === key);
   url.searchParams.set("section", sectionCode);
