@@ -70,14 +70,14 @@ class ResultsCollection extends ElementBase {
         template += `<button class="section-info section-link" data-value="house">
           All House results
         </button>`;
-      } else if (this.getAttribute("office") === "I") {
-        template += `<button class="section-info section-link" href='' data-value="ballot-measures">
-          All ballot measure results
-        </button>`;
-      } else if (this.getAttribute("office") === "M") {
-        template += `<button class="section-info section-link" href='' data-value="mayor">
-          All mayoral results
-        </button>`;
+      // } else if (this.getAttribute("office") === "I") {
+      //   template += `<button class="section-info section-link" href='' data-value="ballot-measures">
+      //     All ballot measure results
+      //   </button>`;
+      // } else if (this.getAttribute("office") === "M") {
+      //   template += `<button class="section-info section-link" href='' data-value="mayor">
+      //     Full mayoral results
+      //   </button>`;
       }
     } else {
       if (this.getAttribute("office") === "P") {

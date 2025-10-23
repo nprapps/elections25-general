@@ -283,7 +283,8 @@ button.section-info {
 	tabbed-results-collection results-table,
 	results-collection[office="P"] results-table,
 	results-collection[office="S"] results-table,
-	results-collection[office="G"] results-table {
+	results-collection[office="G"] results-table,
+  results-collection[office="M"] results-table {
 		display: block;
 		width: calc(70% - 10px);
 	}
@@ -321,4 +322,24 @@ county-map {
     font-size: 14px;
     line-height: 1.4;
     margin: 0;
+}
+
+// specific to the index page version
+index-page-results {
+  h2 {
+    margin-bottom: .5rem;
+
+    a {
+      text-decoration: none;
+    }
+  }
+  results-collection {
+    .section-hed {
+      margin-top: 0;
+      font-size: 1.3em;
+    }
+  }
+  section {
+    margin-bottom: 33px;
+  }
 }
