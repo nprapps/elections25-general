@@ -36,7 +36,7 @@
   "url": "https://apps.npr.org/2025-election-results/",
   "image": "assets/logo.png",
   "analytics": {
-    "topicIDs": [1014,139482413,1088064557,1197733670],
+    "topicIDs": [1014,139482413,1088064557,1197733670,"g-s1-42661",1142303281],
     "primaryTopic": "elections",
     "secondaryTopics": ["p139482413",1014]
   },
