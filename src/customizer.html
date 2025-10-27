@@ -9,7 +9,7 @@ var races = grunt.data.json.races;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     
-    <title>Election 2024 embed customizer : NPR</title>
+    <title>Election 2025 embed customizer : NPR</title>
     
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="https://media.npr.org/templates/favicon/favicon-180x180.png" />
@@ -53,7 +53,7 @@ var races = grunt.data.json.races;
       <div id="formContainer">
         <form>
           <div id="embedType">
-          <label>
+          <!-- <label>
             <input
               type="radio"
               name="selection"
@@ -84,7 +84,7 @@ var races = grunt.data.json.races;
               value="house"
             />
             House
-          </label>
+          </label> -->
           <label>
             <input
               type="radio"
@@ -101,7 +101,7 @@ var races = grunt.data.json.races;
             />
             Individual state-level race
           </label>
-          <label>
+          <!-- <label>
             <input
               type="radio"
               name="selection"
@@ -117,7 +117,7 @@ var races = grunt.data.json.races;
               onclick="handleSelection('presidentMaps')"
             />
             Presidential Maps
-          </label>
+          </label> -->
           <div
             id="stateConfig"
             class="hidden"
@@ -125,9 +125,13 @@ var races = grunt.data.json.races;
             <label
               >State:
               <select id="stateSelect">
-              <% Object.keys(states).forEach( state => { 
+              <% 
+              
+              const allowedStates = ["CA","CO","NJ","NY","VA"]
+              
+              Object.keys(states).forEach( state => { 
 
-                if (/^[A-Z]{2}$/.test(state)) {
+                if (allowedStates.includes(state)) {
 
                 %>
                 

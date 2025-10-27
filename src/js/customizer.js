@@ -13,12 +13,12 @@ const classify = function (str) {
 };
 
 let customizerState = {
-  page: "index",
+  page: "race-embed",
   params: {
     embedded: true,
-    stateName: "Alabama",
-    stateAbbrev: "AL",
-    section: "key-races",
+    stateName: "New York",
+    stateAbbrev: "NY",
+    section: "mayor",
     showHeader: true,
   },
 };
@@ -150,6 +150,12 @@ const createEmbed = function (config) {
     params = handleSpecialEmbed(config.page, params);
   }
 
+  const stateRaces = {"CA": "ballot-measures", "CO": "ballot-measures", "NJ": "governor", "VA": "governor", "NY": "mayor"}
+  
+  config.params.section = stateRaces[config.params.stateAbbrev]
+
+  console.log(config)
+
   var url = createURL(config);
   var id = createId(config);
 
@@ -202,6 +208,9 @@ const buildSections = function () {
       if (data.results.filter(d => d.office === "S").length > 0) {
         sections.push("senate,S");
       }
+      if (data.results.filter(d => d.office === "M").length > 0) {
+        sections.push("mayor,M");
+      }
       if (state != "DC") {
         sections.push("house,H");
       }
@@ -247,6 +256,7 @@ const buildRaces = function () {
         S: "Senate",
         H: "House",
         I: "Ballot Measure",
+        M: "Mayor"
       };
 
       stateRaceDropdown.innerHTML = "";
@@ -254,7 +264,7 @@ const buildRaces = function () {
       listOfStateRaces.forEach(race => {
         raceOffice = raceTypeLookup[race.office];
         raceName = raceOffice;
-        if (race.office == "H" || race.office == "I") {
+        if (race.office == "H" || race.office == "I" || race.office == "M") {
           raceName += " " + race.seat;
         }
 
@@ -378,8 +388,9 @@ window.onload = function () {
   const raceDropdown = document.getElementById("stateRaceSelect");
   const presidentOptions = document.getElementById("presidentOptions");
 
-  // load president board by default
-  document.querySelector("#embedType input[value='index']").setAttribute("checked", true);
+  // load NY mayor by default
+  document.querySelector("#embedType input[value='race-embed']").setAttribute("checked", true);
+  document.querySelector("#stateSelect").value = "NY,New York";
   updateView();  
 
   //createEmbed("president");
