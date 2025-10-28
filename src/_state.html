@@ -61,6 +61,7 @@
 
   // header metadata
   var thisPage = grunt.data.json.states[key].name;
+  var imageFile = seo["image" + key.toUpperCase()] ? seo["image" + key.toUpperCase()] : "state-" + key.toLowerCase() + ".png";
 
   var { seo, strings } = grunt.data.json;
   var metadata = {
@@ -68,7 +69,7 @@
       title: seo[key + "Title"] ? seo[key + "Title"] : seo.stateTitle.replace(/%state%/g, thisPage),
       description: seo["description" + key.toUpperCase()] ? seo["description" + key.toUpperCase()] : seo.stateDescription.replace(/%state%/g, thisPage),
       statePath: classify(thisPage) + ".html",
-      image: "assets/synced/promos/state-" + key.toLowerCase() + ".png"
+      image: "assets/synced/promos/" + imageFile
     })
   };
 %>
