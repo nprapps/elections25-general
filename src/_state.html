@@ -61,9 +61,9 @@
 
   // header metadata
   var thisPage = grunt.data.json.states[key].name;
+  var { seo, strings } = grunt.data.json;
   var imageFile = seo["image" + key.toUpperCase()] ? seo["image" + key.toUpperCase()] : "state-" + key.toLowerCase() + ".png";
 
-  var { seo, strings } = grunt.data.json;
   var metadata = {
     project: Object.assign({}, grunt.data.json.project, {
       title: seo[key + "Title"] ? seo[key + "Title"] : seo.stateTitle.replace(/%state%/g, thisPage),
