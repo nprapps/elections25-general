@@ -200,7 +200,7 @@ const buildSections = function () {
       return response.json(); // Parse the JSON data
     })
     .then(data => {
-      let sections = ["key-races,key-races", "president,P"];
+      let sections = [];
 
       if (data.results.filter(d => d.office === "G").length > 0) {
         sections.push("governor,G");
@@ -211,9 +211,9 @@ const buildSections = function () {
       if (data.results.filter(d => d.office === "M").length > 0) {
         sections.push("mayor,M");
       }
-      if (state != "DC") {
-        sections.push("house,H");
-      }
+      // if (state != "DC") {
+      //   sections.push("house,H");
+      // }
       if (data.results.filter(d => d.office === "I").length > 0) {
         sections.push("ballot-measures,I");
       }
