@@ -32,11 +32,15 @@ export const navigate = function(key) {
 
 var oldOnload = window.onload;
 window.onload = function() { oldOnload();
-  const nav = document.querySelector("form");
+  const nav = document.querySelector("form.section-nav");
   const urlParams = new URLSearchParams(window.location.search);
   let urlSection = urlParams.get("section");
   if (urlSection === null) {
-    urlSection = "key-races";
+    // urlSection = "key-races";
+
+    var firstKeyword = nav.querySelector("input").id;
+    var firstKey = Object.keys(offices).find(d => offices[d] === firstKeyword);
+    urlSection = firstKey;
   }
   nav.querySelector("#" + offices[urlSection]).checked = true;
   navigate(offices[urlSection]);

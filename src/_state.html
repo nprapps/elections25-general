@@ -3,7 +3,8 @@
 
   const stateData = require("../build/data/states/" + key + ".json");
 
-  let sections = ["key-races"];
+  // let sections = ["key-races"];
+  let sections = [];
   let keyRaceCollections = [];
 
   ["P", "G", "S", "H", "I", "M"].forEach(function(thisOffice) {
@@ -36,6 +37,11 @@
       }
     }
   })
+
+  // only show a "key races" tab if there's more than one type of race
+  if (sections.length > 1) {
+    sections.unshift("key-races");
+  }
 
   if (stateData.results.filter(d => d.office === "H" && d.keyRace === "yes").length > 0) {
     keyRaceCollections.push("house");
