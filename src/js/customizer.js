@@ -150,11 +150,9 @@ const createEmbed = function (config) {
     params = handleSpecialEmbed(config.page, params);
   }
 
-  const stateRaces = {"CA": "ballot-measures", "CO": "ballot-measures", "NJ": "governor", "VA": "governor", "NY": "mayor"}
+  const stateRaces = {"CA": "I", "CO": "I", "NJ": "G", "VA": "G", "NY": "M"}
   
   config.params.section = stateRaces[config.params.stateAbbrev]
-
-  console.log(config)
 
   var url = createURL(config);
   var id = createId(config);
