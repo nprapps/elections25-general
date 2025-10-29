@@ -193,6 +193,8 @@ class StatePageResults extends ElementBase {
             countiesHTML += countyHTML;
           });
 
+          let sectionHed = section === "ballot-measures" ? "Ballot measure" : section.charAt(0).toUpperCase() + section.slice(1);
+
           sectionHTML += `
             <section id="${section}-section" section="${section}">
               <results-collection state="${this.state}" office="${
@@ -201,9 +203,7 @@ class StatePageResults extends ElementBase {
             /'/g,
             "&#39;"
           )}'></results-collection>
-              <h3 class="section-hed">${
-                section.charAt(0).toUpperCase() + section.slice(1)
-              } results by county</h3>
+              <h3 class="section-hed">${ sectionHed } results by county</h3>
           `;
           sectionHTML += countiesHTML;
           sectionHTML += "</section>";
