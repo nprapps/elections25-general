@@ -66,7 +66,7 @@
 
   var metadata = {
     project: Object.assign({}, grunt.data.json.project, {
-      title: seo[key + "Title"] ? seo[key + "Title"] : seo.stateTitle.replace(/%state%/g, thisPage),
+      title: seo["title" + key] ? seo["title" + key] : seo.stateTitle.replace(/%state%/g, thisPage),
       description: seo["description" + key.toUpperCase()] ? seo["description" + key.toUpperCase()] : seo.stateDescription.replace(/%state%/g, thisPage),
       statePath: classify(thisPage) + ".html",
       image: "assets/synced/promos/" + imageFile
