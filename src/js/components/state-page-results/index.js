@@ -170,7 +170,7 @@ class StatePageResults extends ElementBase {
             (d) => d.office === offices[section]
           );
           races.forEach((race) => {
-            console.log(race)
+            // console.log(race)
             let countyHTML = "";
             if (races.length > 1) {
               countyHTML += "<h3>" + race.seat + "</h3>";

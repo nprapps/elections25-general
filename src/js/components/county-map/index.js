@@ -191,14 +191,13 @@ updateDimensions() {
  */
   render() {
     
-
     this.innerHTML = `
       <div class="county-map" data-as="map" aria-hidden="true">
         <div class="container" data-as="container">
           <div class="key" data-as="key">
             <div class="key-grid">
               ${this.legendCands.map(candidate => this.createLegend(candidate)).join('')}
-              ${Object.values(this.data).some(entry => entry.candidates[0].votes === entry.candidates[1].votes) ? `
+              ${Object.values(this.data).some(entry => entry.eevp > 0 && entry.candidates[0].votes === entry.candidates[1].votes) ? `
                 <div class="key-row">
                   <div class="swatch" style="background-color: #666"></div>
                   <div class="name">Tie</div>

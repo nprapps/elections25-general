@@ -69,12 +69,15 @@
 @gopSafe: #a23520;
 
 @ballotYes: @green;
-@ballotYesLight: @lightgreen;
+// @ballotYesLight: @lightgreen;
+@ballotYesLight: lighten(@ballotYes, 33%);
 @ballotYesDim: fade(@ballotYes, 50%);
 
 // note: we may run into an issue with "no" being confused for "early" in the shaded map; we'll see
-@ballotNo: @graybar;
-@ballotNoLight: @graybackground;
+// @ballotNo: @graybar;
+// @ballotNoLight: @graybackground;
+@ballotNo: @yellow;
+@ballotNoLight: lighten(@ballotNo, 37%);
 @ballotNoDim: fade(@ballotNo, 50%);
 
 
