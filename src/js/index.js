@@ -19,11 +19,13 @@ const offices = {
   M: "mayor",
 };
 
-export const navigate = function(key) {
+export const navigate = function(key, state) {
+  console.log(key, state);
   var sectionCode = Object.keys(offices).find(d => offices[d] === key);
   url.searchParams.set("section", sectionCode);
-  window.history.pushState({}, "", url);
-  document.querySelector("body").dataset.section = key;
+  // document.querySelector("body").dataset.section = key;
+  url.pathname = `${ state }.html`;
+  location.href = url;
 }
 
 var oldOnload = window.onload;
@@ -43,13 +45,15 @@ window.onload = function() { oldOnload();
   });
   */
 
+  // not relevant for this particular template b/c we're not
+  // offering an embedded version
   if (urlParams.has("embedded")) {
     const isEmbedded = urlParams.get("embedded");
     if (isEmbedded) {
       var guest = Sidechain.Sidechain.registerGuest();
       guest.sendHeight();
       console.log(guest);
-      nav.addEventListener("change", e => {
+      nav.addEventListener("change", (e) => {
         guest.sendHeight();
       });
     }
@@ -75,18 +79,17 @@ window.onload = function() { oldOnload();
         }
       });
   }
-};
 
-window.addEventListener("load", function () {
+  // handlers for county results buttons
   document.querySelectorAll(".section-link").forEach((link) => {
     link.addEventListener("click", (e) => {
-      navigate(link.dataset.value);
-      const nav = document.querySelector("form");
-      nav.querySelector("#" + link.dataset.value).checked = true;
+      navigate(link.dataset.value, link.dataset.state);
+      // const nav = document.querySelector("form");
+      // nav.querySelector("#" + link.dataset.value).checked = true;
 
-      nav.addEventListener("change", (e) => {
-        navigate(e.target.value);
-      });
+      // nav.addEventListener("change", (e) => {
+      //   navigate(e.target.value);
+      // });
     });
   });
-});
+};

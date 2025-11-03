@@ -59,21 +59,21 @@ class ResultsCollection extends ElementBase {
               "electoral"
             )} electoral votes${linkElement}</p>`;
       } else if (this.getAttribute("office") === "G") {
-        template += `<button class='section-info section-link' data-value="governor">
+        template += `<button class="section-info section-link" data-state="${ stateSlug }" data-value="governor">
           ${locality}-level results
         </button>`;
       } else if (this.getAttribute("office") === "S") {
-        template += `<button class='section-info section-link' data-value="senate">
+        template += `<button class="section-info section-link" data-state="${ stateSlug }"  data-value="senate">
           ${locality}-level results
         </button>`;
       } else if (this.getAttribute("office") === "H") {
-        template += `<button class="section-info section-link" data-value="house">
+        template += `<button class="section-info section-link" data-state="${ stateSlug }"  data-value="house">
           All House results
         </button>`;
-      // } else if (this.getAttribute("office") === "I") {
-      //   template += `<button class="section-info section-link" href='' data-value="ballot-measures">
-      //     All ballot measure results
-      //   </button>`;
+      } else if (this.getAttribute("office") === "I") {
+        template += `<button class="section-info section-link" data-state="${ stateSlug }"  data-value="ballot-measures">
+          ${locality}-level results
+        </button>`;
       // } else if (this.getAttribute("office") === "M") {
       //   template += `<button class="section-info section-link" href='' data-value="mayor">
       //     Full mayoral results
