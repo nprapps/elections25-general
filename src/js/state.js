@@ -26,7 +26,7 @@ const offices = {
 export const navigate = function(key) {
   var sectionCode = Object.keys(offices).find(d => offices[d] === key);
   url.searchParams.set("section", sectionCode);
-  window.history.pushState({}, "", url);
+  window.history.replaceState({}, "", url);
   document.querySelector("body").dataset.section = key;
 }
 
