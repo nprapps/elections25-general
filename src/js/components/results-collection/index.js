@@ -30,9 +30,15 @@ class ResultsCollection extends ElementBase {
     };
     let template = "";
 
+    if (this.races.length === 1 && this.races[0]["name_override"]) {
+      var header_text = this.races[0]["stateName"] + " – " + this.races[0]["name_override"]
+    }
+    else {
+      var header_text = headers[this.getAttribute("office")]
+    }
     template += `
       <h3 class="section-hed dotted-line">
-        <span>${headers[this.getAttribute("office")]}</span>
+        <span>${header_text}</span>
       </h3>
     `;
 

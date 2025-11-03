@@ -222,6 +222,11 @@ module.exports = function (resultArray, overrides = {}) {
           // For now, always override description with ours even if empty.
           unitMeta.description = sheetMetadata.description;
           unitMeta.name_override = sheetMetadata.name_override;
+
+          // Override state name (New York City)
+          if (sheetMetadata.stateName) {
+            unitMeta.stateName = sheetMetadata.stateName;
+          }
         }
 
         unitMeta.updated = Date.parse(unitMeta.updated);

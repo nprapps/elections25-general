@@ -54,6 +54,10 @@ class ResultsTable extends ElementBase {
       elements.wrapper.classList.add("president");
     }
 
+    if (this.parentElement.classList.contains("single") && result.name_override) {
+      elements.resultsTableHed.remove();
+    }
+
     if (this.hasAttribute("is-individual-embed")) {
       elements.resultsTableHed.remove();
     // on state pages, only show heds for house races and ballot measures

@@ -46,11 +46,9 @@ class IndividualRaceEmbed extends ElementBase {
   render() {
   	let result = this.data.results.find(d => d.id === this.race);
 
-    console.log(result)
-
     let raceName = "";
     if (result.name_override) {
-      raceName = result.name_override;
+      raceName = result.stateName + " – " + result.name_override;
     } else if (result.office === "I") {
       raceName = result.description;
     } else if (result.office == "H") {
