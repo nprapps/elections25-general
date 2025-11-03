@@ -161,6 +161,7 @@ module.exports = function (resultArray, overrides = {}) {
     S: overrides.senate,
     G: overrides.governors,
     I: overrides.ballot_measures,
+    M: overrides.mayors
   };
 
   for (let response of resultArray) {
