@@ -3,8 +3,12 @@
 
   const raceData = require("../build/data/all.json");
 
-  let listOfStates = raceData.results.map(o => o["state"]);
-  listOfStates = Array.from(new Set(listOfStates)).sort();
+  // let listOfStates = raceData.results.map(o => o["state"]);
+  // listOfStates = Array.from(new Set(listOfStates)).sort();
+
+  // this is gross but i'm going to hard-code it since we have a limited set
+  // sorting by poll close time / importance
+  let listOfStates = [ 'VA', 'NJ', 'NY', 'CA', 'CO' ]
 
   const listOfCountyRaces = raceData.results
     .filter(race => race.office === "S" || race.office === "G" || race.office === "I")
