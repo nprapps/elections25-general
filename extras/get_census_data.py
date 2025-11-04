@@ -10,7 +10,7 @@ detail_tables = {'B01003_001E' : 'population', "B02001_001E": "race_total", "B02
 subject_tables = {"S1501_C02_015E": "percent_bachelors", "S1901_C01_012E": "median_income"}
 
 # 5-year ACS data is often two years behind the calendar year
-CENSUS_YEAR = 2022
+CENSUS_YEAR = 2023
 
 columns = ['key']
 columns.extend(list(detail_tables.values()) + list(subject_tables.values()))

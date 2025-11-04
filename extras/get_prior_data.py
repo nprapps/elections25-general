@@ -31,7 +31,7 @@ headers = {
 
 parsedresultsfile = 'apResults.csv'
 result = None
-raw_url = "https://api.ap.org/v2/elections/2020-11-03?level=%s&format=json&officeID=%s&resultsType=c" % (resultslevel, offices)
+raw_url = "https://api.ap.org/v2/elections/2024-11-05?level=%s&format=json&officeID=%s&resultsType=c" % (resultslevel, offices)
 
 print("Retrieving from %s and writing output to %s" % (raw_url, parsedresultsfile))
 

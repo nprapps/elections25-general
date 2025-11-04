@@ -22,6 +22,11 @@ With those installed, you can then set the project up using your terminal:
 #. Update local data from Google Sheets/Docs - ``grunt sheets docs``
 #. Start the server - ``grunt``
 
+Setting up a virtual environment to run python data scripts:
+* ``uv venv elections25-general``
+* ``source elections25-general/bin/activate``
+* ``uv pip install -r requirements.txt``
+
 Running tasks
 -------------
 
