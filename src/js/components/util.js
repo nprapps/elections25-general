@@ -157,7 +157,7 @@ const availableMetrics = {
     format: formatters.comma,
   },
   past_margin: {
-    name: "2020 presidential margin",
+    name: "2024 presidential margin",
     format: formatters.voteMargin,
   },
   unemployment: {
