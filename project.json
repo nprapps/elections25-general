@@ -22,6 +22,8 @@
   "scripts": {
     "src/js/main.js": "build/app.js",
     "src/js/index.js": "build/index.js",
+    "src/js/sponsorship.js": "build/sponsorship.js",
+    "src/js/gdpr-compliance.js": "build/gdpr-compliance.js",
     "src/js/loadHeaderBidding.js": "build/loadHeaderBidding.js",
     "src/js/removeLoadingScreen.js": "build/removeLoadingScreen.js",
     "src/js/state.js": "build/state.js",
@@ -40,6 +42,30 @@
     "topicIDs": [1014,139482413,1088064557,1197733670,"g-s1-42661",1142303281],
     "primaryTopic": "elections",
     "secondaryTopics": ["p139482413",1014]
+  },
+  "sponsorship": {
+    "locations": {
+      "centerstage": {
+        "location": "centerstage",
+        "desktop_ad_unit": "n6735.NPR",
+        "mobile_ad_unit": "n6735.NPRMOBILE",
+        "gam_sizes": [[320, 240], [300, 250], [728, 90], [970, 250], [1300, 250], ["fluid"]],
+        "header_bidding_sizes": {
+          "aps": [[300, 250], [728, 90], [970, 250]],
+          "openwrap": [[300, 250], [728, 90], [970, 250]]
+        }
+      },
+      "secondary": {
+        "location": "secondary",
+        "desktop_ad_unit": "NPRSecondary",
+        "mobile_ad_unit": "NPRMobileSecondary",
+        "gam_sizes": [[320, 240], [300, 250], [728, 90], [970, 250], [1300, 250], ["fluid"]],
+        "header_bidding_sizes": {
+          "aps": [[300, 250], [728, 90], [970, 250]],
+          "openwrap": [[300, 250], [728, 90], [970, 250]]
+        }
+      }
+    }
   },
   "sheets": [ 
     "1UviIUJr_EK7uGKtDz14qqcK1oKgE1vGC_4GiY9xkxAQ",

@@ -83,7 +83,7 @@
   </head>
   <body data-section="key-races" data-header="show">
     <%= t.include("partials/_navbar.html") %>
-    <%= t.include("partials/_ad.html", {id: "ad-centerstage"}) %>
+    <%= t.include("partials/_ad.html", {"config": metadata.project.sponsorship.locations.centerstage}) %>
     <%= t.include("partials/_statePageHeader.html", {state: key, sections: sections}) %>
     <main class="app constrained">
       <state-page-results state="<%= key %>" key-race-collections='<%= JSON.stringify(keyRaceCollections).replace(/'/g, "&#39;") %>' sections='<%= JSON.stringify(sections).replace(/'/g, "&#39;") %>' county-races='<%= JSON.stringify(listOfCountyRaces).replace(/'/g, "&#39;") %>'></state-page-results>
@@ -100,7 +100,7 @@
       </div>
     </main>
     <div class="remove-embedded">
-    <%= t.include("partials/_ad.html", {id: "ad-secondary"}) %> 
+    <%= t.include("partials/_ad.html", {"config": metadata.project.sponsorship.locations.secondary}) %>
     <%= t.include("partials/_footer.html", {"data": grunt.data.json.states}) %>
   </div>
     <script>
