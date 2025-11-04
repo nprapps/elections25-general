@@ -58,7 +58,7 @@ class IndividualRaceEmbed extends ElementBase {
     }
 
     let countyLink = "";
-    if (result.office === "P" || result.office === "G" || result.office === "S") {
+    if (result.office === "P" || result.office === "G" || result.office === "S" || result.office === "I") {
       countyLink = `
         <a class="county-results-link" href="${classify(result.stateName)}.html?section=${result.office}">
           County-level results
