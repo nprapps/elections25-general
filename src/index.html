@@ -2,7 +2,6 @@
   var classify = require("./lib/classify");
 
   const raceData = require("../build/data/all.json");
-  console.log(raceData.results);
 
   let listOfStates = raceData.results.map(o => o["state"]);
   listOfStates = Array.from(new Set(listOfStates)).sort();
