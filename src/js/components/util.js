@@ -101,6 +101,7 @@ var formatters = {
   percentDecimal: v => (v * 100).toFixed(1) + "%",
   voteMargin: function (result) {
     var prefix = getPartyPrefix(result.party);
+    console.log(result);
 
     return prefix + " +" + Math.round(result.margin * 100);
   },
@@ -114,6 +115,10 @@ function getPartyPrefix(party) {
     prefix = "R";
   } else if (party == "Other") {
     prefix = "O";
+  } else if (party == "Yes") {
+    prefix = "Y";
+  } else if (party == "No") {
+    prefix = "N";
   } else {
     prefix = "I";
   }
