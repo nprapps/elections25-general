@@ -20,12 +20,15 @@ const offices = {
 };
 
 export const navigate = function(key, state) {
-  console.log(key, state);
-  var sectionCode = Object.keys(offices).find(d => offices[d] === key);
-  url.searchParams.set("section", sectionCode);
+  // console.log(key, state);
+  // var sectionCode = Object.keys(offices).find(d => offices[d] === key);
+  // url.searchParams.set("section", sectionCode);
   // document.querySelector("body").dataset.section = key;
-  url.pathname = `${ url.pathname }${ state }.html`;
-  location.href = url;
+  // url.pathname = `${ url.pathname }${ state }.html`;
+  // location.href = url;
+  
+  // gross hotfix
+  location.href = `https://apps.npr.org/2025-election-results/${ state }.html`;
 }
 
 var oldOnload = window.onload;
